@@ -1567,7 +1567,7 @@ button, .global-overlay, .quantity .cart-plus-minus > .qtybutton, .price-filter 
 .bg-1,
 .bg-2 {
   /*background-image: url("../images/slider/1.jpg");*/
-  background-image: url("../../images/b3.jpg");
+  background-image: url("../../images/bg1.jpg");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -1583,7 +1583,7 @@ button, .global-overlay, .quantity .cart-plus-minus > .qtybutton, .price-filter 
 
 .bg-2 {
   /*background-image: url("../images/slider/2.jpg");*/
-  background-image: url("../../images/b4.jpg");
+  background-image: url("../../images/bg2.jpg");
 }
 
 .bg-3,

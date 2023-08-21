@@ -47,7 +47,7 @@
           <img src="images/user_image.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="#" class="d-block">Administrator</a>
         </div>
       </div>
 
@@ -58,7 +58,8 @@
                with font-awesome or any other icon font library -->
 
           <li class="nav-item">
-            <a href="/meradian%20school%20portal/admin/" class="nav-link active">
+            <!-- <a href="index.php" class="nav-link active"> -->
+            <a href="index.php" class="nav-link">
               <i class="far fa-circle nav-icon"></i>
               <p>Dashboard</p>
             </a>
@@ -124,7 +125,7 @@
   {
     if (confirm('Are you sure you want to logout?')) {
       // Save it!
-      window.location = '../function_php/logout.php';
+      window.location = '../function php/logout.php';
     } else {
       // Do nothing!
     }

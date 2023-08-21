@@ -135,7 +135,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="card">
+                                        <!-- <div class="card">
                                             <div class="card-header" id="#payment-3">
                                                 <h5 class="panel-title">
                                                     <a href="javascript:void(0)" class="collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
@@ -151,7 +151,7 @@
                                                         our account.</p>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                     <div class="order-button-payment">
                                         <input value="Place order" type="submit">

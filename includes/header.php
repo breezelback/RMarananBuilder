@@ -343,7 +343,7 @@
                                 </li>
                             <?php else: ?>
                                 <li class="minicart-wrap">
-                                    <a href="../login.php" class="minicart-btn toolbar-btn">
+                                    <a href="login.php" class="minicart-btn">
                                         <div class="minicart-count_area">
                                             <span class="item-count">0</span>
                                             <i class="ion-bag"></i>

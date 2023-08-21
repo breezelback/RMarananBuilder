@@ -1,6 +1,6 @@
 <?php 
 
-$conn = mysqli_connect("localhost", "root", "", "db_meradian");
+$conn = mysqli_connect("localhost", "root", "", "db_maranan");
 
 
  ?>

@@ -42,25 +42,25 @@
                         <div class="main-slider slider-navigation_style-2">
                             <!-- Begin Single Slide Area -->
                             <div class="single-slide animation-style-01 bg-1">
-                                <div class="slider-content">
-                                  <!--   <span>New thinking new possibilities</span>
-                                    <h3>Car interior</h3>
-                                    <h4>Starting at <span>$99.00</span></h4>
+                                <div class="slider-content" style="color: black;">
+                                    <span>Crafting Dreams into Reality</span>
+                                    <h3>R. Maranan's Builder</h3>
+                                    <h4>Where Construction Meets Imagination!</h4>
                                     <div class="uren-btn-ps_left slide-btn">
-                                        <a class="uren-btn" href="shop-left-sidebar.html">Read More</a>
-                                    </div> -->
+                                        <a class="uren-btn" href="services.php">Read More</a>
+                                    </div>
                                 </div>
                             </div>
                             <!-- Single Slide Area End Here -->
                             <!-- Begin Single Slide Area -->
                             <div class="single-slide animation-style-02 bg-2">
                                 <div class="slider-content slider-content-2">
-                                   <!--  <span class="primary-text_color">Car, Truck, CUV &amp; SUV Tires</span>
-                                    <h3>Wheels &amp; Tires</h3>
-                                    <h4>Sale up to 20% off</h4>
+                                    <span class="primary-text_color">Empowering Your Builds</span>
+                                    <h3>Anything!</h3>
+                                    <h4>Discover Top-Quality Construction Supplies at R. Maranan's Builder</h4>
                                     <div class="uren-btn-ps_left slide-btn">
-                                        <a class="uren-btn" href="shop-left-sidebar.html">Read More</a>
-                                    </div> -->
+                                        <a class="uren-btn" href="shop.php">Read More</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -136,7 +136,7 @@
         <!-- Uren's Shipping Area End Here -->
 
         <!-- Begin Featured Categories Area -->
-        <div class="featured-categories_area">
+      <!--   <div class="featured-categories_area">
             <div class="container-fluid">
                 <div class="section-title_area">
                     <span>Top Featured Collections</span>
@@ -334,7 +334,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- Featured Categories Area End Here -->
         
         <!-- Begin Uren's Product Area -->

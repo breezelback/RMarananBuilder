@@ -1,4 +1,4 @@
-<?php // require('../function_php/conn.php'); ?>
+<?php require('function_php/conn.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -67,14 +67,21 @@
                     </thead>
                     <tbody>
 
+                      <?php 
+                      $counter = 1;
+                        $sql = " SELECT `id`, `firstname`, `lastname`, `contact_number`, `email`, `gender`, `birthdate`, `status`, `date_created`, `user_type`, `password` FROM `tbl_user` ";
+                        $exec = $conn->query($sql);
+                        while ($row = $exec->fetch_assoc()) {
+                       ?>
+
                         <tr style="font-size: 14px;">
-                          <td>1</td>
-                          <td>John</td>
-                          <td>Doe</td>
-                          <td>421 Lipa City Batangas</td>
-                          <td>09123456789</td>
-                          <td>doe@gmail.com</td>
-                          <td>Active</td>
+                          <td><?php echo $counter; ?></td>
+                          <td><?php echo $row['firstname']; ?></td>
+                          <td><?php echo $row['lastname']; ?></td>
+                          <td><?php echo $row['contact_number']; ?></td>
+                          <td><?php echo $row['contact_number']; ?></td>
+                          <td><?php echo $row['email']; ?></td>
+                          <td><?php echo $row['status']; ?></td>
                           <td>
                             <center>
                               <div class="btn-group">
@@ -85,6 +92,9 @@
                             </center>
                           </td>
                         </tr>
+
+
+                      <?php $counter++; } ?>
             
 
                     </tbody>  
