@@ -16,7 +16,7 @@
         <!-- Uren's Header Main Area End Here -->
 
         <!-- Begin Uren's Breadcrumb Area -->
-        <div class="breadcrumb-area">
+        <!-- <div class="breadcrumb-area">
             <div class="container">
                 <div class="breadcrumb-content">
                     <h2>About Us</h2>
@@ -26,7 +26,7 @@
                     </ul>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- Uren's Breadcrumb Area End Here -->
         <!-- Begin Uren's About Us Area -->
         <div class="about-us-area">

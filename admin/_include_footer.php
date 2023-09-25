@@ -50,16 +50,29 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js" ></script>
 
-<script>
-	<?php 
-		if (isset($_SESSION['toastr'])) 
-		{
-		  // echo 'toastr.'.$_SESSION['toastr']['type'].'("'.$_SESSION['toastr']['message'].'", "'.$_SESSION['toastr']['title'].'")';
-		  echo "iziToast.show({ title: '".$_SESSION['toastr']['title']."', message: '".$_SESSION['toastr']['message']."',theme: 'light',position: 'topRight',color: '".$_SESSION['toastr']['color']."'});";
-		  unset($_SESSION['toastr']);
-		}
-	?>
 
+<?php if (isset($_SESSION['notif'])): if(isset($_SESSION['type'])) {$type = $_SESSION['type'];} else {$type = "success";} ?>
+  <script type="text/javascript">
+      iziToast.<?php echo $type ?>({
+          title: '<?php echo $_SESSION['notif_title']; ?>',
+          message: '<?php echo $_SESSION['notif']; ?>',
+          color: '<?php echo $_SESSION['notif_style']; ?>', // blue, red, green, yellow
+          position: 'topRight', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter, center
+
+      });
+  </script>
+<?php 
+unset($_SESSION['notif_title']); 
+unset($_SESSION['notif']); 
+unset($_SESSION['notif_style']); 
+unset($_SESSION['type']); 
+
+endif 
+?>
+
+
+
+<script>
 	$(function () {
 	  $('[data-toggle="tooltip"]').tooltip()
 	})

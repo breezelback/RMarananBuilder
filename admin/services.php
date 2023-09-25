@@ -62,7 +62,7 @@
                   <table id="example1" class="table table-bordered table-striped">
                     <thead>
                     <tr>
-                      <th>#</th>
+                      <!-- <th>#</th> -->
                       <th>NAME</th>
                       <th>DETAILS</th>
                       <th>PRICE (PESO)</th>
@@ -70,12 +70,17 @@
                     </tr>
                     </thead>
                     <tbody>
-
+                      <?php 
+                        $sql = ' SELECT `id`, `service_image`, `title`, `details`, `service_price`, `status`, `date_created` FROM `tbl_services` ';
+                        $exec = $conn->query($sql);
+                        while ($row = $exec->fetch_assoc()) {
+                         
+                      ?>
                         <tr style="font-size: 14px;">
-                          <td>1</td>
-                          <td>Tile Expert</td>
-                          <td>Installing Tiles for your Home</td>
-                          <td>P200.00</td>
+                          <!-- <td>1</td> -->
+                          <td><?php echo $row['title']; ?></td>
+                          <td><?php echo $row['details']; ?></td>
+                          <td>₱<?php echo $row['service_price']; ?></td>
                           <td>
                             <center>
                               <div class="btn-group">
@@ -88,7 +93,7 @@
                           </td>
                         </tr>
             
-
+                      <?php } ?>
                     </tbody>  
 
                   </table>
@@ -119,25 +124,25 @@
 
 
 <!-- Modal -->
-<form action="../function_php/add_new_subject.php" method="POST">
+<form action="../function php/add_new_service.php" method="POST" enctype="multipart/form-data">
   <div class="modal fade" id="modal_add_subject" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add New Product</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Add New Service</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <label for="name-l" style="color: grey;">Product Image</i></label>
-          <input type="file" class="form-control" name="subject_code" id="subject_code" placeholder="">
-          <label for="name-l" style="color: grey;">Name</i></label>
-          <input type="text" class="form-control" name="subject_code" id="subject_code" placeholder="">
+          <label for="name-l" style="color: grey;">Service Image</i></label>
+          <input type="file" class="form-control" name="service_image" id="service_image" placeholder="">
+          <label for="name-l" style="color: grey;">Title</i></label>
+          <input type="text" class="form-control" name="title" id="title" placeholder="">
           <label for="name-l" style="color: grey;">Details</i></label>
-          <textarea name="" id="" cols="30" rows="4" class="form-control"></textarea>
+          <textarea name="details" id="details" cols="30" rows="4" class="form-control"></textarea>
           <label for="name-l" style="color: grey;">Price</i></label>
-          <input type="text" class="form-control" name="subject_code" id="subject_code" placeholder="">
+          <input type="number" class="form-control" name="service_price" id="service_price" placeholder="">
         </div>
         <div class="modal-footer">  
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
