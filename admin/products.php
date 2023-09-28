@@ -52,7 +52,7 @@
                 <div class="card-tools">
                   <ul class="nav nav-pills ml-auto">
                     <li class="nav-item">
-                      <button class="nav-link btn-success text-white" data-toggle="modal" data-target="#modal_add_subject">Add New Product &nbsp;<i class="fa fa-plus"></i></button>
+                      <a href="add_product.php" class="nav-link btn-success text-white">Add New Product &nbsp;<i class="fa fa-plus"></i></a>
                     </li>
                   </ul>
                 </div>
@@ -117,40 +117,6 @@
   <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
-
-
-
-<!-- Modal -->
-<form action="../function_php/add_new_subject.php" method="POST">
-  <div class="modal fade" id="modal_add_subject" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add New Product</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <label for="name-l" style="color: grey;">Product Image</i></label>
-          <input type="file" class="form-control" name="subject_code" id="subject_code" placeholder="">
-          <label for="name-l" style="color: grey;">Name</i></label>
-          <input type="text" class="form-control" name="subject_code" id="subject_code" placeholder="">
-          <label for="name-l" style="color: grey;">Details</i></label>
-          <textarea name="" id="" cols="30" rows="4" class="form-control"></textarea>
-          <label for="name-l" style="color: grey;">Price</i></label>
-          <input type="text" class="form-control" name="subject_code" id="subject_code" placeholder="">
-          <label for="name-l" style="color: grey;">Quantity</i></label>
-          <input type="text" class="form-control" name="subject_code" id="subject_code" placeholder="">
-        </div>
-        <div class="modal-footer">  
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</form>
 
 
 <?php include'_include_footer.php'; ?>

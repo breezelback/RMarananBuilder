@@ -62,7 +62,7 @@
                   <table id="example1" class="table table-bordered table-striped">
                     <thead>
                     <tr>
-                      <!-- <th>#</th> -->
+                      <th><center>IMAGE</center></th>
                       <th>NAME</th>
                       <th>DETAILS</th>
                       <th>PRICE (PESO)</th>
@@ -77,17 +77,20 @@
                          
                       ?>
                         <tr style="font-size: 14px;">
-                          <!-- <td>1</td> -->
+                          <td>
+                            <center>
+                              <img src="<?php echo "../images/services/".$row['service_image']; ?>" alt="" width="100" style="border: 1px solid grey;">
+                            </center>
+                          </td>
                           <td><?php echo $row['title']; ?></td>
                           <td><?php echo $row['details']; ?></td>
                           <td>₱<?php echo $row['service_price']; ?></td>
                           <td>
                             <center>
                               <div class="btn-group">
-                                <a href="edit_user.php" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
-                                <a href="../function_php/delete_user.php" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
+                                <button onclick="delete_service(<?php echo $row['id']; ?>, '<?php echo $row['service_image']; ?>');" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
 
-                                <a href="view_teacher.php" class="btn btn-warning btn-sm text-white"><i class="fa fa-cog"></i></a>
                               </div>
                             </center>
                           </td>
@@ -173,6 +176,15 @@
       "responsive": true,
     });
   });
+
+
+  function delete_service(id, service_image)
+  {
+    if (confirm('Are you sure you want to delete this service?')) {
+      // Save it!
+      window.location = '../function php/delete_service.php?id='+id+'&service_image='+service_image;
+    } 
+  }
 </script>
 </body>
 </html>
