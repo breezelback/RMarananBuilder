@@ -38,3 +38,10 @@ foreach ($_FILES['product_image']['tmp_name'] as $key => $val ) {
     }
 }
 
+
+foreach ($_POST['item_option'] as $key => $val ) {
+
+	$sqlOption = ' INSERT INTO `tbl_item_options`(`product_id`, `option_name`, `price`) VALUES ('.$last_id.', "'.$_POST['item_option'][$key].'", '.$_POST['price'][$key].') ';
+	$conn->query($sqlOption);
+	 
+}

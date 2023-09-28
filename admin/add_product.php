@@ -76,6 +76,55 @@
                         <input type="file" multiple="" name="product_image[]" id="product_image[]">
                       </div>
                     </div>
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        
+                        <!-- <div id="POItablediv">
+                          <button class="btn btn-sm btn-primary float-sm-right my-2" type="button" onclick="insRow()">Add Row <i class="fa fa-plus"></i></button>
+                          <table id="POITable" class="table table-bordered table-hover">
+                            <thead class="bg-dark">
+                              <th><center>#</center></th>
+                              <th>Item Option</th>
+                              <th>Price <i>(Php)</i></th>
+                              <th><center>Delete</center></th>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                  <td><center>1</center></td>
+                                  <td><input class="form-control" type="text" name="option_name"/></td>
+                                  <td><input class="form-control" type="number" name="price"/></td>
+                                  <td>
+                                    <center>
+                                      <button class="btn btn-sm btn-danger" type="button" id="delPOIbutton" onclick="deleteRow(this)"><i class="fa fa-trash"></i></button>
+                                    </center>
+                                  </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div> -->
+
+                        -----------------
+                        <div id="POItablediv">
+                          <button class="btn btn-sm btn-primary float-sm-right my-2" type="button" onclick="insRow()">Add Row <i class="fa fa-plus"></i></button>
+                          <table id="POITable" class="table table-bordered table-hover">
+                              <tr class="bg-dark">
+                                  <td>#</td>
+                                  <td>Item Option</td>
+                                  <td>Price</td>
+                                  <td>Delete</td>
+                              </tr>
+                              <tr>
+                                  <td>1</td>
+                                  <td><input class="form-control" type="text" name="item_option[]"/></td>
+                                  <td><input class="form-control" type="text" name="price[]"/></td>
+                                  <td><input type="button" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"/></td>
+                              </tr>
+                          </table>
+                        </div>
+
+                      </div>
+                    </div>
                   </div>
                 </div><!-- /.card-body -->
               </div>
@@ -120,6 +169,38 @@
       "responsive": true,
     });
   });
+
+
+  function deleteRow(row)
+  {
+      var i=row.parentNode.parentNode.rowIndex;
+      document.getElementById('POITable').deleteRow(i);
+  }
+
+
+  function insRow()
+  {
+      var x=document.getElementById('POITable');
+         // deep clone the targeted row
+      var new_row = x.rows[1].cloneNode(true);
+         // get the total number of rows
+      var len = x.rows.length;
+         // set the innerHTML of the first row 
+      new_row.cells[0].innerHTML = len;
+
+         // grab the input from the first cell and update its ID and value
+      var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
+      inp1.id += len;
+      inp1.value = '';
+
+         // grab the input from the first cell and update its ID and value
+      var inp2 = new_row.cells[2].getElementsByTagName('input')[0];
+      inp2.id += len;
+      inp2.value = '';
+
+         // append the new row to the table
+      x.appendChild( new_row );
+  }
 </script>
 </body>
 </html>
