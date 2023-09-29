@@ -1,3 +1,5 @@
+<?php session_start(); ?>  
+<?php require 'function php/conn.php'; ?>
 <!-- CSS ============================================ -->
 
 <link rel="icon" href="images/LOGO1.jpg" type="image/gif">

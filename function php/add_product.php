@@ -5,11 +5,12 @@ require 'conn.php';
 $name = $_POST['name'];
 $details = $_POST['details'];
 $quantity = $_POST['quantity'];
+$category = $_POST['category'];
 
 
 $target_dir = "../images/products/";
 
-$sql = ' INSERT INTO `tbl_product`(`name`, `details`, `quantity`, `date_created`) VALUES ("'.$name.'", "'.$details.'", '.$quantity.', NOW()) ';
+$sql = ' INSERT INTO `tbl_product`(`name`, `details`, `quantity`, `date_created`, `category`) VALUES ("'.$name.'", "'.$details.'", '.$quantity.', NOW(), "'.$category.'") ';
 $exec = $conn->query($sql);
 
 $last_id = mysqli_insert_id($conn);

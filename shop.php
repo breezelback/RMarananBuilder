@@ -94,99 +94,54 @@
                                 </div> -->
                             </div>
                         </div>
+
                         <div class="shop-product-wrap grid gridview-3 img-hover-effect_area row">
-                            <div class="col-lg-4">
-                                <div class="product-slide_item">
-                                    <div class="inner-slide">
-                                        <div class="single-product">
-                                            <div class="product-img">
-                                                <a href="javascript:void(0)">
-                                                    <img class="primary-img" src="images/wrench.jpg" alt="Uren's Product Image">
-                                                    <img class="secondary-img" src="images/wrench.jpg" alt="Uren's Product Image">
-                                                </a>
-                                                <div class="sticker">
-                                                    <span class="sticker">New</span>
-                                                </div>
-                                                <div class="add-actions">
-                                                    <ul>
-                                                        <li><a class="uren-add_cart" href="cart.html" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i
-                                                            class="ion-bag"></i></a>
-                                                        </li>
-                                                        <li class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><a href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="Quick View"><i class="ion-android-open"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="product-content">
-                                                <div class="product-desc_info">
-                                                    <div class="rating-box">
-                                                       
+                            <?php 
+                            $sqlProduct = ' SELECT `id`, `name`, `details`, `quantity`, `status`, `date_created`, `category` FROM `tbl_product` ';
+                            $execProduct = $conn->query($sqlProduct);
+                            while ($rowProduct = $execProduct->fetch_assoc()) { 
+                                $sqlProdImg = ' SELECT `id`, `product_id`, `image` FROM `tbl_product_image` WHERE product_id = '.$rowProduct['id'].' LIMIT 1 ';
+                                $execProdImg = $conn->query($sqlProdImg);
+                                $rowProdImg = $execProdImg->fetch_assoc();
+                                ?>
+                                <div class="col-lg-4">
+                                    <div class="product-slide_item">
+                                        <div class="inner-slide">
+                                            <div class="single-product">
+                                                <div class="product-img">
+                                                    <a href="javascript:void(0)">
+                                                        <img class="primary-img" src="images/products/<?php echo $rowProdImg['image']; ?>" alt="Uren's Product Image">
+                                                        <img class="secondary-img" src="images/wrench.jpg" alt="Uren's Product Image">
+                                                    </a>
+                                                    <div class="sticker">
+                                                        <span class="sticker">New</span>
                                                     </div>
-                                                    <h6><a class="product-name" href="single-product.html">Wrench</a></h6>
-                                                    <div class="price-box">
-                                                        <span class="new-price">P200.00</span>
+                                                    <div class="add-actions">
+                                                        <ul>
+                                                            <li><a class="uren-add_cart" href="cart.html" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i
+                                                                class="ion-bag"></i></a>
+                                                            </li>
+                                                            <li class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><a href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="Quick View"><i class="ion-android-open"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="product-content">
+                                                    <div class="product-desc_info">
+                                                        <div class="rating-box">
+                                                           
+                                                        </div>
+                                                        <h6><a class="product-name" href="single-product.html"><?php echo $rowProduct['name']; ?></a></h6>
+                                                        <div class="price-box">
+                                                            <span class="new-price">P200.00</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="list-slide_item">
-                                    <div class="single-product">
-                                        <div class="product-img">
-                                            <a href="single-product.html">
-                                                <img class="primary-img" src="assets/images/product/large-size/1.jpg" alt="Uren's Product Image">
-                                                <img class="secondary-img" src="assets/images/product/large-size/2.jpg" alt="Uren's Product Image">
-                                            </a>
-                                        </div>
-                                        <div class="product-content">
-                                            <div class="product-desc_info">
-                                                <div class="rating-box">
-                                                    <ul>
-                                                        <li><i class="ion-android-star"></i></li>
-                                                        <li><i class="ion-android-star"></i></li>
-                                                        <li><i class="ion-android-star"></i></li>
-                                                        <li class="silver-color"><i class="ion-android-star"></i>
-                                                        </li>
-                                                        <li class="silver-color"><i class="ion-android-star"></i>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <h6><a class="product-name" href="single-product.html">Veniam officiis
-                                                        voluptates</a></h6>
-                                                <div class="price-box">
-                                                    <span class="new-price">$122.00</span>
-                                                </div>
-                                                <div class="product-short_desc">
-                                                    <p>The invention relates to an electromechanical brake booster with an
-                                                        electric motor and a helical gearing. The brake booster is used for
-                                                        coupling an auxiliary force via a driver into a piston rod. The
-                                                        invention proposes connecting a spindle of the helical gearing
-                                                        elastically via a spring element to the piston rod such that, in the
-                                                        event of rapid actuation of the brake, the helical gearing and a rotor
-                                                        of the electric motor do not have to be accelerated entirely muscle
-                                                        power. The muscle power required for actuating a brake is reduced as a
-                                                        result in the event of a rapid actuation of the brake.</p>
-                                                </div>
-                                            </div>
-                                            <div class="add-actions">
-                                                <ul>
-                                                    <li><a class="uren-add_cart" href="cart.html" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="ion-bag"></i></a>
-                                                    </li>
-                                                    <li><a class="uren-wishlist" href="wishlist.html" data-toggle="tooltip" data-placement="top" title="Add To Wishlist"><i
-                                                        class="ion-android-favorite-outline"></i></a>
-                                                    </li>
-                                                    <li><a class="uren-add_compare" href="compare.html" data-toggle="tooltip" data-placement="top" title="Compare This Product"><i
-                                                        class="ion-android-options"></i></a>
-                                                    </li>
-                                                    <li class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><a href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="Quick View"><i
-                                                        class="ion-android-open"></i></a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <?php } ?>
+
                         </div>
                     <!--     <div class="row">
                             <div class="col-lg-12">

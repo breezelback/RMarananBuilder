@@ -105,6 +105,14 @@
             </a>
           </li>
           <li class="nav-item">
+            <a href="categories.php" class="nav-link">
+              <i class="nav-icon fa fa-bars"></i>
+              <p>
+                Product Category
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="subjects.php" class="nav-link">
               <i class="nav-icon fa fa-cog"></i>
               <p>

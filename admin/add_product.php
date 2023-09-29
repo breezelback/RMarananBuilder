@@ -69,11 +69,26 @@
                       </div>
                       <div class="col-md-4">
                         <label for="">Product Description</label>
-                        <textarea name="details" cols="30" rows="3" class="form-control"></textarea>
+                        <textarea name="details" cols="30" rows="2" class="form-control"></textarea>
                       </div>
                       <div class="col-md-3">
                         <label for="" style="font-size: 14px;">Product Images <i style="color: #095099; font-size: 12px;">(You can add multiple images)</i></label>
                         <input type="file" multiple="" name="product_image[]" id="product_image[]">
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-3">
+                        <label for="">Product Category</label>
+                        <select name="category" id="category" class="form-control">
+                          <?php
+                            $sqlCategory = ' SELECT `id`, `category`, `date_created` FROM `tbl_category` ';
+                            $execCategory = $conn->query($sqlCategory);
+                            while ($rowCategory = $execCategory->fetch_assoc()) { ?>
+
+                              <option value="<?php echo $rowCategory['category']; ?>"><?php echo $rowCategory['category']; ?></option>
+                          <?php } ?>
+                        </select>
                       </div>
                     </div>
 
@@ -104,7 +119,7 @@
                           </table>
                         </div> -->
 
-                        -----------------
+                        <!-- ----------------- -->
                         <div id="POItablediv">
                           <button class="btn btn-sm btn-primary float-sm-right my-2" type="button" onclick="insRow()">Add Row <i class="fa fa-plus"></i></button>
                           <table id="POITable" class="table table-bordered table-hover">
@@ -122,7 +137,7 @@
                               </tr>
                           </table>
                         </div>
-
+                        <!-- ----------------- -->
                       </div>
                     </div>
                   </div>

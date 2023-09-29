@@ -21,12 +21,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Products</h1>
+            <h1 class="m-0">Categories</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Products</li>
+              <li class="breadcrumb-item active">Categories</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -52,7 +52,7 @@
                 <div class="card-tools">
                   <ul class="nav nav-pills ml-auto">
                     <li class="nav-item">
-                      <a href="add_product.php" class="nav-link btn-success text-white">Add New Product &nbsp;<i class="fa fa-plus"></i></a>
+                      <button class="nav-link btn-success text-white" data-toggle="modal" data-target="#modal_add_subject">Add New Product Category &nbsp;<i class="fa fa-plus"></i></button>
                     </li>
                   </ul>
                 </div>
@@ -64,39 +64,34 @@
                     <tr>
                       <th>#</th>
                       <th>NAME</th>
-                      <th>DETAILS</th>
-                      <th>PRICE (PESO)</th>
-                      <th>QUANTITY</th>
-                      <th>CATEGORY</th>
+                      <th>DATE CREATED</th>
                       <th><center>ACTION</center></th>
                     </tr>
                     </thead>
                     <tbody>
                       <?php 
                         $counter = 1;
-                        $sqlProduct = ' SELECT `id`, `name`, `details`, `quantity`, `status`, `date_created`, `category` FROM `tbl_product` ';
-                        $execProduct = $conn->query($sqlProduct);
-                        while ($rowProduct = $execProduct->fetch_assoc()) { ?>
+                        $sql = ' SELECT `id`, `category`, DATE_FORMAT(`date_created`, "%M %d, %Y") AS date_created FROM `tbl_category` ';
+                        $exec = $conn->query($sql);
+                        while ($row = $exec->fetch_assoc()) {
+                         
+                      ?>
                         <tr style="font-size: 14px;">
                           <td><?php echo $counter; ?></td>
-                          <td><?php echo $rowProduct['name']; ?></td>
-                          <td><?php echo $rowProduct['details']; ?></td>
-                          <td>P200.00</td>
-                          <td><?php echo $rowProduct['quantity']; ?></td>
-                          <td><?php echo $rowProduct['category']; ?></td>
+                          <td><?php echo $row['category']; ?></td>
+                          <td><?php echo $row['date_created']; ?></td>
                           <td>
                             <center>
                               <div class="btn-group">
-                                <a href="edit_user.php" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
-                                <a href="../function_php/delete_user.php" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
+                                <button onclick="delete_category(<?php echo $row['id']; ?>);" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
 
-                                <a href="view_teacher.php" class="btn btn-warning btn-sm text-white"><i class="fa fa-cog"></i></a>
                               </div>
                             </center>
                           </td>
                         </tr>
+            
                       <?php $counter++; } ?>
-
                     </tbody>  
 
                   </table>
@@ -125,6 +120,32 @@
 <!-- ./wrapper -->
 
 
+
+<!-- Modal -->
+<form action="../function php/add_new_category.php" method="POST" enctype="multipart/form-data">
+  <div class="modal fade" id="modal_add_subject" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add New Category</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <label for="name-l" style="color: grey;">Category Name</i></label>
+          <input type="text" class="form-control" name="category" id="category" placeholder="">
+        </div>
+        <div class="modal-footer">  
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+
 <?php include'_include_footer.php'; ?>
 
 <script>
@@ -144,6 +165,15 @@
       "responsive": true,
     });
   });
+
+
+  function delete_category(id)
+  {
+    if (confirm('Are you sure you want to delete this category?')) {
+      // Save it!
+      window.location = '../function php/delete_category.php?id='+id;
+    } 
+  }
 </script>
 </body>
 </html>
