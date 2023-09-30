@@ -5,7 +5,11 @@
 <head>
 
     <?php include 'includes/include_header.php'; ?>
+    <?php 
 
+    $sqlProduct = ' SELECT `id`, `name`, `details`, `quantity`, `status`, `date_created`, `category` FROM `tbl_product` ';
+    $execProduct = $conn->query($sqlProduct);
+    ?>
 </head>
 
 <body class="template-color-1">
@@ -42,9 +46,15 @@
                                 </div>
                                 <div class="module-body">
                                     <ul class="module-list_item">
+                                        <?php 
+                                        $sqlCategory = ' SELECT `id`, `category`, `date_created` FROM `tbl_category` ORDER BY category ASC ';
+                                        $execCat = $conn->query($sqlCategory);
+                                        while ($rowCat = $execCat->fetch_assoc()) { ?>
                                         <li>
-                                            <a href="javascript:void(0)">Sample Category <span>(7)</span></a>
+                                            <a href="javascript:void(0)"><?php echo $rowCat['category']; ?> <span>(7)</span></a>
                                         </li>
+
+                                        <?php } ?>
                                     </ul>
                                 </div>
                             </div>
@@ -65,7 +75,7 @@
                                 <a class="active grid-3" data-target="gridview-3" data-toggle="tooltip" data-placement="top" title="3">3</a>
                                 <a class="grid-4" data-target="gridview-4" data-toggle="tooltip" data-placement="top" title="4">4</a>
                                 <a class="grid-5" data-target="gridview-5" data-toggle="tooltip" data-placement="top" title="5">5</a>
-                                <a class="list" data-target="listview" data-toggle="tooltip" data-placement="top" title="List"><i class="fa fa-th-list"></i></a>
+                                <!-- <a class="list" data-target="listview" data-toggle="tooltip" data-placement="top" title="List"><i class="fa fa-th-list"></i></a> -->
                             </div>
                             <div class="product-item-selection_area">
                                 <div class="product-short">
@@ -76,10 +86,6 @@
                                         <option value="3">Name, Z to A</option>
                                         <option value="4">Price, low to high</option>
                                         <option value="5">Price, high to low</option>
-                                        <option value="5">Rating (Highest)</option>
-                                        <option value="5">Rating (Lowest)</option>
-                                        <option value="5">Model (A - Z)</option>
-                                        <option value="5">Model (Z - A)</option>
                                     </select>
                                 </div>
                                 <!-- <div class="product-showing">
@@ -97,8 +103,6 @@
 
                         <div class="shop-product-wrap grid gridview-3 img-hover-effect_area row">
                             <?php 
-                            $sqlProduct = ' SELECT `id`, `name`, `details`, `quantity`, `status`, `date_created`, `category` FROM `tbl_product` ';
-                            $execProduct = $conn->query($sqlProduct);
                             while ($rowProduct = $execProduct->fetch_assoc()) { 
                                 $sqlProdImg = ' SELECT `id`, `product_id`, `image` FROM `tbl_product_image` WHERE product_id = '.$rowProduct['id'].' LIMIT 1 ';
                                 $execProdImg = $conn->query($sqlProdImg);
@@ -109,7 +113,7 @@
                                         <div class="inner-slide">
                                             <div class="single-product">
                                                 <div class="product-img">
-                                                    <a href="javascript:void(0)">
+                                                    <a href="view_product.php?id=<?php echo $rowProduct['id']; ?>">
                                                         <img class="primary-img" src="images/products/<?php echo $rowProdImg['image']; ?>" alt="Uren's Product Image">
                                                         <img class="secondary-img" src="images/wrench.jpg" alt="Uren's Product Image">
                                                     </a>

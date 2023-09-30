@@ -1,4 +1,3 @@
-<?php session_start(); ?>
 <meta charset="utf-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 <title>R. Maranan's Builder and Construction Supply</title>
