@@ -28,19 +28,19 @@
                                 <div class="row">
                                     <div class="col-md-6 col-12 mb--20">
                                         <label>First Name</label>
-                                        <input type="text" placeholder="First Name" name="firstname">
+                                        <input type="text" placeholder="First Name" name="firstname" required="">
                                     </div>
                                     <div class="col-md-6 col-12 mb--20">
                                         <label>Last Name</label>
-                                        <input type="text" placeholder="Last Name" name="lastname">
+                                        <input type="text" placeholder="Last Name" name="lastname" required="">
                                     </div>
                                     <div class="col-md-6">
                                         <label>Email Address*</label>
-                                        <input type="email" placeholder="Email Address" name="email">
+                                        <input type="email" placeholder="Email Address" name="email" required="">
                                     </div>
                                     <div class="col-md-6">
                                         <label>Mobile Number*</label>
-                                        <input type="number" placeholder="Mobile Number" name="contact_number">
+                                        <input type="number" placeholder="Mobile Number" name="contact_number" required="">
                                     </div>
                                     <div class="col-md-6">
                                         <label>Gender*</label>
@@ -51,19 +51,19 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label>Birthday*</label>
-                                        <input type="date" name="birthdate">
+                                        <input type="date" name="birthdate" required="">
                                     </div>
                                     <div class="col-md-6">
                                         <label>Password</label>
-                                        <input type="password" placeholder="Password" name="password">
+                                        <input type="password" placeholder="Password" name="password" required="">
                                     </div>
                                     <div class="col-md-6">
                                         <label>Confirm Password</label>
-                                        <input type="password" placeholder="Confirm Password" name="confirm_password">
+                                        <input type="password" placeholder="Confirm Password" name="confirm_password" required="">
                                     </div>
                                     <div class="col-md-12">
                                         <label>Address</label>
-                                        <textarea name="address" id="address" cols="20" rows="5" class="form-control"></textarea>
+                                        <textarea name="address" id="address" cols="20" rows="5" class="form-control" required=""></textarea>
                                     </div>
                                     <div class="col-12">
                                         <button class="uren-register_btn">Register</button>

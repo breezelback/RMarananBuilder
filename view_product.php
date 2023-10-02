@@ -8,6 +8,7 @@
 
     $sqlProduct = ' SELECT `id`, `name`, `details`, `quantity`, `status`, `date_created`, `category` FROM `tbl_product` WHERE id = '.$_GET['id'];
     $execProduct = $conn->query($sqlProduct);
+    $product = $execProduct->fetch_assoc();
 
     $sqlOption = ' SELECT `id`, `product_id`, `option_name`, `price` FROM `tbl_item_options` WHERE product_id = '.$_GET['id'];
     $execOption = $conn->query($sqlOption);
@@ -83,7 +84,6 @@
 
                                 </div>
                                 <div class="sp-img_slider-nav slick-slider-nav uren-slick-slider slider-navigation_style-3" data-slick-options='{
-                                "slidesToShow": 3,
                                 "asNavFor": ".sp-img_slider",
                                 "focusOnSelect": true,
                                 "arrows" : true,
@@ -95,31 +95,13 @@
                                         {"breakpoint":575, "settings": {"slidesToShow": 2}}
                                     ]'>
 
-                                    <div class="single-slide red">
-                                        <img src="assets/images/product/small-size/1.jpg" alt="Uren's Product Thumnail">
-                                    </div>
-                                    <div class="single-slide orange">
-                                        <img src="assets/images/product/small-size/2.jpg" alt="Uren's Product Thumnail">
-                                    </div>
-                                    <div class="single-slide brown">
-                                        <img src="assets/images/product/small-size/3.jpg" alt="Uren's Product Thumnail">
-                                    </div>
-                                    <div class="single-slide umber">
-                                        <img src="assets/images/product/small-size/4.jpg" alt="Uren's Product Thumnail">
-                                    </div>
-                                    <div class="single-slide red">
-                                        <img src="assets/images/product/small-size/5.jpg" alt="Uren's Product Thumnail">
-                                    </div>
-                                    <div class="single-slide orange">
-                                        <img src="assets/images/product/small-size/6.jpg" alt="Uren's Product Thumnail">
-                                    </div>
-
-                                    <?php while($rowImg = $execImage->fetch_assoc()){ ?>
-
+                                    <?php 
+                                    $sqlImage = ' SELECT `id`, `product_id`, `image` FROM `tbl_product_image` WHERE product_id = '.$_GET['id'];
+                                    $execImage1 = $conn->query($sqlImage);
+                                    while($rowImg1 = $execImage1->fetch_assoc()){ ?>
                                         <div class="single-slide red">
-                                            <img src="images/products/<?php echo $rowImg['image']; ?>" alt="Uren's Product Thumnail">
+                                            <img src="images/products/<?php echo $rowImg1['image']; ?>" alt="Uren's Product Thumnail">
                                         </div>
-
                                     <?php } ?>
                                 </div>
                             </div>
@@ -127,10 +109,31 @@
                         <div class="col-lg-8">
                             <div class="sp-content">
                                 <div class="sp-heading">
-                                    <h5><a href="#">Dolorem odio provident ut nihil</a></h5>
+                                    <h5><?php echo $product['name']; ?></h5>
+                                    <?php 
+                                    $sqlTotalOption = ' SELECT `id`, `product_id`, `option_name`, `price` FROM `tbl_item_options` WHERE product_id = '.$_GET['id'];
+                                    $execTotalOption = $conn->query($sqlTotalOption);
+                                    $rowTotalOption = $execTotalOption->fetch_assoc();
+                                    if ($execTotalOption->num_rows > 1 )
+                                    {
+                                        $sqlSelectOptPrice = ' SELECT MIN(price) as minPrice, MAX(price) as maxPrice FROM `tbl_item_options` WHERE product_id = '.$_GET['id'];
+                                        $execSelectOptPrice = $conn->query($sqlSelectOptPrice);
+                                        $rowSelectOptPrice = $execSelectOptPrice->fetch_assoc();
+
+                                        // $sqlSelectMaxOpt = ' SELECT MAX(price) as maxPrice FROM `tbl_item_options` WHERE product_id = '.$_GET['id'];
+                                        // $execSelectMaxOpt = $conn->query($sqlSelectMaxOpt);
+                                        // $rowSelectMaxOpt = $execSelectMaxOpt->fetch_assoc();
+
+                                        echo '<h2 id="optionPriceVal" style="color: #af9123;">₱'.$rowSelectOptPrice['minPrice'].' - ₱'.$rowSelectOptPrice['maxPrice'].'</h2>';
+                                    }
+                                    else
+                                    {
+                                        echo '<h2 style="color: #af9123;">'.$rowTotalOption['price'].'</h2>';
+                                    }
+                                    ?>
+                                    
                                 </div>
-                                <span class="reference">Reference: demo_1</span>
-                                <div class="rating-box">
+                                <!-- <div class="rating-box">
                                     <ul>
                                         <li><i class="ion-android-star"></i></li>
                                         <li><i class="ion-android-star"></i></li>
@@ -138,76 +141,34 @@
                                         <li class="silver-color"><i class="ion-android-star"></i></li>
                                         <li class="silver-color"><i class="ion-android-star"></i></li>
                                     </ul>
-                                </div>
+                                </div> -->
                                 <div class="sp-essential_stuff">
                                     <ul>
-                                        <li>Brands <a href="javascript:void(0)">Buxton</a></li>
-                                        <li>Product Code: <a href="javascript:void(0)">Product 16</a></li>
-                                        <li>Reward Points: <a href="javascript:void(0)">100</a></li>
-                                        <li>Availability: <a href="javascript:void(0)">In Stock</a></li>
-                                        <li>EX Tax: <a href="javascript:void(0)"><span>$453.35</span></a></li>
-                                        <li>Price in reward points: <a href="javascript:void(0)">400</a></li>
+                                        <li>Details: <?php echo $product['details']; ?></li>
+                                        <li>Availability: In Stock</li>
+                                        <li>Stock: <span><?php echo $product['quantity']; ?></span></li>
                                     </ul>
                                 </div>
                                 <div class="product-size_box">
-                                    <span>Size</span>
-                                    <select class="myniceselect nice-select">
-                                        <option value="1">S</option>
-                                        <option value="2">M</option>
-                                        <option value="3">L</option>
-                                        <option value="4">XL</option>
+                                    <span>Option</span>
+                                    <select class="myniceselect nice-select" id="selectProductOption">
+                                        <?php while($rowOption = $execOption->fetch_assoc()){ ?>
+                                            <option value="<?php echo $rowOption['price']; ?>"><?php echo $rowOption['option_name']; ?></option>
+                                        <?php } ?>
                                     </select>
                                 </div>
-                                <div class="quantity">
-                                    <label>Quantity</label>
-                                    <div class="cart-plus-minus">
-                                        <input class="cart-plus-minus-box" value="1" type="text">
-                                        <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
-                                        <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
-                                    </div>
-                                </div>
+                                <!-- <h2 style="color: #af9123;" id="optionPriceVal"></h2> -->
                                 <div class="qty-btn_area">
                                     <ul>
                                         <li><a class="qty-cart_btn" href="cart.html">Add To Cart</a></li>
-                                        <li><a class="qty-wishlist_btn" href="wishlist.html" data-toggle="tooltip" title="Add To Wishlist"><i class="ion-android-favorite-outline"></i></a>
+                                      <!--   <li><a class="qty-wishlist_btn" href="wishlist.html" data-toggle="tooltip" title="Add To Wishlist"><i class="ion-android-favorite-outline"></i></a>
                                         </li>
-                                        <li><a class="qty-compare_btn" href="compare.html" data-toggle="tooltip" title="Compare This Product"><i class="ion-ios-shuffle-strong"></i></a></li>
+                                        <li><a class="qty-compare_btn" href="compare.html" data-toggle="tooltip" title="Compare This Product"><i class="ion-ios-shuffle-strong"></i></a></li> -->
                                     </ul>
                                 </div>
                                 <div class="uren-tag-line">
-                                    <h6>Tags:</h6>
-                                    <a href="javascript:void(0)">vehicle</a>,
-                                    <a href="javascript:void(0)">car</a>,
-                                    <a href="javascript:void(0)">bike</a>
-                                </div>
-                                <div class="uren-social_link">
-                                    <ul>
-                                        <li class="facebook">
-                                            <a href="https://www.facebook.com/" data-toggle="tooltip" target="_blank" title="Facebook">
-                                                <i class="fab fa-facebook"></i>
-                                            </a>
-                                        </li>
-                                        <li class="twitter">
-                                            <a href="https://twitter.com/" data-toggle="tooltip" target="_blank" title="Twitter">
-                                                <i class="fab fa-twitter-square"></i>
-                                            </a>
-                                        </li>
-                                        <li class="youtube">
-                                            <a href="https://www.youtube.com/" data-toggle="tooltip" target="_blank" title="Youtube">
-                                                <i class="fab fa-youtube"></i>
-                                            </a>
-                                        </li>
-                                        <li class="google-plus">
-                                            <a href="https://www.plus.google.com/discover" data-toggle="tooltip" target="_blank" title="Google Plus">
-                                                <i class="fab fa-google-plus"></i>
-                                            </a>
-                                        </li>
-                                        <li class="instagram">
-                                            <a href="https://rss.com/" data-toggle="tooltip" target="_blank" title="Instagram">
-                                                <i class="fab fa-instagram"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
+                                    <h6>Category:</h6>
+                                    &nbsp;<b><?php echo $product['category']; ?></b>
                                 </div>
                             </div>
                         </div>
@@ -372,52 +333,46 @@
                                                 {"breakpoint":767, "settings": {"slidesToShow": 1}},
                                                 {"breakpoint":480, "settings": {"slidesToShow": 1}}
                                             ]'>
-                            <div class="product-slide_item">
-                                <div class="inner-slide">
-                                    <div class="single-product">
-                                        <div class="product-img">
-                                            <a href="single-product.html">
-                                                <img class="primary-img" src="assets/images/product/medium-size/1-1.jpg" alt="Uren's Product Image">
-                                                <img class="secondary-img" src="assets/images/product/medium-size/1-2.jpg" alt="Uren's Product Image">
-                                            </a>
-                                            <div class="sticker">
-                                                <span class="sticker">New</span>
-                                            </div>
-                                            <div class="add-actions">
-                                                <ul>
-                                                    <li><a class="uren-add_cart" href="cart.html" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="ion-bag"></i></a>
-                                                    </li>
-                                                    <li><a class="uren-wishlist" href="wishlist.html" data-toggle="tooltip" data-placement="top" title="Add To Wishlist"><i class="ion-android-favorite-outline"></i></a>
-                                                    </li>
-                                                    <li><a class="uren-add_compare" href="compare.html" data-toggle="tooltip" data-placement="top" title="Compare This Product"><i
-                                                            class="ion-android-options"></i></a>
-                                                    </li>
-                                                    <li class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><a href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="Quick View"><i
-                                                            class="ion-android-open"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="product-content">
-                                            <div class="product-desc_info">
-                                                <div class="rating-box">
-                                                    <ul>
-                                                        <li><i class="ion-android-star"></i></li>
-                                                        <li><i class="ion-android-star"></i></li>
-                                                        <li><i class="ion-android-star"></i></li>
-                                                        <li class="silver-color"><i class="ion-android-star"></i></li>
-                                                        <li class="silver-color"><i class="ion-android-star"></i></li>
-                                                    </ul>
+                            <?php 
+                            $sqlRelatedProd = ' SELECT `id`, `name`, `details`, `quantity`, `status`, `date_created`, `category` FROM `tbl_product` WHERE category = "'.$product['category'].'" ';
+                            $execRelatedProduct = $conn->query($sqlRelatedProd);
+                            if ($execRelatedProduct->num_rows > 0) {
+                                while ($rowRelatedProduct = $execRelatedProduct->fetch_assoc()) { ?>
+                                    <div class="product-slide_item">
+                                        <div class="inner-slide">
+                                            <div class="single-product">
+                                                <div class="product-img">
+                                                    <a href="single-product.html">
+                                                        <img class="primary-img" src="assets/images/product/medium-size/1-1.jpg" alt="Uren's Product Image">
+                                                        <img class="secondary-img" src="assets/images/product/medium-size/1-2.jpg" alt="Uren's Product Image">
+                                                    </a>
+                                                    <div class="sticker">
+                                                        <span class="sticker">New</span>
+                                                    </div>
                                                 </div>
-                                                <h6><a class="product-name" href="single-product.html">Veniam officiis voluptates</a></h6>
-                                                <div class="price-box">
-                                                    <span class="new-price">$122.00</span>
+                                                <div class="product-content">
+                                                    <div class="product-desc_info">
+                                                        <div class="rating-box">
+                                                            <ul>
+                                                                <li><i class="ion-android-star"></i></li>
+                                                                <li><i class="ion-android-star"></i></li>
+                                                                <li><i class="ion-android-star"></i></li>
+                                                                <li class="silver-color"><i class="ion-android-star"></i></li>
+                                                                <li class="silver-color"><i class="ion-android-star"></i></li>
+                                                            </ul>
+                                                        </div>
+                                                        <h6><a class="product-name" href="single-product.html"><?php echo $rowRelatedProduct['name']; ?></a></h6>
+                                                        <div class="price-box">
+                                                            <span class="new-price">$122.00</span>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="product-slide_item">
+                            <?php } } ?>
+                      
+                            <!-- <div class="product-slide_item">
                                 <div class="inner-slide">
                                     <div class="single-product">
                                         <div class="product-img">
@@ -729,7 +684,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -743,6 +698,14 @@
     </div>
 
   <?php include 'includes/include_footer.php'; ?>
+
+  <script>
+    
+    $('#selectProductOption').on('change', function(){
+        $('#optionPriceVal').text('₱'+$(this).val());
+    });
+    // optionPriceVal
+  </script>
 
 </body>
 

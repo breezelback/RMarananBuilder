@@ -122,10 +122,12 @@
                         </div>
                         <div id="cate-toggle" class="category-menu-list">
                             <ul>
-                                <li class="right-menu"><a href="shop.php">Category 1</a></li>
-                                <li class="right-menu"><a href="shop.php">Category 2</a></li>
-                                <li class="right-menu"><a href="shop.php">Category 3</a></li>
-                              
+                                <?php
+                                $sqlCat = ' SELECT `id`, `category`, `date_created` FROM `tbl_category` ORDER BY category ASC ';
+                                $execCat = $conn->query($sqlCat);
+                                while ($rowCat = $execCat->fetch_assoc()) { ?>
+                                <li class="right-menu"><a href="shop.php?keyword=<?php echo $rowCat['category']; ?>"><?php echo $rowCat['category']; ?></a></li>
+                                <?php } ?>
                             </ul>
                         </div>
                     </div>

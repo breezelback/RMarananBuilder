@@ -115,18 +115,18 @@
                                                 <div class="product-img">
                                                     <a href="view_product.php?id=<?php echo $rowProduct['id']; ?>">
                                                         <img class="primary-img" src="images/products/<?php echo $rowProdImg['image']; ?>" alt="Uren's Product Image">
-                                                        <img class="secondary-img" src="images/wrench.jpg" alt="Uren's Product Image">
+                                                        <img class="secondary-img" src="images/products/<?php echo $rowProdImg['image']; ?>" alt="Uren's Product Image">
                                                     </a>
                                                     <div class="sticker">
                                                         <span class="sticker">New</span>
                                                     </div>
                                                     <div class="add-actions">
-                                                        <ul>
+                                                       <!--  <ul>
                                                             <li><a class="uren-add_cart" href="cart.html" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i
                                                                 class="ion-bag"></i></a>
                                                             </li>
                                                             <li class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><a href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="Quick View"><i class="ion-android-open"></i></a></li>
-                                                        </ul>
+                                                        </ul> -->
                                                     </div>
                                                 </div>
                                                 <div class="product-content">
@@ -136,7 +136,27 @@
                                                         </div>
                                                         <h6><a class="product-name" href="single-product.html"><?php echo $rowProduct['name']; ?></a></h6>
                                                         <div class="price-box">
-                                                            <span class="new-price">P200.00</span>
+                                                              <?php 
+                                                                $sqlTotalOption = ' SELECT `id`, `product_id`, `option_name`, `price` FROM `tbl_item_options` WHERE product_id = '.$rowProduct['id'];
+                                                                $execTotalOption = $conn->query($sqlTotalOption);
+                                                                $rowTotalOption = $execTotalOption->fetch_assoc();
+                                                                if ($execTotalOption->num_rows > 1 )
+                                                                {
+                                                                    $sqlSelectOptPrice = ' SELECT MIN(price) as minPrice, MAX(price) as maxPrice FROM `tbl_item_options` WHERE product_id = '.$rowProduct['id'];
+                                                                    $execSelectOptPrice = $conn->query($sqlSelectOptPrice);
+                                                                    $rowSelectOptPrice = $execSelectOptPrice->fetch_assoc();
+
+                                                                    // $sqlSelectMaxOpt = ' SELECT MAX(price) as maxPrice FROM `tbl_item_options` WHERE product_id = '.$_GET['id'];
+                                                                    // $execSelectMaxOpt = $conn->query($sqlSelectMaxOpt);
+                                                                    // $rowSelectMaxOpt = $execSelectMaxOpt->fetch_assoc();
+
+                                                                    echo '<span class="new-price">₱'.$rowSelectOptPrice['minPrice'].' - ₱'.$rowSelectOptPrice['maxPrice'].'</span>';
+                                                                }
+                                                                else
+                                                                {
+                                                                    echo '<span class="new-price">P200.00</span>';
+                                                                }
+                                                                ?>
                                                         </div>
                                                     </div>
                                                 </div>
