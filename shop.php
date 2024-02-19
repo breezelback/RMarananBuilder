@@ -6,10 +6,25 @@
 
     <?php include 'includes/include_header.php'; ?>
     <?php 
+    //keyword query
+    $qryKeyword = '';
+    $qrySearch = '';
 
-    $sqlProduct = ' SELECT `id`, `name`, `details`, `quantity`, `status`, `date_created`, `category` FROM `tbl_product` ';
+    if (isset($_GET['keyword'])) 
+    {
+        $qryKeyword = ' AND category LIKE "'.$_GET['keyword'].'" ';
+    }
+
+    if (isset($_GET['qrySearch'])) 
+    {
+        $qrySearch = ' AND name LIKE "%'.$_GET['qrySearch'].'%" ';
+    }
+
+    $sqlProduct = ' SELECT `id`, `name`, `details`, `quantity`, `status`, `date_created`, `category` FROM `tbl_product` WHERE id != "" '.$qryKeyword.' '.$qrySearch.' ';
     $execProduct = $conn->query($sqlProduct);
     ?>
+
+
 </head>
 
 <body class="template-color-1">
@@ -49,9 +64,13 @@
                                         <?php 
                                         $sqlCategory = ' SELECT `id`, `category`, `date_created` FROM `tbl_category` ORDER BY category ASC ';
                                         $execCat = $conn->query($sqlCategory);
-                                        while ($rowCat = $execCat->fetch_assoc()) { ?>
+                                        while ($rowCat = $execCat->fetch_assoc()) { 
+                                            $sqlCountCat = ' SELECT COUNT(id) AS ttlCat FROM tbl_product WHERE category = "'.$rowCat['category'].'" ';
+                                            $execSqlCountCat = $conn->query($sqlCountCat);
+                                            $rowCountCat = $execSqlCountCat->fetch_assoc();
+                                        ?>
                                         <li>
-                                            <a href="javascript:void(0)"><?php echo $rowCat['category']; ?> <span>(7)</span></a>
+                                            <a href="shop.php?keyword=<?php echo $rowCat['category']; ?>"><?php echo $rowCat['category']; ?> <span>(<?php echo $rowCountCat['ttlCat']; ?>)</span></a>
                                         </li>
 
                                         <?php } ?>
@@ -121,12 +140,9 @@
                                                         <span class="sticker">New</span>
                                                     </div>
                                                     <div class="add-actions">
-                                                       <!--  <ul>
-                                                            <li><a class="uren-add_cart" href="cart.html" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i
-                                                                class="ion-bag"></i></a>
-                                                            </li>
-                                                            <li class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><a href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="Quick View"><i class="ion-android-open"></i></a></li>
-                                                        </ul> -->
+                                                        <ul>
+                                                            <li class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><a href="view_product.php?id=<?php echo $rowProduct['id']; ?>" data-toggle="tooltip" data-placement="top" title="Quick View"><i class="ion-android-open"></i></a></li>
+                                                        </ul>
                                                     </div>
                                                 </div>
                                                 <div class="product-content">

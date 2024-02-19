@@ -41,3 +41,23 @@
 
 <!-- Main JS -->
 <script src="assets/js/main.js"></script>
+
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.10.3/sweetalert2.min.js"></script>
+
+<script>
+
+	<?php 
+	    if (isset($_SESSION['toastr'])) 
+	    {
+	      echo "iziToast.show({ title: '".$_SESSION['toastr']['title']."', message: '".$_SESSION['toastr']['message']."',theme: 'light',position: 'bottomRight',color: '".$_SESSION['toastr']['color']."'});";
+	      unset($_SESSION['toastr']);
+	    }
+	?>
+
+</script>
+
+

@@ -5,7 +5,7 @@
 
     <?php include 'includes/include_header.php'; ?>
     <?php 
-
+    // print_r($_SESSION);
     $sqlProduct = ' SELECT `id`, `name`, `details`, `quantity`, `status`, `date_created`, `category` FROM `tbl_product` WHERE id = '.$_GET['id'];
     $execProduct = $conn->query($sqlProduct);
     $product = $execProduct->fetch_assoc();
@@ -144,23 +144,47 @@
                                 </div> -->
                                 <div class="sp-essential_stuff">
                                     <ul>
-                                        <li>Details: <?php echo $product['details']; ?></li>
-                                        <li>Availability: In Stock</li>
-                                        <li>Stock: <span><?php echo $product['quantity']; ?></span></li>
+                                        Details: <li><?php echo $product['details']; ?></li>
+                                        Availability: <li>In Stock</li>
+                                        Stock: <li><span><?php echo $product['quantity']; ?></span></li>
                                     </ul>
                                 </div>
+                                <?php if ($execOption->num_rows > 1): ?>
+                                    <div class="product-size_box">
+                                        <span>Option</span>
+                                        <select class="myniceselect nice-select" id="selectProductOption">
+                                            <option value="" selected="" disabled="">-Select Option-</option>
+                                            <?php while($rowOption = $execOption->fetch_assoc()){ ?>
+                                                <option value="<?php echo $rowOption['id']; ?>"><?php echo $rowOption['option_name']; ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                <?php endif ?>
                                 <div class="product-size_box">
-                                    <span>Option</span>
-                                    <select class="myniceselect nice-select" id="selectProductOption">
-                                        <?php while($rowOption = $execOption->fetch_assoc()){ ?>
-                                            <option value="<?php echo $rowOption['price']; ?>"><?php echo $rowOption['option_name']; ?></option>
-                                        <?php } ?>
-                                    </select>
+                                    <span>Quantity</span>
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <button class="btn btn-danger" id="btn_qty_minus"><i class="fa fa-minus"></i></button>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <!-- <input type="number" class="form-control" name="order_qty" id="order_qty"  min="0" oninput="this.value = Math.abs(this.value)"> -->
+                                            <input type="number" class="form-control" name="order_qty" id="order_qty" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" name="itemConsumption" />
+
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button class="btn btn-success" id="btn_qty_plus"><i class="fa fa-plus"></i></button>
+                                        </div>
+                                    </div>
                                 </div>
                                 <!-- <h2 style="color: #af9123;" id="optionPriceVal"></h2> -->
                                 <div class="qty-btn_area">
                                     <ul>
-                                        <li><a class="qty-cart_btn" href="cart.html">Add To Cart</a></li>
+                                        <!-- <li><a class="qty-cart_btn" href="cart.html">Add To Cart</a></li> -->
+                                        <?php if (empty($_SESSION['id'])): ?>
+                                            <li><a class="qty-cart_btn" href="login.php">Add To Cart</a></li>
+                                        <?php else: ?>
+                                            <li><a onclick="add_item(<?php echo $_SESSION['id']; ?>, <?php echo $product['id']; ?>, <?php echo $product['quantity']; ?>);" class="qty-cart_btn" >Add To Cart</a></li>
+                                        <?php endif ?>
                                       <!--   <li><a class="qty-wishlist_btn" href="wishlist.html" data-toggle="tooltip" title="Add To Wishlist"><i class="ion-android-favorite-outline"></i></a>
                                         </li>
                                         <li><a class="qty-compare_btn" href="compare.html" data-toggle="tooltip" title="Compare This Product"><i class="ion-ios-shuffle-strong"></i></a></li> -->
@@ -702,9 +726,95 @@
   <script>
     
     $('#selectProductOption').on('change', function(){
-        $('#optionPriceVal').text('₱'+$(this).val());
+        let variant_id = $(this).val();
+        $.ajax({  
+            url:"function php/get_variant_price.php?variant_id="+variant_id, 
+            method:"POST",  
+            contentType:false,
+            cache:false,
+            processData:false,
+
+            beforeSend:function() {
+            }, 
+
+            success:function(data){  
+                // alert(data);
+                $('#optionPriceVal').text('₱'+data);
+            }
+
+        });  
     });
     // optionPriceVal
+
+
+    function add_item(user_id, product_id, product_qty)
+    {
+        let order_qty = $('#order_qty').val();
+        let selectProductOption = $('#selectProductOption').val();
+       
+        if (selectProductOption == null)
+        {
+            iziToast.show({ title: 'Warning!', message: 'Please select item variant.',theme: 'light',position: 'bottomRight',color: 'red'});
+        }
+        else if (order_qty < 1) 
+        {
+            iziToast.show({ title: 'Warning!', message: 'Please add item quantity.',theme: 'light',position: 'bottomRight',color: 'red'});
+        }
+        else if (order_qty > product_qty) 
+        {
+            iziToast.show({ title: 'Warning!', message: 'Selected quantity is greater than the stock quantity.',theme: 'light',position: 'bottomRight',color: 'red'});
+        }
+        else
+        {
+            Swal.fire({
+              title: "Are you sure?",
+              text: "Add Item to your cart.",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#3085d6",
+              cancelButtonColor: "#d33",
+              confirmButtonText: "Yes"
+            }).then((result) => {
+              if (result.isConfirmed) {
+
+                $.ajax({  
+                    url:"function php/insert_cart_item.php?user_id="+user_id+"&product_id="+product_id+"&order_qty="+order_qty+"&selectProductOption="+selectProductOption, 
+                    method:"POST",  
+                    contentType:false,
+                    cache:false,
+                    processData:false,
+
+                    beforeSend:function() {
+                    }, 
+
+                    success:function(data){  
+                        // alert(data);
+                        window.location.reload();
+                    }
+
+                });  
+
+
+                 // iziToast.show({ title: 'Success!', message: 'Item successfully added to card.',theme: 'light',position: 'bottomRight',color: 'green'});
+              }
+            });
+           
+        }
+        
+    }
+
+    $('#btn_qty_plus').on('click', function(){
+        // $('#order_qty').val($('#order_qty').val() + 1);
+        document.getElementById("order_qty").stepUp(1);
+    });
+
+    $('#btn_qty_minus').on('click', function(){
+        if ($('#order_qty').val() > 0) 
+        {
+            document.getElementById("order_qty").stepDown(1);
+        }
+    });
+
   </script>
 
 </body>

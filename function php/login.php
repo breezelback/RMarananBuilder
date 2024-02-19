@@ -22,9 +22,18 @@ if ($exec->num_rows > 0)
 	$birthdate = $row['birthdate'];
 	$user_type = $row['user_type'];
 
+	$_SESSION['id'] = $row['id'];
+	$_SESSION['firstname'] = $firstname;
+	$_SESSION['lastname'] = $lastname;
+	$_SESSION['contact_number'] = $contact_number;
+	$_SESSION['email'] = $email;
+	$_SESSION['gender'] = $gender;
+	$_SESSION['birthdate'] = $birthdate;
+	$_SESSION['user_type'] = $user_type;
+
 	if ($user_type == 'user') {
 		$_SESSION['toastr']['title'] = 'Looks Good!';
-		$_SESSION['toastr']['message'] = 'Successfully Login as Student';
+		$_SESSION['toastr']['message'] = 'Successfully Login';
 		$_SESSION['toastr']['color'] = 'green';
 		header('location: ../index.php');
 	}
@@ -39,7 +48,7 @@ if ($exec->num_rows > 0)
 }
 else
 {
-	header('location: ../index.php');
+	header('location: ../login.php');
 
 	$_SESSION['toastr']['title'] = 'Error';
 	$_SESSION['toastr']['message'] = 'User not found!';

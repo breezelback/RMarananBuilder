@@ -41,46 +41,51 @@
                                     <thead>
                                         <tr>
                                             <th class="uren-product-remove">remove</th>
-                                            <th class="uren-product-thumbnail">images</th>
+                                            <!-- <th class="uren-product-thumbnail">images</th> -->
                                             <th class="cart-product-name">Product</th>
+                                            <th class="cart-product-name">Option</th>
                                             <th class="uren-product-price">Unit Price</th>
                                             <th class="uren-product-quantity">Quantity</th>
                                             <th class="uren-product-subtotal">Total</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <?php 
+                                          $getCartItem = ' SELECT 
+                                            a.id as cart_item_id,  
+                                            a.quantity as cart_item_quantity,
+                                            b.name as cart_item_name,
+                                            c.option_name as cart_item_option,
+                                            c.price as cart_item_price
+                                            -- d.image as cart_item_image
+                                            FROM tbl_cart a
+                                            LEFT JOIN tbl_product b ON b.id = a.product_id
+                                            LEFT JOIN tbl_item_options c ON c.id =  a.price
+                                            -- LEFT JOIN tbl_product_image d ON d.product_id = a.product_id
+                                            WHERE a.user_id = '.$_SESSION['id'].'
+                                        ';
+                                        $execCartItem = $conn->query($getCartItem);
+                                        while($rowCartItem = $execCartItem->fetch_assoc()){ ?>
+
                                         <tr>
-                                            <td class="uren-product-remove"><a href="javascript:void(0)"><i class="fa fa-trash"
+                                            <td class="uren-product-remove"><a href="function php/remove_cart_item.php?id=<?php echo $rowCartItem['cart_item_id']; ?>"><i class="fa fa-trash"
                                                 title="Remove"></i></a></td>
-                                            <td class="uren-product-thumbnail"><img src="images/wrench.jpg" width="200"></td>
-                                            <td class="uren-product-name"><a href="javascript:void(0)">Wrench</a></td>
-                                            <td class="uren-product-price"><span class="amount">P200.00</span></td>
-                                            <td class="quantity">
+                                            <!-- <td class="uren-product-thumbnail"><img src="images/wrench.jpg" width="200"></td> -->
+                                            <td class="uren-product-name"><a href="javascript:void(0)"><?php echo $rowCartItem['cart_item_name']; ?></a></td>
+                                            <td class="uren-product-name"><a href="javascript:void(0)"><?php echo $rowCartItem['cart_item_option']; ?></a></td>
+                                            <td class="uren-product-price"><span class="amount">P<?php echo number_format($rowCartItem['cart_item_price'], 2); ?></span></td>
+                                            <td class="quantity"><span class="amount"><?php echo $rowCartItem['cart_item_quantity']; ?></span></td>
+                                           <!--  <td class="quantity">
                                                 <label>Quantity</label>
                                                 <div class="cart-plus-minus">
                                                     <input class="cart-plus-minus-box" value="1" type="text">
                                                     <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
                                                     <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
                                                 </div>
-                                            </td>
-                                            <td class="product-subtotal"><span class="amount">P200.00</span></td>
+                                            </td> -->
+                                            <td class="product-subtotal"><span class="amount">P<?php echo number_format($rowCartItem['cart_item_quantity'] * $rowCartItem['cart_item_price'], 2); ?></span></td>
                                         </tr>
-                                        <tr>
-                                            <td class="uren-product-remove"><a href="javascript:void(0)"><i class="fa fa-trash"
-                                                title="Remove"></i></a></td>
-                                            <td class="uren-product-thumbnail"><img src="images/wrench.jpg" width="200"></td>
-                                            <td class="uren-product-name"><a href="javascript:void(0)">Wrench</a></td>
-                                            <td class="uren-product-price"><span class="amount">P200.00</span></td>
-                                            <td class="quantity">
-                                                <label>Quantity</label>
-                                                <div class="cart-plus-minus">
-                                                    <input class="cart-plus-minus-box" value="1" type="text">
-                                                    <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
-                                                    <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
-                                                </div>
-                                            </td>
-                                            <td class="product-subtotal"><span class="amount">P200.00</span></td>
-                                        </tr>
+                                       <?php } ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -100,10 +105,10 @@
                             <div class="row">
                                 <div class="col-md-5 ml-auto">
                                     <div class="cart-page-total">
-                                        <h2>Cart totals</h2>
+                                        <h2>Cart total</h2>
                                         <ul>
-                                            <li>Subtotal <span>P400.00</span></li>
-                                            <li>Total <span>P400.00</span></li>
+                                            <!-- <li>Subtotal <span>₱<?php echo $rowCart['total_cart_item_price']; ?></span></li> -->
+                                            <li>Total <span style="font-size: 20px; color: red; font-weight: bolder;">₱<?php echo number_format($rowCart['total_cart_item_price'], 2); ?></span></li>
                                         </ul>
                                         <a href="checkout.php">Proceed to checkout</a>
                                     </div>

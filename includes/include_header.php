@@ -31,3 +31,7 @@
 <!-- Main Style CSS (Please use minify version for better website load performance) -->
 <link rel="stylesheet" href="assets/css/style.css">
 <!--<link rel="stylesheet" href="assets/css/style.min.css">-->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css"  />
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.10.3/sweetalert2.min.css" />

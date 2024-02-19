@@ -29,16 +29,32 @@
                                 </a>
                             </li>
 
-                            <?php if (!empty($_SESSION)): ?>
+                            <?php if (!empty($_SESSION['id'])): ?>
+
+                            <?php
+                            $getCart = ' SELECT 
+                                            COUNT(a.id) as cart_item_count,  
+                                            SUM(c.price * a.quantity) as total_cart_item_price
+                                        FROM tbl_cart a
+                                        LEFT JOIN tbl_item_options c ON c.id =  a.price
+                                        WHERE a.user_id = '.$_SESSION['id'].'
+                            ';
+                            $execCart = $conn->query($getCart);
+                            $rowCart = $execCart->fetch_assoc();
+
+                            ?>
+
+
+
                                 <li class="minicart-wrap">
                                     <a href="#miniCart" class="minicart-btn toolbar-btn">
                                         <div class="minicart-count_area">
-                                            <span class="item-count">3</span>
+                                            <span class="item-count"><?php echo $rowCart['cart_item_count']; ?></span>
                                             <i class="ion-bag"></i>
                                         </div>
                                         <div class="minicart-front_text">
                                             <span>Cart:</span>
-                                            <span class="total-price">462.4</span>
+                                            <span class="total-price">₱<?php echo $rowCart['total_cart_item_price']; ?></span>
                                         </div>
                                     </a>
                                 </li>
@@ -87,7 +103,7 @@
                     <div class="ht-right_area">
                         <div class="ht-menu">
                             <ul>
-                                <?php if (!empty($_SESSION)): ?>
+                                <?php if (!empty($_SESSION['id'])): ?>
                                     <li><a href="profile.php">My Account<i class="fa fa-chevron-down"></i></a>
                                         <ul class="ht-dropdown ht-my_account">
                                             <li class="active"><a href="cart.php">Cart</a></li>
@@ -134,8 +150,8 @@
                 </div>
                 <div class="custom-search_col col-12">
                     <div class="hm-form_area">
-                        <form action="#" class="hm-searchbox">
-                            <input type="text" placeholder="Enter your search key ...">
+                        <form action="shop.php" class="hm-searchbox" method="GET" name="frmSearch">
+                            <input type="text" name="qrySearch" placeholder="Enter your search key ...">
                             <button class="header-search_btn" type="submit"><i
                                 class="ion-ios-search-strong"><span>Search</span></i></button>
                         </form>
@@ -144,6 +160,8 @@
             </div>
         </div>
     </div>
+
+
     <div class="offcanvas-minicart_wrapper" id="miniCart">
         <div class="offcanvas-menu-inner">
             <a href="#" class="btn-close"><i class="ion-android-close"></i></a>
@@ -152,22 +170,52 @@
                     <h4>Shopping Cart</h4>
                 </div>
                 <ul class="minicart-list">
-                    <li class="minicart-product">
-                        <a class="product-item_remove" href="javascript:void(0)"><i
-                            class="ion-android-close"></i></a>
-                        <div class="product-item_img">
-                            <img src="images/wrench.jpg" alt="Uren's Product Image">
-                        </div>
-                        <div class="product-item_content">
-                            <a class="product-item_title" href="shop.php">Wrench</a>
-                            <span class="product-item_quantity">1 x P200.00</span>
-                        </div>
-                    </li>
+                      <?php if (!empty($_SESSION['id'])): ?>
+                        <?php
+                            $getCartItem = ' SELECT 
+                                a.id as cart_item_id,  
+                                a.quantity as cart_item_quantity,
+                                b.name as cart_item_name,
+                                c.option_name as cart_item_option,
+                                c.price as cart_item_price
+                                -- d.image as cart_item_image
+                                FROM tbl_cart a
+                                LEFT JOIN tbl_product b ON b.id = a.product_id
+                                LEFT JOIN tbl_item_options c ON c.id =  a.price
+                                -- LEFT JOIN tbl_product_image d ON d.product_id = a.product_id
+                                WHERE a.user_id = '.$_SESSION['id'].'
+                            ';
+                            $execCartItem = $conn->query($getCartItem);
+                            while($rowCartItem = $execCartItem->fetch_assoc()){
+
+                        ?>
+
+                            <li class="minicart-product">
+                              <!--   <a class="product-item_remove" href="javascript:void(0)"><i
+                                    class="ion-android-close"></i></a>
+                                <div class="product-item_img">
+                                    <img src="images/products/<?php echo $rowCartItem['cart_item_image']; ?>" alt="Uren's Product Image">
+                                </div> -->
+                                 <a class="product-item_remove" href="function php/remove_cart_item.php?id=<?php echo $rowCartItem['cart_item_id']; ?>"><i
+                                    class="ion-android-close"></i></a>
+                                <div class="product-item_img" style="background-color: grey; color: white;">
+                                   <center><?php echo $rowCartItem['cart_item_option']; ?></center>
+                                </div>
+                                <div class="product-item_content">
+                                    <a class="product-item_title" href="shop.php"><b><?php echo $rowCartItem['cart_item_name']; ?></b></a>
+                                    <span class="product-item_quantity"><?php echo $rowCartItem['cart_item_quantity']; ?> x P<?php echo $rowCartItem['cart_item_price']; ?>.00</span>
+                                </div>
+                            </li>
+
+                        <?php } ?>
+                    <?php endif ?>
+               
+
                 </ul>
             </div>
             <div class="minicart-item_total">
                 <span>Subtotal</span>
-                <span class="ammount">P200.00</span>
+                <span class="ammount">P<?php echo $rowCart['total_cart_item_price']; ?>.00</span>
             </div>
             <div class="minicart-btn_area">
                 <a href="cart.php" class="uren-btn uren-btn_dark uren-btn_fullwidth">Minicart</a>

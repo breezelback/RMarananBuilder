@@ -61,19 +61,19 @@
                     <div class="row">
                       <div class="col-md-3">
                         <label for="">Product Name</label>
-                        <input type="text" class="form-control" name="name">
+                        <input type="text" class="form-control" name="name" required="">
                       </div>
                       <div class="col-md-2">
                         <label for="">Quantity</label>
-                        <input type="number" class="form-control" name="quantity">
+                        <input type="number" class="form-control" name="quantity" required="">
                       </div>
                       <div class="col-md-4">
                         <label for="">Product Description</label>
-                        <textarea name="details" cols="30" rows="2" class="form-control"></textarea>
+                        <textarea name="details" required="" cols="30" rows="2" class="form-control"></textarea>
                       </div>
                       <div class="col-md-3">
                         <label for="" style="font-size: 14px;">Product Images <i style="color: #095099; font-size: 12px;">(You can add multiple images)</i></label>
-                        <input type="file" multiple="" name="product_image[]" id="product_image[]">
+                        <input type="file" multiple="" name="product_image[]" id="product_image[]" required="">
                       </div>
                     </div>
 
@@ -132,8 +132,17 @@
                               <tr>
                                   <td>1</td>
                                   <td><input class="form-control" type="text" name="item_option[]"/></td>
-                                  <td><input class="form-control" type="text" name="price[]"/></td>
-                                  <td><input type="button" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"/></td>
+                                  <td>
+                                    <div class="input-group mb-3">
+                                      <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">₱</span>
+                                      </div>
+                                      <input class="form-control" type="number" name="price[]" required="" />
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <input class="btn btn-danger" type="button" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"/>
+                                  </td>
                               </tr>
                           </table>
                         </div>
@@ -186,13 +195,6 @@
   });
 
 
-  function deleteRow(row)
-  {
-      var i=row.parentNode.parentNode.rowIndex;
-      document.getElementById('POITable').deleteRow(i);
-  }
-
-
   function insRow()
   {
       var x=document.getElementById('POITable');
@@ -215,6 +217,22 @@
 
          // append the new row to the table
       x.appendChild( new_row );
+  }
+
+
+  function deleteRow(row)
+  {
+      var i=row.parentNode.parentNode.rowIndex;
+      var tableName = document.getElementById("POITable");
+      var totalRowCount = tableName.rows.length; // 3
+      if (totalRowCount >= 3) 
+      {
+        document.getElementById('POITable').deleteRow(i);
+      }
+      else
+      {
+        alert("Please insert atleast 1 Price");
+      }
   }
 </script>
 </body>
