@@ -65,26 +65,31 @@
                                                     <tr>
                                                         <th>ORDER</th>
                                                         <th>DATE</th>
+                                                        <th>MODE OF PAYMENT</th>
                                                         <th>STATUS</th>
                                                         <th>TOTAL</th>
                                                         <th></th>
                                                     </tr>
+
+                                                    <?php
+
+                                                    $selectOrders = ' SELECT `id`, `transaction_id`, `user_id`, `address_id`, `total`, `mode_of_payment`, `status`, date_format(`date_created`, "%M %d, %Y") AS date_created, `date_finished` FROM `tbl_transaction` WHERE user_id = '.$_SESSION['id'].' ';
+                                                    $execOrders = $conn->query($selectOrders);
+                                                    while ($orders = $execOrders->fetch_assoc()) {
+                                                    ?>
+
+
                                                     <tr>
-                                                        <td><a class="account-order-id" href="javascript:void(0)">#5364</a></td>
-                                                        <td>Mar 27, 2019</td>
-                                                        <td>On Hold</td>
-                                                        <td>£162.00 for 2 items</td>
+                                                        <td><a class="account-order-id" href="javascript:void(0)"><?php echo $orders['transaction_id']; ?></a></td>
+                                                        <td><?php echo $orders['date_created']; ?></td>
+                                                        <td><?php echo $orders['mode_of_payment']; ?></td>
+                                                        <td><?php echo $orders['status']; ?></td>
+                                                        <td>P<?php echo number_format($orders['total'], 2); ?></td>
                                                         <td><a href="javascript:void(0)" class="uren-btn uren-btn_dark uren-btn_sm"><span>View</span></a>
                                                         </td>
                                                     </tr>
-                                                    <tr>
-                                                        <td><a class="account-order-id" href="javascript:void(0)">#5356</a></td>
-                                                        <td>Mar 27, 2019</td>
-                                                        <td>On Hold</td>
-                                                        <td>£162.00 for 2 items</td>
-                                                        <td><a href="javascript:void(0)" class="uren-btn uren-btn_dark uren-btn_sm"><span>View</span></a>
-                                                        </td>
-                                                    </tr>
+                                                    
+                                                    <?php } ?>
                                                 </tbody>
                                             </table>
                                         </div>

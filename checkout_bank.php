@@ -40,7 +40,7 @@
         
 
         ?>
-        <form action="function php/checkout.php" method="POST">
+        <form action="function php/checkout.php" method="POST" enctype="multipart/form-data">
             <!-- Begin Uren's Checkout Area -->
             <div class="checkout-area">
                 <div class="container-fluid">
@@ -146,70 +146,50 @@
                                     </table>
                                 </div>
                                 <div class="payment-method">
-                                    Payment Method
 
 
                                     <div class="payment-accordion">
-                                       <!--  <div id="accordion">
-                                            <div class="card">
-                                                <div class="card-header" id="#payment-1">
-                                                    <h5 class="panel-title">
-                                                        <a href="javascript:void(0)" class="" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                            Cash on Delivery
-                                                        </a>
-                                                    </h5>
-                                                </div>
-                                                <div id="collapseOne" class="collapse show" data-parent="#accordion">
-                                                    <div class="card-body">
-                                                        <p>Please prepare the exact amount once order has been delivered to your registered address.
+                                        
 
-                                                        </p>
-                                                    </div>
+                                        <div class="card">
+                                            <div class="card-header" id="#payment-3">
+                                                <h5 class="panel-title">
+                                                    <a href="javascript:void(0)" class="collapsed text-primary" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                                        GCASH
+                                                    </a>
+                                                </h5>
+                                            </div>
+                                            <div id="collapseOne" class="collapse" data-parent="#accordion">
+                                                <div class="card-body">
+                                                    <i class="fa fa-wallet"></i> GCASH: 09123456789 <br>
+                                                    <i class="fa fa-user"></i> NAME: Juan Dela Cruz
                                                 </div>
                                             </div>
-                                            <div class="card">
-                                                <div class="card-header" id="#payment-2">
-                                                    <h5 class="panel-title">
-                                                        <a href="javascript:void(0)" class="collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                            Online Payment.
-                                                        </a>
-                                                    </h5>
-                                                </div>
-                                                <div id="collapseTwo" class="collapse" data-parent="#accordion">
-                                                    <div class="card-body">
-                                                        <p>Please upload transaction receipt before checkout.
-
-                                                            <input type="file" class="form-control">
-                                                        </p>
-                                                    </div>
+                                        </div>
+                                        <br>
+                                        <div class="card">
+                                            <div class="card-header" id="#payment-3">
+                                                <h5 class="panel-title">
+                                                    <a href="javascript:void(0)" class="collapsed text-danger" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                        BPI
+                                                    </a>
+                                                </h5>
+                                            </div>
+                                            <div id="collapseTwo" class="collapse" data-parent="#accordion">
+                                                <div class="card-body">
+                                                    <i class="fa fa-university"></i> BPI: 032152935 <br>
+                                                    <i class="fa fa-user"></i> NAME: Juan Dela Cruz
                                                 </div>
                                             </div>
-                                            <div class="card">
-                                                <div class="card-header" id="#payment-3">
-                                                    <h5 class="panel-title">
-                                                        <a href="javascript:void(0)" class="collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                                            PayPal
-                                                        </a>
-                                                    </h5>
-                                                </div>
-                                                <div id="collapseThree" class="collapse" data-parent="#accordion">
-                                                    <div class="card-body">
-                                                        <p>Make your payment directly into our bank account. Please use your Order
-                                                            ID as the payment
-                                                            reference. Your order won’t be shipped until the funds have cleared in
-                                                            our account.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> -->
+                                        </div>
+                                        <input type="hidden" name="mop" value="bank_confirm">
+                                       <br><hr>
+                                        <p>Please select and upload transaction receipt before checkout.
+                                            <input type="file" class="form-control" required="" name="proof_of_payment">
+                                        </p>
 
-                                        <select name="mop" id="mop" class="form-control">
-                                            <option value="Cash on Delivery">Cash on Delivery</option>
-                                            <option value="Bank Transfer">Bank Transfer</option>
-                                            <option value="Paypal">Paypal</option>
-                                        </select>
                                         <div class="order-button-payment">
-                                            <input value="Place order" type="submit">
+                                            <input value="Confirm order" type="submit">
                                         </div>
                                     </div>
                                 </div>

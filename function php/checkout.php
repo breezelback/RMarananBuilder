@@ -22,9 +22,64 @@ $address_id = $_POST['address_id'];
 $total = $_POST['total'];
 $mop = $_POST['mop'];
 
- 
+if ($mop == "Cash on Delivery") {
+	$insertTransaction = ' INSERT INTO `tbl_transaction`(`transaction_id`, `user_id`, `address_id`, `total`, `mode_of_payment`, `status`, `date_created`) VALUES ("'.$transaction_id.'", '.$user_id.', '.$address_id.', '.$total.', "'.$mop.'", "Pending", NOW()) ';
+	$conn->query($insertTransaction);
 
-echo $insertTransaction = ' INSERT INTO `tbl_transaction`(`transaction_id`, `user_id`, `address_id`, `total`, `mode_of_payment`, `status`, `date_created`) VALUES ("'.$transaction_id.'", '.$user_id.', '.$address_id.', '.$total.', "'.$mop.'", "Pending", NOW()) ';
+	$_SESSION['toastr']['title'] = 'Looking Good!';
+	$_SESSION['toastr']['message'] = 'Order Successfully Completed. You may track the status on your profile.';
+	$_SESSION['toastr']['color'] = 'green';
+	header('location: ../profile.php');
+} 
+else if ($mop == "Bank Transfer") {
+ 	// $insertTransaction = ' INSERT INTO `tbl_transaction`(`transaction_id`, `user_id`, `address_id`, `total`, `mode_of_payment`, `status`, `date_created`) VALUES ("'.$transaction_id.'", '.$user_id.', '.$address_id.', '.$total.', "'.$mop.'", "Pending", NOW()) ';
+	header('location: ../checkout_bank.php');
+} 
+else if ($mop == "bank_confirm") {
+	$target_dir = "../images/proof/";
+	// $proof_of_payment = $_POST['proof_of_payment'];
+
+    $filename = $last_id.'-'.time().'-'.$_FILES['proof_of_payment']['name'];
+    $filesize = $_FILES['proof_of_payment']['size'];
+    $filetempname = $_FILES['proof_of_payment']['tmp_name'];
+
+    $fileext = pathinfo($filename, PATHINFO_EXTENSION);
+    $fileext = strtolower($fileext);
+
+    $target_file = $target_dir . $filename;
+
+    if ($fileext != "jpg" && $fileext != "png" && $fileext != "jpeg"&& $fileext != "gif") 
+    {
+		$_SESSION['toastr']['title'] = 'Error!';
+		$_SESSION['toastr']['message'] = 'Only PNG, JPG, JPEG, and GIF are accepted file type.';
+		$_SESSION['toastr']['color'] = 'red';
+		header('location: ../checkout_bank.php');
+    }
+    else
+    {
+		move_uploaded_file($_FILES["proof_of_payment"]["tmp_name"], $target_file);
+
+		$insertTransaction = ' INSERT INTO `tbl_transaction`(`transaction_id`, `user_id`, `address_id`, `total`, `mode_of_payment`, `status`, `date_created`, `proof_of_payment`) VALUES ("'.$transaction_id.'", '.$user_id.', '.$address_id.', '.$total.', "Bank Transfer", "Pending", NOW(), "'.$filename.'") ';
+		$conn->query($insertTransaction);
+
+		$_SESSION['toastr']['title'] = 'Looking Good!';
+		$_SESSION['toastr']['message'] = 'Order Successfully Completed. You may track the status on your profile.';
+		$_SESSION['toastr']['color'] = 'green';
+
+		header('location: ../checkout_bank.php');
+    }
+
+} 
+else
+{
+ 	$insertTransaction = ' INSERT INTO `tbl_transaction`(`transaction_id`, `user_id`, `address_id`, `total`, `mode_of_payment`, `status`, `date_created`) VALUES ("'.$transaction_id.'", '.$user_id.', '.$address_id.', '.$total.', "'.$mop.'", "Pending", NOW()) ';
+}
+
+
+
+
+die();
+$insertTransaction = ' INSERT INTO `tbl_transaction`(`transaction_id`, `user_id`, `address_id`, `total`, `mode_of_payment`, `status`, `date_created`) VALUES ("'.$transaction_id.'", '.$user_id.', '.$address_id.', '.$total.', "'.$mop.'", "Pending", NOW()) ';
 $conn->query($insertTransaction);
 
 
