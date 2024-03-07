@@ -57,31 +57,49 @@
                     <tr>
                       <th>TRANSACTION #</th>
                       <th>NAME</th>
-                      <th>ADDRESS</th>
-                      <th>ORDERS</th>
-                      <th>TOTAL PRICE</th>
+                      <!-- <th>ADDRESS</th> -->
+                      <th>DATE</th>
+                      <th>MODE OF PAYMENT</th>
                       <th>STATUS</th>
+                      <th>TOTAL PRICE</th>
                       <th><center>ACTION</center></th>
                     </tr>
                     </thead>
                     <tbody>
 
+                      <?php
+
+                        $selectOrders = ' SELECT `id`, `transaction_id`, `user_id`, `address_id`, `total`, `mode_of_payment`, `status`, date_format(`date_created`, "%M %d, %Y") AS date_created, `date_finished` FROM `tbl_transaction` ';
+                        $execOrders = $conn->query($selectOrders);
+                        while ($orders = $execOrders->fetch_assoc()) {
+
+                          $selectUser = ' SELECT `id`, `firstname`, `lastname`, `contact_number`, `email`, `gender`, `birthdate`, `status`, `date_created`, `user_type`, `password` FROM `tbl_user` WHERE id = '.$orders['user_id'].' ';
+                          $execUser = $conn->query($selectUser);
+                          $users = $execUser->fetch_assoc();
+                          
+                        ?>
+
                         <tr style="font-size: 14px;">
-                          <td>RMB2023080001</td>
-                          <td>John Doe</td>
-                          <td>421 Lipa City Batangas</td>
-                          <td>5 Items</td>
-                          <td><b>P600.00</b></td>
-                          <td>Pending</td>
+                          <td><?php echo $orders['transaction_id']; ?></td>
+                          <td><?php echo $users['firstname']; ?> <?php echo $users['lastname']; ?></td>
+                          <!-- <td>421 Lipa City Batangas</td> -->
+                          <td><?php echo $orders['date_created']; ?></td>
+                          <td><?php echo $orders['mode_of_payment']; ?></td>
+                          <td><?php echo $orders['status']; ?></td>
+                          <td>P<?php echo number_format($orders['total'], 2); ?></td>
                           <td>
                             <center>
                               <div class="btn-group">
-
                                 <a href="view_teacher.php" class="btn btn-warning btn-sm text-white"><i class="fa fa-external-link-alt"></i></a>
                               </div>
                             </center>
                           </td>
                         </tr>
+
+                        
+                        <?php } ?>
+
+             
             
 
                     </tbody>  
