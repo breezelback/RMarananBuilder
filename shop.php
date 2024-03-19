@@ -20,7 +20,7 @@
         $qrySearch = ' AND name LIKE "%'.$_GET['qrySearch'].'%" ';
     }
 
-    $sqlProduct = ' SELECT `id`, `name`, `details`, `quantity`, `status`, `date_created`, `category` FROM `tbl_product` WHERE id != "" '.$qryKeyword.' '.$qrySearch.' ';
+    $sqlProduct = ' SELECT `id`, `name`, `details`, `quantity`, `status`, `date_created`, `category` FROM `tbl_product` WHERE id != "" '.$qryKeyword.' '.$qrySearch.' AND type = "product" ';
     $execProduct = $conn->query($sqlProduct);
     ?>
 
@@ -65,7 +65,7 @@
                                         $sqlCategory = ' SELECT `id`, `category`, `date_created` FROM `tbl_category` ORDER BY category ASC ';
                                         $execCat = $conn->query($sqlCategory);
                                         while ($rowCat = $execCat->fetch_assoc()) { 
-                                            $sqlCountCat = ' SELECT COUNT(id) AS ttlCat FROM tbl_product WHERE category = "'.$rowCat['category'].'" ';
+                                            $sqlCountCat = ' SELECT COUNT(id) AS ttlCat FROM tbl_product WHERE category = "'.$rowCat['category'].'" AND type = "product" ';
                                             $execSqlCountCat = $conn->query($sqlCountCat);
                                             $rowCountCat = $execSqlCountCat->fetch_assoc();
                                         ?>

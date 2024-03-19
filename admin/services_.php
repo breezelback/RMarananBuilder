@@ -21,12 +21,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Products</h1>
+            <h1 class="m-0">Services</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Products</li>
+              <li class="breadcrumb-item active">Services</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -52,7 +52,7 @@
                 <div class="card-tools">
                   <ul class="nav nav-pills ml-auto">
                     <li class="nav-item">
-                      <a href="add_product.php" class="nav-link btn-success text-white">Add New Product &nbsp;<i class="fa fa-plus"></i></a>
+                      <button class="nav-link btn-success text-white" data-toggle="modal" data-target="#modal_add_subject">Add New Service &nbsp;<i class="fa fa-plus"></i></button>
                     </li>
                   </ul>
                 </div>
@@ -62,41 +62,41 @@
                   <table id="example1" class="table table-bordered table-striped">
                     <thead>
                     <tr>
-                      <th>#</th>
+                      <th><center>IMAGE</center></th>
                       <th>NAME</th>
                       <th>DETAILS</th>
                       <th>PRICE (PESO)</th>
-                      <th>QUANTITY</th>
-                      <th>CATEGORY</th>
                       <th><center>ACTION</center></th>
                     </tr>
                     </thead>
                     <tbody>
                       <?php 
-                        $counter = 1;
-                        $sqlProduct = ' SELECT `id`, `name`, `details`, `quantity`, `status`, `date_created`, `category` FROM `tbl_product` WHERE type = "product" ';
-                        $execProduct = $conn->query($sqlProduct);
-                        while ($rowProduct = $execProduct->fetch_assoc()) { ?>
+                        $sql = ' SELECT `id`, `service_image`, `title`, `details`, `service_price`, `status`, `date_created` FROM `tbl_services` ';
+                        $exec = $conn->query($sql);
+                        while ($row = $exec->fetch_assoc()) {
+                         
+                      ?>
                         <tr style="font-size: 14px;">
-                          <td><?php echo $counter; ?></td>
-                          <td><?php echo $rowProduct['name']; ?></td>
-                          <td><?php echo $rowProduct['details']; ?></td>
-                          <td>P200.00</td>
-                          <td><?php echo $rowProduct['quantity']; ?></td>
-                          <td><?php echo $rowProduct['category']; ?></td>
+                          <td>
+                            <center>
+                              <img src="<?php echo "../images/services/".$row['service_image']; ?>" alt="" width="100" style="border: 1px solid grey;">
+                            </center>
+                          </td>
+                          <td><?php echo $row['title']; ?></td>
+                          <td><?php echo $row['details']; ?></td>
+                          <td>₱<?php echo $row['service_price']; ?></td>
                           <td>
                             <center>
                               <div class="btn-group">
-                                <a href="edit_user.php" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
-                                <button class="btn btn-danger btn-sm" onclick="delete_product(<?php echo $rowProduct['id']; ?>)"><i class="fa fa-trash"></i></button>
+                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
+                                <button onclick="delete_service(<?php echo $row['id']; ?>, '<?php echo $row['service_image']; ?>');" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
 
-                                <a href="view_teacher.php" class="btn btn-warning btn-sm text-white"><i class="fa fa-cog"></i></a>
                               </div>
                             </center>
                           </td>
                         </tr>
-                      <?php $counter++; } ?>
-
+            
+                      <?php } ?>
                     </tbody>  
 
                   </table>
@@ -125,6 +125,38 @@
 <!-- ./wrapper -->
 
 
+
+<!-- Modal -->
+<form action="../function php/add_new_service.php" method="POST" enctype="multipart/form-data">
+  <div class="modal fade" id="modal_add_subject" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add New Service</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <label for="name-l" style="color: grey;">Service Image</i></label>
+          <input type="file" class="form-control" name="service_image" id="service_image" placeholder="">
+          <label for="name-l" style="color: grey;">Title</i></label>
+          <input type="text" class="form-control" name="title" id="title" placeholder="">
+          <label for="name-l" style="color: grey;">Details</i></label>
+          <textarea name="details" id="details" cols="30" rows="4" class="form-control"></textarea>
+          <label for="name-l" style="color: grey;">Price</i></label>
+          <input type="number" class="form-control" name="service_price" id="service_price" placeholder="">
+        </div>
+        <div class="modal-footer">  
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+
 <?php include'_include_footer.php'; ?>
 
 <script>
@@ -143,27 +175,16 @@
       "autoWidth": false,
       "responsive": true,
     });
-
   });
 
 
-
-
-
-    function delete_product(id)
-    {
-      Swal.fire({
-        title: "Do you want to delete this product?",
-        icon: "question",
-        showCancelButton: true,
-        confirmButtonText: "Confirm",
-      }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-        if (result.isConfirmed) {
-          window.location = '../function php/delete_product.php?type=product&id='+id;
-        } 
-      });
-    }
+  function delete_service(id, service_image)
+  {
+    if (confirm('Are you sure you want to delete this service?')) {
+      // Save it!
+      window.location = '../function php/delete_service.php?id='+id+'&service_image='+service_image;
+    } 
+  }
 </script>
 </body>
 </html>

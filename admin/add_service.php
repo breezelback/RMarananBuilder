@@ -21,12 +21,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Add Product</h1>
+            <h1 class="m-0">Add Service</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Add Product</li>
+              <li class="breadcrumb-item active">Add Service</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -41,12 +41,12 @@
         <!-- Main row -->
         <div class="row">
           <!-- Left col -->
-          <form action="../function php/add_product.php?type=product" method="POST" enctype="multipart/form-data">
+          <form action="../function php/add_product.php?type=service" method="POST" enctype="multipart/form-data">
             <section class="col-lg-12">
               <!-- Custom tabs (Charts with tabs)-->
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title"> <a class="nav-link btn btn-warning text-white" href="products.php"><i class="fa fa-arrow-left"></i> Back</a> 
+                  <h3 class="card-title"> <a class="nav-link btn btn-warning text-white" href="services.php"><i class="fa fa-arrow-left"></i> Back</a> 
                   </h3>
                   <div class="card-tools">
                     <ul class="nav nav-pills ml-auto">
@@ -60,7 +60,7 @@
                   <div class="tab-content p-0">
                     <div class="row">
                       <div class="col-md-3">
-                        <label for="">Product Name</label>
+                        <label for="">Service Name</label>
                         <input type="text" class="form-control" name="name" required="">
                       </div>
                       <div class="col-md-2">
@@ -68,18 +68,18 @@
                         <input type="number" class="form-control" name="quantity" required="">
                       </div>
                       <div class="col-md-4">
-                        <label for="">Product Description</label>
+                        <label for="">Service Description</label>
                         <textarea name="details" required="" cols="30" rows="2" class="form-control"></textarea>
                       </div>
                       <div class="col-md-3">
-                        <label for="" style="font-size: 14px;">Product Images <i style="color: #095099; font-size: 12px;">(You can add multiple images)</i></label>
+                        <label for="" style="font-size: 14px;">Service Images <i style="color: #095099; font-size: 12px;">(You can add multiple images)</i></label>
                         <input type="file" multiple="" name="product_image[]" id="product_image[]" required="">
                       </div>
                     </div>
 
                     <div class="row">
                       <div class="col-md-3">
-                        <label for="">Product Category</label>
+                        <label for="">Service Category</label>
                         <select name="category" id="category" class="form-control">
                           <?php
                             $sqlCategory = ' SELECT `id`, `category`, `date_created` FROM `tbl_category` ';
@@ -125,7 +125,7 @@
                           <table id="POITable" class="table table-bordered table-hover">
                               <tr class="bg-dark">
                                   <td>#</td>
-                                  <td>Item Option</td>
+                                  <td>Option</td>
                                   <td>Price</td>
                                   <td>Delete</td>
                               </tr>
