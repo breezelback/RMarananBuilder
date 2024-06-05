@@ -55,7 +55,7 @@
                   <table id="example1" class="table table-bordered table-striped">
                     <thead>
                     <tr>
-                      <th>TRANSACTION #</th>
+                      <th><center>TRANSACTION #</center></th>
                       <th>NAME</th>
                       <!-- <th>ADDRESS</th> -->
                       <th>DATE</th>
@@ -80,7 +80,7 @@
                         ?>
 
                         <tr style="font-size: 14px;">
-                          <td><?php echo $orders['transaction_id']; ?></td>
+                          <td><center><span class="bg-danger text-bold" style="padding: 4px; border-radius: 5px;"><?php echo $orders['transaction_id']; ?></span></center></td>
                           <td><?php echo $users['firstname']; ?> <?php echo $users['lastname']; ?></td>
                           <!-- <td>421 Lipa City Batangas</td> -->
                           <td><?php echo $orders['date_created']; ?></td>
@@ -90,7 +90,7 @@
                           <td>
                             <center>
                               <div class="btn-group">
-                                <a href="view_teacher.php" class="btn btn-warning btn-sm text-white"><i class="fa fa-external-link-alt"></i></a>
+                                <a href="view_order.php?id=<?php echo $orders['id']; ?>" class="btn btn-warning btn-sm text-white"><i class="fa fa-external-link-alt"></i></a>
                               </div>
                             </center>
                           </td>
@@ -130,36 +130,6 @@
 <!-- ./wrapper -->
 
 
-
-<!-- Modal -->
-<form action="../function_php/add_new_subject.php" method="POST">
-  <div class="modal fade" id="modal_add_subject" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add New Product</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <label for="name-l" style="color: grey;">Product Image</i></label>
-          <input type="file" class="form-control" name="subject_code" id="subject_code" placeholder="">
-          <label for="name-l" style="color: grey;">Name</i></label>
-          <input type="text" class="form-control" name="subject_code" id="subject_code" placeholder="">
-          <label for="name-l" style="color: grey;">Details</i></label>
-          <textarea name="" id="" cols="30" rows="4" class="form-control"></textarea>
-          <label for="name-l" style="color: grey;">Price</i></label>
-          <input type="text" class="form-control" name="subject_code" id="subject_code" placeholder="">
-        </div>
-        <div class="modal-footer">  
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</form>
 
 
 <?php include'_include_footer.php'; ?>

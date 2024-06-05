@@ -34,7 +34,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="#" class="brand-link">
       <img src="../images/LOGO1.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light" style="font-size: 17px;">R. Maranan's Builder</span>
     </a>
@@ -47,7 +47,11 @@
           <img src="images/user_image.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
+          <?php if ($_SESSION['user_type'] == 'admin'){ ?>
           <a href="#" class="d-block">Administrator</a>
+           <?php } else { ?>
+          <a href="#" class="d-block">Admin Staff</a>
+           <?php } ?>
         </div>
       </div>
 
@@ -57,6 +61,9 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
 
+
+          <?php if ($_SESSION['user_type'] == 'admin'){ ?>
+            
           <li class="nav-item">
             <!-- <a href="index.php" class="nav-link active"> -->
             <a href="index.php" class="nav-link">
@@ -89,7 +96,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="subjects.php" class="nav-link">
+            <a href="sales.php" class="nav-link">
               <i class="nav-icon fa fa-search-dollar"></i>
               <p>
                 Sales
@@ -113,13 +120,57 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="subjects.php" class="nav-link">
+            <a href="update_profile.php" class="nav-link">
               <i class="nav-icon fa fa-cog"></i>
               <p>
                 Account Settings
               </p>
             </a>
           </li>
+
+          <?php } else { ?>
+
+          <li class="nav-item">
+            <a href="transactions.php" class="nav-link">
+              <i class="nav-icon fa fa-shopping-cart"></i>
+              <p>
+                Transactions
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="products.php" class="nav-link">
+              <i class="nav-icon fab fa-product-hunt"></i>
+              <p>
+                Products
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="services.php" class="nav-link">
+              <i class="nav-icon fa fa-project-diagram"></i>
+              <p>
+                Services
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="categories.php" class="nav-link">
+              <i class="nav-icon fa fa-bars"></i>
+              <p>
+                Product Category
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="update_profile.php" class="nav-link">
+              <i class="nav-icon fa fa-cog"></i>
+              <p>
+                Account Settings
+              </p>
+            </a>
+          </li>
+          <?php } ?>
 
         </ul>
       </nav>

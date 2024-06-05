@@ -37,6 +37,10 @@ if ($exec->num_rows > 0)
 		$_SESSION['toastr']['color'] = 'green';
 		header('location: ../index.php');
 	}
+	else if($user_type == 'staff')
+	{
+		header('location: ../admin/transactions.php');	
+	}
 	else
 	{
 		header('location: ../admin/');	

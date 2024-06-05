@@ -85,7 +85,7 @@
                                                         <td><?php echo $orders['mode_of_payment']; ?></td>
                                                         <td><?php echo $orders['status']; ?></td>
                                                         <td>P<?php echo number_format($orders['total'], 2); ?></td>
-                                                        <td><a href="javascript:void(0)" class="uren-btn uren-btn_dark uren-btn_sm"><span>View</span></a>
+                                                        <td><a href="view_order.php?id=<?php echo $orders['id']; ?>" class="uren-btn uren-btn_dark uren-btn_sm"><span>View</span></a>
                                                         </td>
                                                     </tr>
                                                     

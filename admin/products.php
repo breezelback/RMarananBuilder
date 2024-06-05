@@ -65,7 +65,7 @@
                       <th>#</th>
                       <th>NAME</th>
                       <th>DETAILS</th>
-                      <th>PRICE (PESO)</th>
+                      <!-- <th>PRICE (PESO)</th> -->
                       <th>QUANTITY</th>
                       <th>CATEGORY</th>
                       <th><center>ACTION</center></th>
@@ -81,16 +81,16 @@
                           <td><?php echo $counter; ?></td>
                           <td><?php echo $rowProduct['name']; ?></td>
                           <td><?php echo $rowProduct['details']; ?></td>
-                          <td>P200.00</td>
+                          <!-- <td>P200.00</td> -->
                           <td><?php echo $rowProduct['quantity']; ?></td>
                           <td><?php echo $rowProduct['category']; ?></td>
                           <td>
                             <center>
                               <div class="btn-group">
-                                <a href="edit_user.php" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
+                                <a href="edit_product.php?id=<?php echo $rowProduct['id']; ?>" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
                                 <button class="btn btn-danger btn-sm" onclick="delete_product(<?php echo $rowProduct['id']; ?>)"><i class="fa fa-trash"></i></button>
 
-                                <a href="view_teacher.php" class="btn btn-warning btn-sm text-white"><i class="fa fa-cog"></i></a>
+                                <!-- <a href="view_teacher.php" class="btn btn-warning btn-sm text-white"><i class="fa fa-cog"></i></a> -->
                               </div>
                             </center>
                           </td>

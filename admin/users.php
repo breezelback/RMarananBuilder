@@ -61,6 +61,7 @@
                       <th>ADDRESS</th>
                       <th>CONTACT</th>
                       <th>EMAIL</th>
+                      <th>TYPE</th>
                       <th>STATUS</th>
                       <th><center>ACTION</center></th>
                     </tr>
@@ -81,13 +82,17 @@
                           <td><?php echo $row['contact_number']; ?></td>
                           <td><?php echo $row['contact_number']; ?></td>
                           <td><?php echo $row['email']; ?></td>
+                          <td><?php echo $row['user_type']; ?></td>
                           <td><?php echo $row['status']; ?></td>
                           <td>
                             <center>
                               <div class="btn-group">
-                                <a href="view_teacher.php" class="btn btn-danger btn-sm text-white"><i class="fa fa-times"></i></a>
+                                <a href="../function php/make_user.php?id=<?php echo $row['id']; ?>" class="btn btn-secondary btn-sm text-white">Make User</a>
+                                <a href="../function php/make_staff.php?id=<?php echo $row['id']; ?>" class="btn btn-primary btn-sm text-white">Make Staff</a>
+                                <a href="../function php/make_admin.php?id=<?php echo $row['id']; ?>" class="btn btn-warning btn-sm text-white">Make Admin</a>
 
-                                <a href="view_teacher.php" class="btn btn-warning btn-sm text-white"><i class="fa fa-external-link-alt"></i></a>
+                                <a href="../function php/active.php?id=<?php echo $row['id']; ?>" class="btn btn-success btn-sm text-white">Active</a>
+                                <a href="../function php/block.php?id=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm text-white">Block</a>
                               </div>
                             </center>
                           </td>

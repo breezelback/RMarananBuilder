@@ -22,6 +22,19 @@ $address_id = $_POST['address_id'];
 $total = $_POST['total'];
 $mop = $_POST['mop'];
 
+
+$getCart = ' SELECT `id`, `user_id`, `product_id`, `quantity`, `price`, `status`, `date_created`, `transaction_id` FROM `tbl_cart` WHERE user_id = '.$user_id;
+$execGetCart = $conn->query($getCart);
+while ($rowCart = $execGetCart->fetch_assoc()) 
+{
+	$sqlInsertTransaction = ' INSERT INTO `transaction_item`(`user_id`, `product_id`, `quantity`, `price`, `status`, `date_created`, `transaction_id`) VALUES ( '.$user_id.', '.$rowCart['product_id'].', '.$rowCart['quantity'].', '.$rowCart['price'].', "Pending", NOW(),"'.$transaction_id.'" ) ';
+	$execSqlInsertTransaction = $conn->query($sqlInsertTransaction);
+}
+
+$sqlDel = ' DELETE FROM tbl_cart WHERE user_id = '.$user_id;
+$conn->query($sqlDel);
+
+
 if ($mop == "Cash on Delivery") {
 	$insertTransaction = ' INSERT INTO `tbl_transaction`(`transaction_id`, `user_id`, `address_id`, `total`, `mode_of_payment`, `status`, `date_created`) VALUES ("'.$transaction_id.'", '.$user_id.', '.$address_id.', '.$total.', "'.$mop.'", "Pending", NOW()) ';
 	$conn->query($insertTransaction);
