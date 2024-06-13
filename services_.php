@@ -6,10 +6,24 @@
 
     <?php include 'includes/include_header.php'; ?>
     <?php 
+    //keyword query
+    $qryKeyword = '';
+    $qrySearch = '';
 
-    $sqlServices = ' SELECT `id`, `service_image`, `title`, `details`, `service_price`, `status`, `date_created` FROM `tbl_services` ';
-    $execServices = $conn->query($sqlServices);
+    if (isset($_GET['keyword'])) 
+    {
+        $qryKeyword = ' AND category LIKE "'.$_GET['keyword'].'" ';
+    }
+
+    if (isset($_GET['qrySearch'])) 
+    {
+        $qrySearch = ' AND name LIKE "%'.$_GET['qrySearch'].'%" ';
+    }
+
+    $sqlProduct = ' SELECT `id`, `name`, `details`, `quantity`, `status`, `date_created`, `category` FROM `tbl_product` WHERE id != "" '.$qryKeyword.' '.$qrySearch.' AND type = "service" ';
+    $execProduct = $conn->query($sqlProduct);
     ?>
+
 
 </head>
 
@@ -25,10 +39,10 @@
        <!--  <div class="breadcrumb-area">
             <div class="container">
                 <div class="breadcrumb-content">
-                    <h2>Services</h2>
+                    <h2>Shop</h2>
                     <ul>
                         <li><a href="index.php">Home</a></li>
-                        <li class="active">Services</li>
+                        <li class="active">Shop</li>
                     </ul>
                 </div>
             </div>
@@ -39,7 +53,7 @@
         <div class="shop-content_wrapper">
             <div class="container-fluid">
                 <div class="row">
-                   <!--  <div class="col-lg-3 col-md-5 order-2 order-lg-1 order-md-1">
+                    <div class="col-lg-3 col-md-5 order-2 order-lg-1 order-md-1">
                         <div class="uren-sidebar-catagories_area">
                             <div class="category-module uren-sidebar_categories">
                                 <div class="category-module_heading">
@@ -47,22 +61,32 @@
                                 </div>
                                 <div class="module-body">
                                     <ul class="module-list_item">
+                                        <?php 
+                                        $sqlCategory = ' SELECT `id`, `category`, `date_created` FROM `tbl_category` ORDER BY category ASC ';
+                                        $execCat = $conn->query($sqlCategory);
+                                        while ($rowCat = $execCat->fetch_assoc()) { 
+                                            $sqlCountCat = ' SELECT COUNT(id) AS ttlCat FROM tbl_product WHERE category = "'.$rowCat['category'].'" AND type = "service" ';
+                                            $execSqlCountCat = $conn->query($sqlCountCat);
+                                            $rowCountCat = $execSqlCountCat->fetch_assoc();
+                                        ?>
                                         <li>
-                                            <a href="javascript:void(0)">Sample Category <span>(7)</span></a>
+                                            <a href="shop.php?keyword=<?php echo $rowCat['category']; ?>"><?php echo $rowCat['category']; ?> <span>(<?php echo $rowCountCat['ttlCat']; ?>)</span></a>
                                         </li>
+
+                                        <?php } ?>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                        <div class="sidebar-banner_area">
+                      <!--   <div class="sidebar-banner_area">
                             <div class="banner-item img-hover_effect">
                                 <a href="javascript:void(0)">
                                     <img src="images/s3.jpg" alt="Uren's Shop Banner Image">
                                 </a>
                             </div>
-                        </div>
-                    </div> -->
-                    <div class="col-lg-12 col-md-7 order-1 order-lg-2 order-md-2">
+                        </div> -->
+                    </div>
+                    <div class="col-lg-9 col-md-7 order-1 order-lg-2 order-md-2">
                         <div class="shop-toolbar">
                             <div class="product-view-mode">
                                 <a class="grid-1" data-target="gridview-1" data-toggle="tooltip" data-placement="top" title="1">1</a>
@@ -70,7 +94,7 @@
                                 <a class="active grid-3" data-target="gridview-3" data-toggle="tooltip" data-placement="top" title="3">3</a>
                                 <a class="grid-4" data-target="gridview-4" data-toggle="tooltip" data-placement="top" title="4">4</a>
                                 <a class="grid-5" data-target="gridview-5" data-toggle="tooltip" data-placement="top" title="5">5</a>
-                                <a class="list" data-target="listview" data-toggle="tooltip" data-placement="top" title="List"><i class="fa fa-th-list"></i></a>
+                                <!-- <a class="list" data-target="listview" data-toggle="tooltip" data-placement="top" title="List"><i class="fa fa-th-list"></i></a> -->
                             </div>
                             <div class="product-item-selection_area">
                                 <div class="product-short">
@@ -81,13 +105,9 @@
                                         <option value="3">Name, Z to A</option>
                                         <option value="4">Price, low to high</option>
                                         <option value="5">Price, high to low</option>
-                                        <option value="5">Rating (Highest)</option>
-                                        <option value="5">Rating (Lowest)</option>
-                                        <option value="5">Model (A - Z)</option>
-                                        <option value="5">Model (Z - A)</option>
                                     </select>
                                 </div>
-                              <!--   <div class="product-showing">
+                                <!-- <div class="product-showing">
                                     <label class="select-label">Show:</label>
                                     <select class="myniceselect short-select nice-select">
                                         <option value="1">15</option>
@@ -99,30 +119,30 @@
                                 </div> -->
                             </div>
                         </div>
+
                         <div class="shop-product-wrap grid gridview-3 img-hover-effect_area row">
                             <?php 
-                            while ($rowService = $execServices->fetch_assoc()) { 
-                                
+                            while ($rowProduct = $execProduct->fetch_assoc()) { 
+                                $sqlProdImg = ' SELECT `id`, `product_id`, `image` FROM `tbl_product_image` WHERE product_id = '.$rowProduct['id'].' LIMIT 1 ';
+                                $execProdImg = $conn->query($sqlProdImg);
+                                $rowProdImg = $execProdImg->fetch_assoc();
                                 ?>
                                 <div class="col-lg-4">
                                     <div class="product-slide_item">
                                         <div class="inner-slide">
                                             <div class="single-product">
                                                 <div class="product-img">
-                                                    <a href="javascript:void(0)">
-                                                        <img class="primary-img" src="images/services/<?php echo $rowService['service_image']; ?>" alt="Uren's Product Image">
-                                                        <img class="secondary-img" src="images/services/<?php echo $rowService['service_image']; ?>" alt="Uren's Product Image">
+                                                    <a href="view_service.php?id=<?php echo $rowProduct['id']; ?>">
+                                                        <img class="primary-img" src="images/products/<?php echo $rowProdImg['image']; ?>" alt="Uren's Product Image" height="220">
+                                                        <img class="secondary-img" src="images/products/<?php echo $rowProdImg['image']; ?>" alt="Uren's Product Image" height="220">
                                                     </a>
-                                                    <!-- <div class="sticker">
+                                                    <div class="sticker">
                                                         <span class="sticker">New</span>
-                                                    </div> -->
+                                                    </div>
                                                     <div class="add-actions">
-                                                <!--         <ul>
-                                                            <li><a class="uren-add_cart" href="cart.html" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i
-                                                                class="ion-bag"></i></a>
-                                                            </li>
-                                                            <li class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><a href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="Quick View"><i class="ion-android-open"></i></a></li>
-                                                        </ul> -->
+                                                        <ul>
+                                                            <li class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><a href="view_service.php?id=<?php echo $rowProduct['id']; ?>" data-toggle="tooltip" data-placement="top" title="Quick View"><i class="ion-android-open"></i></a></li>
+                                                        </ul>
                                                     </div>
                                                 </div>
                                                 <div class="product-content">
@@ -130,73 +150,38 @@
                                                         <div class="rating-box">
                                                            
                                                         </div>
-                                                        <h6><a class="product-name" href="#"><?php echo $rowService['title']; ?></a></h6>
+                                                        <h6><a class="product-name" href="single-product.html"><?php echo $rowProduct['name']; ?></a></h6>
                                                         <div class="price-box">
-                                                            <span class="new-price">₱<?php echo number_format($rowService['service_price']); ?></span>
+                                                              <?php 
+                                                                $sqlTotalOption = ' SELECT `id`, `product_id`, `option_name`, `price` FROM `tbl_item_options` WHERE product_id = '.$rowProduct['id'];
+                                                                $execTotalOption = $conn->query($sqlTotalOption);
+                                                                $rowTotalOption = $execTotalOption->fetch_assoc();
+                                                                if ($execTotalOption->num_rows > 1 )
+                                                                {
+                                                                    $sqlSelectOptPrice = ' SELECT MIN(price) as minPrice, MAX(price) as maxPrice FROM `tbl_item_options` WHERE product_id = '.$rowProduct['id'];
+                                                                    $execSelectOptPrice = $conn->query($sqlSelectOptPrice);
+                                                                    $rowSelectOptPrice = $execSelectOptPrice->fetch_assoc();
+
+                                                                    // $sqlSelectMaxOpt = ' SELECT MAX(price) as maxPrice FROM `tbl_item_options` WHERE product_id = '.$_GET['id'];
+                                                                    // $execSelectMaxOpt = $conn->query($sqlSelectMaxOpt);
+                                                                    // $rowSelectMaxOpt = $execSelectMaxOpt->fetch_assoc();
+
+                                                                    echo '<span class="new-price">₱'.$rowSelectOptPrice['minPrice'].' - ₱'.$rowSelectOptPrice['maxPrice'].'</span>';
+                                                                }
+                                                                else
+                                                                {
+                                                                    echo '<span class="new-price">P'.$rowTotalOption['price'].'</span>';
+                                                                }
+                                                                ?>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- <div class="list-slide_item">
-                                        <div class="single-product">
-                                            <div class="product-img">
-                                                <a href="single-product.html">
-                                                    <img class="primary-img" src="assets/images/product/large-size/1.jpg" alt="Uren's Product Image">
-                                                    <img class="secondary-img" src="assets/images/product/large-size/2.jpg" alt="Uren's Product Image">
-                                                </a>
-                                            </div>
-                                            <div class="product-content">
-                                                <div class="product-desc_info">
-                                                    <div class="rating-box">
-                                                        <ul>
-                                                            <li><i class="ion-android-star"></i></li>
-                                                            <li><i class="ion-android-star"></i></li>
-                                                            <li><i class="ion-android-star"></i></li>
-                                                            <li class="silver-color"><i class="ion-android-star"></i>
-                                                            </li>
-                                                            <li class="silver-color"><i class="ion-android-star"></i>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                    <h6><a class="product-name" href="single-product.html">Veniam officiis
-                                                            voluptates</a></h6>
-                                                    <div class="price-box">
-                                                        <span class="new-price">$122.00</span>
-                                                    </div>
-                                                    <div class="product-short_desc">
-                                                        <p>The invention relates to an electromechanical brake booster with an
-                                                            electric motor and a helical gearing. The brake booster is used for
-                                                            coupling an auxiliary force via a driver into a piston rod. The
-                                                            invention proposes connecting a spindle of the helical gearing
-                                                            elastically via a spring element to the piston rod such that, in the
-                                                            event of rapid actuation of the brake, the helical gearing and a rotor
-                                                            of the electric motor do not have to be accelerated entirely muscle
-                                                            power. The muscle power required for actuating a brake is reduced as a
-                                                            result in the event of a rapid actuation of the brake.</p>
-                                                    </div>
-                                                </div>
-                                                <div class="add-actions">
-                                                    <ul>
-                                                        <li><a class="uren-add_cart" href="cart.html" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="ion-bag"></i></a>
-                                                        </li>
-                                                        <li><a class="uren-wishlist" href="wishlist.html" data-toggle="tooltip" data-placement="top" title="Add To Wishlist"><i
-                                                            class="ion-android-favorite-outline"></i></a>
-                                                        </li>
-                                                        <li><a class="uren-add_compare" href="compare.html" data-toggle="tooltip" data-placement="top" title="Compare This Product"><i
-                                                            class="ion-android-options"></i></a>
-                                                        </li>
-                                                        <li class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><a href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="Quick View"><i
-                                                            class="ion-android-open"></i></a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> -->
                                 </div>
                             <?php } ?>
+
                         </div>
                     <!--     <div class="row">
                             <div class="col-lg-12">

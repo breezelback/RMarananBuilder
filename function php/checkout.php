@@ -79,10 +79,16 @@ else if ($mop == "bank_confirm") {
 		$_SESSION['toastr']['message'] = 'Order Successfully Completed. You may track the status on your profile.';
 		$_SESSION['toastr']['color'] = 'green';
 
-		header('location: ../checkout_bank.php');
+		// header('location: ../checkout_bank.php');
+		header('location: ../profile.php');
     }
 
 } 
+else if($mop = "Paypal")
+{
+ 	// header('location: https://www.sandbox.paypal.com/ncp/payment/YHXN87NRBFVP6');
+	header('location: ../checkout_paypal.php');
+}
 else
 {
  	$insertTransaction = ' INSERT INTO `tbl_transaction`(`transaction_id`, `user_id`, `address_id`, `total`, `mode_of_payment`, `status`, `date_created`) VALUES ("'.$transaction_id.'", '.$user_id.', '.$address_id.', '.$total.', "'.$mop.'", "Pending", NOW()) ';

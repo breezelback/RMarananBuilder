@@ -141,7 +141,7 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
                         <div class="copyright">
-                            <span><a href="about.php">R. Maranan's Builder</a> &copy; 2023</span>
+                            <span><a href="about.php">R. Maranan's Builder</a> &copy; <script>document.write(/\d{4}/.exec(Date())[0])</script></span>
                         </div>
 
                     </div>

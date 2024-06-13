@@ -54,23 +54,23 @@ $execAddress = $conn->query($sqlAddress);
 
                         <div class="row">
                             <div class="col-md-2">
-                                <h6>Transaction Code</h6>
+                                <h6 style="color: darkgrey;">Transaction Code</h6>
                                 <h5 style="color: red;"><?php echo $transaction['transaction_id']; ?></h5>
                             </div>
                             <div class="col-md-3">
-                                <h6>Mode of Payment</h6>
+                                <h6 style="color: darkgrey;">Mode of Payment</h6>
                                 <h5><?php echo $transaction['mode_of_payment']; ?></h5>
                             </div>
                             <div class="col-md-2">
-                                <h6>Status</h6>
+                                <h6 style="color: darkgrey;">Status</h6>
                                 <h5><?php echo $transaction['status']; ?></h5>
                             </div>
                             <div class="col-md-2">
-                                <h6>Date</h6>
+                                <h6 style="color: darkgrey;">Date</h6>
                                 <h5><?php echo $transaction['date_created']; ?></h5>
                             </div>
                             <div class="col-md-3">
-                                <h6>Shipping Address</h6>
+                                <h6 style="color: darkgrey;">Shipping Address</h6>
                         
                                 <?php $address = $execAddress->fetch_assoc();
                                     $selectProvince = ' SELECT provDesc FROM refprovince WHERE provCode = "'.$address['province'].'" ';
