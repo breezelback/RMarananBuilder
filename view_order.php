@@ -60,6 +60,9 @@ $execAddress = $conn->query($sqlAddress);
                             <div class="col-md-3">
                                 <h6 style="color: darkgrey;">Mode of Payment</h6>
                                 <h5><?php echo $transaction['mode_of_payment']; ?></h5>
+                                <?php if ($transaction['mode_of_payment'] == "Bank Transfer"){ ?>
+                                    <a class="btn btn-primary btn-sm" href="images/proof/<?php echo $transaction['proof_of_payment']; ?>" target="_blank">View Payment Receipt</a>
+                                <?php } ?>
                             </div>
                             <div class="col-md-2">
                                 <h6 style="color: darkgrey;">Status</h6>
@@ -151,8 +154,9 @@ $execAddress = $conn->query($sqlAddress);
                                     <div class="cart-page-total">
                                         <!-- <h2>Total Price</h2> -->
                                         <ul>
-                                            <!-- <li>Subtotal <span>₱<?php echo $rowCart['total_cart_item_price']; ?></span></li> -->
-                                            <li>Total Price<span style="font-size: 20px; color: red; font-weight: bolder;">₱<?php echo number_format($total_cart_item_price, 2); ?></span></li>
+                                            <li>Subtotal <span>₱<?php echo number_format($total_cart_item_price, 2); ?></span></li>
+                                            <li>Delivery Charge <span>₱200.00</span></li>
+                                            <li>Total Price<span style="font-size: 20px; color: red; font-weight: bolder;">₱<?php echo number_format($total_cart_item_price + 200, 2); ?></span></li>
                                         </ul>
                                         <a href="profile.php">Back</a>
                                     </div>

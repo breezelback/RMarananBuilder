@@ -92,8 +92,15 @@ $transaction = $execTransaction->fetch_assoc();
                         <h5 class="text-danger"><b><?php echo $transaction['mode_of_payment']; ?></b></h5>
                       </div>
                       <div class="col-md-2">
+                        <center>
                         Proof of Payment
-                        <h5 class="text-danger"><b><?php echo $transaction['proof_of_payment']; ?></b></h5>
+                        <h5 class="text-danger">
+                          <b>
+                            <!-- <?php echo $transaction['proof_of_payment']; ?> -->
+                            <a class="btn btn-primary btn-sm" href="../images/proof/<?php echo $transaction['proof_of_payment']; ?>" target="_blank">View Proof <i class="fa fa-link"></i></a>
+                          </b>
+                        </h5>
+                        </center>
                       </div>
                       <div class="col-md-2">
                         Status

@@ -23,16 +23,7 @@ $total = $_POST['total'];
 $mop = $_POST['mop'];
 
 
-$getCart = ' SELECT `id`, `user_id`, `product_id`, `quantity`, `price`, `status`, `date_created`, `transaction_id` FROM `tbl_cart` WHERE user_id = '.$user_id;
-$execGetCart = $conn->query($getCart);
-while ($rowCart = $execGetCart->fetch_assoc()) 
-{
-	$sqlInsertTransaction = ' INSERT INTO `transaction_item`(`user_id`, `product_id`, `quantity`, `price`, `status`, `date_created`, `transaction_id`) VALUES ( '.$user_id.', '.$rowCart['product_id'].', '.$rowCart['quantity'].', '.$rowCart['price'].', "Pending", NOW(),"'.$transaction_id.'" ) ';
-	$execSqlInsertTransaction = $conn->query($sqlInsertTransaction);
-}
 
-$sqlDel = ' DELETE FROM tbl_cart WHERE user_id = '.$user_id;
-$conn->query($sqlDel);
 
 
 if ($mop == "Cash on Delivery") {
@@ -42,6 +33,19 @@ if ($mop == "Cash on Delivery") {
 	$_SESSION['toastr']['title'] = 'Looking Good!';
 	$_SESSION['toastr']['message'] = 'Order Successfully Completed. You may track the status on your profile.';
 	$_SESSION['toastr']['color'] = 'green';
+
+	//-----------------------------
+	$getCart = ' SELECT `id`, `user_id`, `product_id`, `quantity`, `price`, `status`, `date_created`, `transaction_id` FROM `tbl_cart` WHERE user_id = '.$user_id;
+	$execGetCart = $conn->query($getCart);
+	while ($rowCart = $execGetCart->fetch_assoc()) 
+	{
+		$sqlInsertTransaction = ' INSERT INTO `transaction_item`(`user_id`, `product_id`, `quantity`, `price`, `status`, `date_created`, `transaction_id`) VALUES ( '.$user_id.', '.$rowCart['product_id'].', '.$rowCart['quantity'].', '.$rowCart['price'].', "Pending", NOW(),"'.$transaction_id.'" ) ';
+		$execSqlInsertTransaction = $conn->query($sqlInsertTransaction);
+	}
+
+	$sqlDel = ' DELETE FROM tbl_cart WHERE user_id = '.$user_id;
+	$conn->query($sqlDel);
+	//-----------------------------
 	header('location: ../profile.php');
 } 
 else if ($mop == "Bank Transfer") {
@@ -49,6 +53,19 @@ else if ($mop == "Bank Transfer") {
 	header('location: ../checkout_bank.php');
 } 
 else if ($mop == "bank_confirm") {
+
+	//-----------------------------
+	$getCart = ' SELECT `id`, `user_id`, `product_id`, `quantity`, `price`, `status`, `date_created`, `transaction_id` FROM `tbl_cart` WHERE user_id = '.$user_id;
+	$execGetCart = $conn->query($getCart);
+	while ($rowCart = $execGetCart->fetch_assoc()) 
+	{
+		$sqlInsertTransaction = ' INSERT INTO `transaction_item`(`user_id`, `product_id`, `quantity`, `price`, `status`, `date_created`, `transaction_id`) VALUES ( '.$user_id.', '.$rowCart['product_id'].', '.$rowCart['quantity'].', '.$rowCart['price'].', "Pending", NOW(),"'.$transaction_id.'" ) ';
+		$execSqlInsertTransaction = $conn->query($sqlInsertTransaction);
+	}
+
+	$sqlDel = ' DELETE FROM tbl_cart WHERE user_id = '.$user_id;
+	$conn->query($sqlDel);
+	//-----------------------------
 	$target_dir = "../images/proof/";
 	// $proof_of_payment = $_POST['proof_of_payment'];
 
