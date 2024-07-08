@@ -217,90 +217,78 @@
                         <div class="sp-product-tab_nav">
                             <div class="product-tab">
                                 <ul class="nav product-menu">
-                                    <!-- <li><a class="active" data-toggle="tab" href="#description"><span>Description</span></a>
-                                    </li>
-                                    <li><a data-toggle="tab" href="#specification"><span>Specification</span></a></li> -->
-                                    <li><a data-toggle="tab" href="#reviews"><span>Reviews (1)</span></a></li>
+                                    <?php 
+                                    $sqlCount = ' SELECT COUNT(id) as totalReview FROM tbl_review WHERE item_id = '.$_GET['id'];
+                                    $execCount = $conn->query($sqlCount);
+                                    $resCount = $execCount->fetch_assoc();
+                                     ?>
+                                    <li><a data-toggle="tab" href="#reviews"><span>Reviews (<?php echo $resCount['totalReview']; ?>)</span></a></li>
                                 </ul>
                             </div>
                             <div class="tab-content uren-tab_content">
-                               <!--  <div id="description" class="tab-pane active show" role="tabpanel">
-                                    <div class="product-description">
-                                        <ul>
-                                            <li>
-                                                <strong>Ullam aliquam</strong>
-                                                <span>Voluptatum, minus? Optio molestias voluptates aspernatur laborum ratione minima, natus eaque nemo rem quisquam, suscipit architecto saepe. Debitis omnis labore laborum consectetur, quas, esse voluptates minus aliquam modi nesciunt earum! Vero rerum molestiae corporis libero repellat doloremque quae sapiente ratione maiores qui aliquam, sunt obcaecati! Iure nisi doloremque numquam delectus.</span>
-                                            </li>
-                                            <li>
-                                                <strong>Enim tempore</strong>
-                                                <span>Molestias amet quibusdam eligendi exercitationem alias labore tenetur quaerat veniam similique aspernatur eveniet, suscipit corrupti itaque dolore deleniti nobis, rerum reprehenderit recusandae. Eligendi beatae asperiores nisi distinctio doloribus voluptatibus voluptas repellendus tempore unde velit temporibus atque maiores aliquid deserunt aspernatur amet, soluta fugit magni saepe fugiat vel sunt voluptate vitae</span>
-                                            </li>
-                                            <li>
-                                                <strong>Laudantium suscipit</strong>
-                                                <span>Odit repudiandae maxime, ducimus necessitatibus error fugiat nihil eum dolorem animi voluptates sunt, rem quod reprehenderit expedita, nostrum sit accusantium ut delectus. Voluptates at ipsam, eligendi labore dignissimos consectetur reprehenderit id error excepturi illo velit ratione nisi nam saepe quod! Reiciendis eos, velit fugiat voluptates accusamus nesciunt dicta ratione mollitia, asperiores error aliquam! Reprehenderit provident, omnis blanditiis fugit, accusamus deserunt illum unde, voluptatum consequuntur illo officiis labore doloremque quidem aperiam! Fuga, expedita? Laboriosam eum, tempore vitae libero voluptate omnis ducimus doloremque hic quibusdam reiciendis ab itaque aperiam maiores laudantium esse, consequuntur quos labore modi quasi recusandae distinctio iusto optio officia tempora.</span>
-                                            </li>
-                                            <li>
-                                                <strong>Molestiae veritatis officia</strong>
-                                                <span>Illum fuga esse tenetur inventore, in voluptatibus saepe iste quia cupiditate, explicabo blanditiis accusantium ut. Eaque nostrum, quisquam doloribus asperiores tempore autem. Ea perspiciatis vitae reiciendis maxime similique vel, id ratione blanditiis ullam officiis odio sunt nam quos atque accusantium ad! Repellendus, magni aliquid. Iure asperiores veniam eum unde dignissimos reprehenderit ut atque velit, harum labore nam expedita, pariatur excepturi consectetur animi optio mollitia ad a natus eaque aut assumenda inventore dolor obcaecati! Enim ab tempore nulla iusto consequuntur quod sit voluptatibus adipisci earum fuga, explicabo amet, provident, molestiae optio. Ducimus ex necessitatibus assumenda, nisi excepturi ut aspernatur est eius dignissimos pariatur unde ipsum sunt quaerat.</span>
-                                            </li>
-
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div id="specification" class="tab-pane" role="tabpanel">
-                                    <table class="table table-bordered specification-inner_stuff">
-                                        <tbody>
-                                            <tr>
-                                                <td colspan="2"><strong>Memory</strong></td>
-                                            </tr>
-                                        </tbody>
-                                        <tbody>
-                                            <tr>
-                                                <td>test 1</td>
-                                                <td>8gb</td>
-                                            </tr>
-                                        </tbody>
-                                        <tbody>
-                                            <tr>
-                                                <td colspan="2"><strong>Processor</strong></td>
-                                            </tr>
-                                        </tbody>
-                                        <tbody>
-                                            <tr>
-                                                <td>No. of Cores</td>
-                                                <td>1</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div> -->
                                 <div id="reviews" class="tab-pane" role="tabpanel">
                                     <div class="tab-pane active" id="tab-review">
                                         <form class="form-horizontal" id="form-review">
                                             <div id="review">
                                                 <table class="table table-striped table-bordered">
                                                     <tbody>
+                                                        <?php 
+                                                        $sqlReview = ' 
+                                                        SELECT 
+                                                            r.review AS review,
+                                                            DATE_FORMAT(r.date_created, "%M %d, %Y") AS date_created,
+                                                            r.reviewStar AS star,
+                                                            u.firstname as firstname,
+                                                            u.lastname as lastname
+
+                                                        FROM tbl_review r
+                                                        LEFT JOIN tbl_user u on u.id = r.user_id
+                                                        WHERE r.item_id = '.$_GET['id']
+                                                        ;
+                                                        $execReview = $conn->query($sqlReview);
+                                                         while($review = $execReview->fetch_assoc()){
+                                                         ?>
                                                         <tr>
-                                                            <td style="width: 50%;"><strong>Customer</strong></td>
-                                                            <td class="text-right">15/09/20</td>
+                                                            <td style="width: 50%;"><strong><?php echo $review['lastname'].' '.$review['firstname']; ?></strong></td>
+                                                            <td class="text-right"><?php echo $review['date_created']; ?></td>
                                                         </tr>
                                                         <tr>
                                                             <td colspan="2">
-                                                                <p>Good product! Thank you very much</p>
+                                                                <p><?php echo $review['review']; ?></p>
                                                                 <div class="rating-box">
                                                                     <ul>
+                                                                        <p>
+                                                                        <?php if ($review['star'] == 1): ?>
+                                                                            <li><i class="ion-android-star"></i></li>
+                                                                        <?php elseif ($review['star'] == 2): ?>
+                                                                            <li><i class="ion-android-star"></i></li>
                                                                         <li><i class="ion-android-star"></i></li>
-                                                                        <li><i class="ion-android-star"></i></li>
-                                                                        <li><i class="ion-android-star"></i></li>
-                                                                        <li><i class="ion-android-star"></i></li>
-                                                                        <li><i class="ion-android-star"></i></li>
+                                                                        <?php elseif ($review['star'] == 3): ?>
+                                                                            <li><i class="ion-android-star"></i></li>
+                                                                            <li><i class="ion-android-star"></i></li>
+                                                                            <li><i class="ion-android-star"></i></li>
+                                                                        <?php elseif ($review['star'] == 4): ?>
+                                                                            <li><i class="ion-android-star"></i></li>
+                                                                            <li><i class="ion-android-star"></i></li>
+                                                                            <li><i class="ion-android-star"></i></li>
+                                                                            <li><i class="ion-android-star"></i></li>
+                                                                        <?php elseif ($review['star'] == 5): ?>
+                                                                            <li><i class="ion-android-star"></i></li>
+                                                                            <li><i class="ion-android-star"></i></li>
+                                                                            <li><i class="ion-android-star"></i></li>
+                                                                            <li><i class="ion-android-star"></i></li>
+                                                                            <li><i class="ion-android-star"></i></li>
+                                                                        </p>
+                                                                        <?php endif ?>
                                                                     </ul>
                                                                 </div>
                                                             </td>
                                                         </tr>
+                                                        <?php } ?>
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            <h2>Write a review</h2>
+                                            <!-- <h2>Write a review</h2>
                                             <div class="form-group required">
                                                 <div class="col-sm-12 p-0">
                                                     <label>Your Email <span class="required">*</span></label>
@@ -333,7 +321,7 @@
                                                 <div class="uren-btn-ps_right">
                                                     <button class="uren-btn-2">Continue</button>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                         </form>
                                     </div>
                                 </div>
@@ -365,7 +353,7 @@
                                                 {"breakpoint":480, "settings": {"slidesToShow": 1}}
                                             ]'>
                             <?php 
-                            $sqlRelatedProd = ' SELECT `id`, `name`, `details`, `quantity`, `status`, `date_created`, `category` FROM `tbl_product` WHERE category = "'.$product['category'].'" ';
+                            $sqlRelatedProd = ' SELECT `id`, `name`, `details`, `quantity`, `status`, `date_created`, `category` FROM `tbl_product` WHERE type = "product" AND  category = "'.$product['category'].'" AND id != '.$product['id'];
                             $execRelatedProduct = $conn->query($sqlRelatedProd);
                             if ($execRelatedProduct->num_rows > 0) {
                                 while ($rowRelatedProduct = $execRelatedProduct->fetch_assoc()) { ?>
@@ -373,17 +361,25 @@
                                         <div class="inner-slide">
                                             <div class="single-product">
                                                 <div class="product-img">
-                                                    <a href="single-product.html">
-                                                        <img class="primary-img" src="assets/images/product/medium-size/1-1.jpg" alt="Uren's Product Image">
-                                                        <img class="secondary-img" src="assets/images/product/medium-size/1-2.jpg" alt="Uren's Product Image">
+                                                    <a href="view_product.php?id=<?php echo $rowRelatedProduct['id']; ?>">
+                                                        <!-- <img class="primary-img" src="assets/images/product/medium-size/1-1.jpg" alt="Uren's Product Image">
+                                                        <img class="secondary-img" src="assets/images/product/medium-size/1-2.jpg" alt="Uren's Product Image"> -->
+                                                        <?php 
+                                                            $sqlImage = ' SELECT `id`, `product_id`, `image` FROM `tbl_product_image` WHERE product_id = '.$rowRelatedProduct['id'];
+                                                            $execImage1 = $conn->query($sqlImage);
+                                                            $rowImg1 = $execImage1->fetch_assoc(); ?>
+                                                        
+                                                                    <img class="primary-img" src="images/products/<?php echo $rowImg1['image']; ?>" alt="Uren's Product Thumnail">
+                                                                
                                                     </a>
+
                                                     <div class="sticker">
-                                                        <span class="sticker">New</span>
+                                                        <span class="sticker"><?php echo $product['category']; ?></span>
                                                     </div>
                                                 </div>
                                                 <div class="product-content">
                                                     <div class="product-desc_info">
-                                                        <div class="rating-box">
+                                                        <!-- <div class="rating-box">
                                                             <ul>
                                                                 <li><i class="ion-android-star"></i></li>
                                                                 <li><i class="ion-android-star"></i></li>
@@ -391,10 +387,30 @@
                                                                 <li class="silver-color"><i class="ion-android-star"></i></li>
                                                                 <li class="silver-color"><i class="ion-android-star"></i></li>
                                                             </ul>
-                                                        </div>
+                                                        </div> -->
                                                         <h6><a class="product-name" href="single-product.html"><?php echo $rowRelatedProduct['name']; ?></a></h6>
                                                         <div class="price-box">
-                                                            <span class="new-price">$122.00</span>
+                                                            <?php 
+                                                                $sqlTotalOption = ' SELECT `id`, `product_id`, `option_name`, `price` FROM `tbl_item_options` WHERE product_id = '.$rowRelatedProduct['id'];
+                                                                $execTotalOption = $conn->query($sqlTotalOption);
+                                                                $rowTotalOption = $execTotalOption->fetch_assoc();
+                                                                if ($execTotalOption->num_rows > 1 )
+                                                                {
+                                                                    $sqlSelectOptPrice = ' SELECT MIN(price) as minPrice, MAX(price) as maxPrice FROM `tbl_item_options` WHERE product_id = '.$rowRelatedProduct['id'];
+                                                                    $execSelectOptPrice = $conn->query($sqlSelectOptPrice);
+                                                                    $rowSelectOptPrice = $execSelectOptPrice->fetch_assoc();
+
+                                                                    // $sqlSelectMaxOpt = ' SELECT MAX(price) as maxPrice FROM `tbl_item_options` WHERE product_id = '.$_GET['id'];
+                                                                    // $execSelectMaxOpt = $conn->query($sqlSelectMaxOpt);
+                                                                    // $rowSelectMaxOpt = $execSelectMaxOpt->fetch_assoc();
+
+                                                                    echo '<span class="new-price">₱'.$rowSelectOptPrice['minPrice'].' - ₱'.$rowSelectOptPrice['maxPrice'].'</span>';
+                                                                }
+                                                                else
+                                                                {
+                                                                    echo '<span class="new-price">P'.$rowTotalOption['price'].'</span>';
+                                                                }
+                                                                ?>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -403,319 +419,6 @@
                                     </div>
                             <?php } } ?>
                       
-                            <!-- <div class="product-slide_item">
-                                <div class="inner-slide">
-                                    <div class="single-product">
-                                        <div class="product-img">
-                                            <a href="single-product.html">
-                                                <img class="primary-img" src="assets/images/product/medium-size/2-1.jpg" alt="Uren's Product Image">
-                                                <img class="secondary-img" src="assets/images/product/medium-size/2-2.jpg" alt="Uren's Product Image">
-                                            </a>
-                                            <div class="sticker-area-2">
-                                                <span class="sticker-2">-20%</span>
-                                                <span class="sticker">New</span>
-                                            </div>
-                                            <div class="add-actions">
-                                                <ul>
-                                                    <li><a class="uren-add_cart" href="cart.html" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="ion-bag"></i></a>
-                                                    </li>
-                                                    <li><a class="uren-wishlist" href="wishlist.html" data-toggle="tooltip" data-placement="top" title="Add To Wishlist"><i class="ion-android-favorite-outline"></i></a>
-                                                    </li>
-                                                    <li><a class="uren-add_compare" href="compare.html" data-toggle="tooltip" data-placement="top" title="Compare This Product"><i
-                                                            class="ion-android-options"></i></a>
-                                                    </li>
-                                                    <li class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><a href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="Quick View"><i
-                                                            class="ion-android-open"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="product-content">
-                                            <div class="product-desc_info">
-                                                <div class="rating-box">
-                                                    <ul>
-                                                        <li><i class="ion-android-star"></i></li>
-                                                        <li><i class="ion-android-star"></i></li>
-                                                        <li><i class="ion-android-star"></i></li>
-                                                        <li class="silver-color"><i class="ion-android-star"></i></li>
-                                                        <li class="silver-color"><i class="ion-android-star"></i></li>
-                                                    </ul>
-                                                </div>
-                                                <h6><a class="product-name" href="single-product.html">Corporis sed excepturi</a></h6>
-                                                <div class="price-box">
-                                                    <span class="new-price new-price-2">$194.00</span>
-                                                    <span class="old-price">$241.00</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-slide_item">
-                                <div class="inner-slide">
-                                    <div class="single-product">
-                                        <div class="product-img">
-                                            <a href="single-product.html">
-                                                <img class="primary-img" src="assets/images/product/medium-size/3-1.jpg" alt="Uren's Product Image">
-                                                <img class="secondary-img" src="assets/images/product/medium-size/3-2.jpg" alt="Uren's Product Image">
-                                            </a>
-                                            <span class="sticker">New</span>
-                                            <div class="add-actions">
-                                                <ul>
-                                                    <li><a class="uren-add_cart" href="cart.html" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="ion-bag"></i></a>
-                                                    </li>
-                                                    <li><a class="uren-wishlist" href="wishlist.html" data-toggle="tooltip" data-placement="top" title="Add To Wishlist"><i class="ion-android-favorite-outline"></i></a>
-                                                    </li>
-                                                    <li><a class="uren-add_compare" href="compare.html" data-toggle="tooltip" data-placement="top" title="Compare This Product"><i
-                                                            class="ion-android-options"></i></a>
-                                                    </li>
-                                                    <li class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><a href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="Quick View"><i
-                                                            class="ion-android-open"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="product-content">
-                                            <div class="product-desc_info">
-                                                <div class="rating-box">
-                                                    <ul>
-                                                        <li><i class="ion-android-star"></i></li>
-                                                        <li><i class="ion-android-star"></i></li>
-                                                        <li><i class="ion-android-star"></i></li>
-                                                        <li><i class="ion-android-star"></i></li>
-                                                        <li class="silver-color"><i class="ion-android-star"></i></li>
-                                                    </ul>
-                                                </div>
-                                                <h6><a class="product-name" href="single-product.html">Quidem iusto sapiente</a></h6>
-                                                <div class="price-box">
-                                                    <span class="new-price">$175.00</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-slide_item">
-                                <div class="inner-slide">
-                                    <div class="single-product">
-                                        <div class="product-img">
-                                            <a href="single-product.html">
-                                                <img class="primary-img" src="assets/images/product/medium-size/4-1.jpg" alt="Uren's Product Image">
-                                                <img class="secondary-img" src="assets/images/product/medium-size/4-2.jpg" alt="Uren's Product Image">
-                                            </a>
-                                            <div class="sticker-area-2">
-                                                <span class="sticker-2">-5%</span>
-                                                <span class="sticker">New</span>
-                                            </div>
-                                            <div class="add-actions">
-                                                <ul>
-                                                    <li><a class="uren-add_cart" href="cart.html" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="ion-bag"></i></a>
-                                                    </li>
-                                                    <li><a class="uren-wishlist" href="wishlist.html" data-toggle="tooltip" data-placement="top" title="Add To Wishlist"><i class="ion-android-favorite-outline"></i></a>
-                                                    </li>
-                                                    <li><a class="uren-add_compare" href="compare.html" data-toggle="tooltip" data-placement="top" title="Compare This Product"><i
-                                                            class="ion-android-options"></i></a>
-                                                    </li>
-                                                    <li class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><a href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="Quick View"><i
-                                                            class="ion-android-open"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="product-content">
-                                            <div class="product-desc_info">
-                                                <div class="rating-box">
-                                                    <ul>
-                                                        <li><i class="ion-android-star"></i></li>
-                                                        <li><i class="ion-android-star"></i></li>
-                                                        <li><i class="ion-android-star"></i></li>
-                                                        <li class="silver-color"><i class="ion-android-star"></i></li>
-                                                        <li class="silver-color"><i class="ion-android-star"></i></li>
-                                                    </ul>
-                                                </div>
-                                                <h6><a class="product-name" href="single-product.html">Ullam excepturi nesciunt</a></h6>
-                                                <div class="price-box">
-                                                    <span class="new-price new-price-2">$145.00</span>
-                                                    <span class="old-price">$190.00</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-slide_item">
-                                <div class="inner-slide">
-                                    <div class="single-product">
-                                        <div class="product-img">
-                                            <a href="single-product.html">
-                                                <img class="primary-img" src="assets/images/product/medium-size/5-1.jpg" alt="Uren's Product Image">
-                                                <img class="secondary-img" src="assets/images/product/medium-size/5-2.jpg" alt="Uren's Product Image">
-                                            </a>
-                                            <span class="sticker">New</span>
-                                            <div class="add-actions">
-                                                <ul>
-                                                    <li><a class="uren-add_cart" href="cart.html" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="ion-bag"></i></a>
-                                                    </li>
-                                                    <li><a class="uren-wishlist" href="wishlist.html" data-toggle="tooltip" data-placement="top" title="Add To Wishlist"><i class="ion-android-favorite-outline"></i></a>
-                                                    </li>
-                                                    <li><a class="uren-add_compare" href="compare.html" data-toggle="tooltip" data-placement="top" title="Compare This Product"><i
-                                                            class="ion-android-options"></i></a>
-                                                    </li>
-                                                    <li class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><a href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="Quick View"><i
-                                                            class="ion-android-open"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="product-content">
-                                            <div class="product-desc_info">
-                                                <div class="rating-box">
-                                                    <ul>
-                                                        <li><i class="ion-android-star"></i></li>
-                                                        <li><i class="ion-android-star"></i></li>
-                                                        <li><i class="ion-android-star"></i></li>
-                                                        <li class="silver-color"><i class="ion-android-star"></i></li>
-                                                        <li class="silver-color"><i class="ion-android-star"></i></li>
-                                                    </ul>
-                                                </div>
-                                                <h6><a class="product-name" href="single-product.html">Minus ipsam rerum</a></h6>
-                                                <div class="price-box">
-                                                    <span class="new-price">$130.00</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-slide_item">
-                                <div class="inner-slide">
-                                    <div class="single-product">
-                                        <div class="product-img">
-                                            <a href="single-product.html">
-                                                <img class="primary-img" src="assets/images/product/medium-size/6-1.jpg" alt="Uren's Product Image">
-                                                <img class="secondary-img" src="assets/images/product/medium-size/6-2.jpg" alt="Uren's Product Image">
-                                            </a>
-                                            <div class="sticker-area-2">
-                                                <span class="sticker-2">-15%</span>
-                                                <span class="sticker">New</span>
-                                            </div>
-                                            <div class="add-actions">
-                                                <ul>
-                                                    <li><a class="uren-add_cart" href="cart.html" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="ion-bag"></i></a>
-                                                    </li>
-                                                    <li><a class="uren-wishlist" href="wishlist.html" data-toggle="tooltip" data-placement="top" title="Add To Wishlist"><i class="ion-android-favorite-outline"></i></a>
-                                                    </li>
-                                                    <li><a class="uren-add_compare" href="compare.html" data-toggle="tooltip" data-placement="top" title="Compare This Product"><i
-                                                            class="ion-android-options"></i></a>
-                                                    </li>
-                                                    <li class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><a href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="Quick View"><i
-                                                            class="ion-android-open"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="product-content">
-                                            <div class="product-desc_info">
-                                                <div class="rating-box">
-                                                    <ul>
-                                                        <li><i class="ion-android-star"></i></li>
-                                                        <li><i class="ion-android-star"></i></li>
-                                                        <li class="silver-color"><i class="ion-android-star"></i></li>
-                                                        <li class="silver-color"><i class="ion-android-star"></i></li>
-                                                        <li class="silver-color"><i class="ion-android-star"></i></li>
-                                                    </ul>
-                                                </div>
-                                                <h6><a class="product-name" href="single-product.html">Labore aliquid eos</a></h6>
-                                                <div class="price-box">
-                                                    <span class="new-price new-price-2">$240.00</span>
-                                                    <span class="old-price">$320.00</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-slide_item">
-                                <div class="inner-slide">
-                                    <div class="single-product">
-                                        <div class="product-img">
-                                            <a href="single-product.html">
-                                                <img class="primary-img" src="assets/images/product/medium-size/7-1.jpg" alt="Uren's Product Image">
-                                                <img class="secondary-img" src="assets/images/product/medium-size/7-2.jpg" alt="Uren's Product Image">
-                                            </a>
-                                            <span class="sticker">New</span>
-                                            <div class="add-actions">
-                                                <ul>
-                                                    <li><a class="uren-add_cart" href="cart.html" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="ion-bag"></i></a>
-                                                    </li>
-                                                    <li><a class="uren-wishlist" href="wishlist.html" data-toggle="tooltip" data-placement="top" title="Add To Wishlist"><i class="ion-android-favorite-outline"></i></a>
-                                                    </li>
-                                                    <li><a class="uren-add_compare" href="compare.html" data-toggle="tooltip" data-placement="top" title="Compare This Product"><i
-                                                            class="ion-android-options"></i></a>
-                                                    </li>
-                                                    <li class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><a href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="Quick View"><i
-                                                            class="ion-android-open"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="product-content">
-                                            <div class="product-desc_info">
-                                                <div class="rating-box">
-                                                    <ul>
-                                                        <li><i class="ion-android-star"></i></li>
-                                                        <li><i class="ion-android-star"></i></li>
-                                                        <li><i class="ion-android-star"></i></li>
-                                                        <li><i class="ion-android-star"></i></li>
-                                                        <li class="silver-color"><i class="ion-android-star"></i></li>
-                                                    </ul>
-                                                </div>
-                                                <h6><a class="product-name" href="single-product.html">Enim nobis numquam</a></h6>
-                                                <div class="price-box">
-                                                    <span class="new-price">$190.00</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-slide_item">
-                                <div class="inner-slide">
-                                    <div class="single-product">
-                                        <div class="product-img">
-                                            <a href="single-product.html">
-                                                <img class="primary-img" src="assets/images/product/medium-size/8-1.jpg" alt="Uren's Product Image">
-                                                <img class="secondary-img" src="assets/images/product/medium-size/1-2.jpg" alt="Uren's Product Image">
-                                            </a>
-                                            <span class="sticker">New</span>
-                                            <div class="add-actions">
-                                                <ul>
-                                                    <li><a class="uren-add_cart" href="cart.html" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="ion-bag"></i></a>
-                                                    </li>
-                                                    <li><a class="uren-wishlist" href="wishlist.html" data-toggle="tooltip" data-placement="top" title="Add To Wishlist"><i class="ion-android-favorite-outline"></i></a>
-                                                    </li>
-                                                    <li><a class="uren-add_compare" href="compare.html" data-toggle="tooltip" data-placement="top" title="Compare This Product"><i
-                                                            class="ion-android-options"></i></a>
-                                                    </li>
-                                                    <li class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><a href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="Quick View"><i
-                                                            class="ion-android-open"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="product-content">
-                                            <div class="product-desc_info">
-                                                <div class="rating-box">
-                                                    <ul>
-                                                        <li><i class="ion-android-star"></i></li>
-                                                        <li><i class="ion-android-star"></i></li>
-                                                        <li><i class="ion-android-star"></i></li>
-                                                        <li><i class="ion-android-star"></i></li>
-                                                        <li><i class="ion-android-star"></i></li>
-                                                    </ul>
-                                                </div>
-                                                <h6><a class="product-name" href="single-product.html">Dolorem voluptates aut</a></h6>
-                                                <div class="price-box">
-                                                    <span class="new-price">$250.00</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
                         </div>
                     </div>
                 </div>

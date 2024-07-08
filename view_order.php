@@ -105,6 +105,9 @@ $execAddress = $conn->query($sqlAddress);
                                             <th class="uren-product-price">Unit Price</th>
                                             <th class="uren-product-quantity">Quantity</th>
                                             <th class="uren-product-subtotal">Total</th>
+                                            <?php if ($transaction['status'] == "Completed"): ?>
+                                                <th>Write Review</th>
+                                            <?php endif ?>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -112,6 +115,7 @@ $execAddress = $conn->query($sqlAddress);
                                           $total_cart_item_price = 0;
                                             $getCartItem = ' SELECT 
                                               a.id as cart_item_id,  
+                                              a.product_id as product_id,
                                               a.quantity as cart_item_quantity,
                                               b.name as cart_item_name,
                                               c.option_name as cart_item_option,
@@ -129,7 +133,11 @@ $execAddress = $conn->query($sqlAddress);
                                            <td><center><?php echo $rowCartItem['cart_item_option']; ?></center></td>
                                            <td><center>P<?php echo number_format($rowCartItem['cart_item_price'], 2); ?></center></td>
                                            <td><center><?php echo $rowCartItem['cart_item_quantity']; ?></center></td>
-                                           <td><center><?php echo ($rowCartItem['cart_item_price'] * $rowCartItem['cart_item_quantity']); ?></center></td>
+                                           <td><center>P<?php echo number_format(($rowCartItem['cart_item_price'] * $rowCartItem['cart_item_quantity']), 2); ?></center></td>
+
+                                           <?php if ($transaction['status'] == "Completed"): ?>
+                                                <td><button onclick="writeReview(<?php echo $_GET['id']; ?>, <?php echo $rowCartItem['product_id']; ?>);" class="btn btn-warning text-white"><i class="fa fa-star"></i></button></td>
+                                            <?php endif ?>
                                         </tr>
                                         <?php $total_cart_item_price = $total_cart_item_price + ($rowCartItem['cart_item_quantity'] * $rowCartItem['cart_item_price']);  ?>
                                        <?php } ?>
@@ -169,11 +177,57 @@ $execAddress = $conn->query($sqlAddress);
         </div>
         <!-- Uren's Cart Area End Here -->
 
+        <!-- Modal -->
+        <form action="function php/write_review.php" method="POST">
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Write Review</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <input type="hidden" id="transaction_id" name="transaction_id">
+                <input type="hidden" id="item_id" name="item_id">
+                <textarea class="form-control" name="userReview" id="userReview" required=""></textarea>
+                <br>
+                Stars <i class="ion-android-star text-warning"></i><i class="ion-android-star text-warning"></i><i class="ion-android-star text-warning"></i><i class="ion-android-star text-warning"></i><i class="ion-android-star text-warning"></i>
+                <select class="form-control" name="reviewStar" id="reviewStar" required="">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        </form>
+
         <!-- Begin Uren's Footer Area -->
         <?php include 'includes/footer.php'; ?>
         <!-- Uren's Footer Area End Here -->
 
     </div>
+
+    <script>
+        function writeReview(transaction_id, item_id){
+            // alert(transaction_id);
+            // alert(item_id);
+            $('#transaction_id').val(transaction_id);
+            $('#item_id').val(item_id);
+            $('#myModal').modal('toggle');
+        }
+    </script>
+
 
   <?php include 'includes/include_footer.php'; ?>
 
