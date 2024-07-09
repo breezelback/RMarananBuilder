@@ -14,6 +14,17 @@
 
   <?php include '_sidebar.php'; ?>
 
+  <?php 
+    $statusQry = '';
+    $statusVal = '';
+    if (isset($_GET['searchStatus'])) 
+    {
+      if ($_GET['searchStatus'] != "All") {
+        $statusQry = 'WHERE status = "'.$_GET['searchStatus'].'"';
+        $statusVal = $_GET['searchStatus'];
+      }
+    }
+  ?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -48,7 +59,25 @@
                 <h3 class="card-title">
                   <i class="fas fa-users"></i>
                   Information
-                </h3>
+                </h3><br>
+                <form action="" method="GET">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <select class="form-control" name="searchStatus" id="searchStatus">
+                        <option value="All" selected="" disabled="">Filter by Status</option>
+                        <option value="All" <?php if($statusVal == "All"){echo 'selected';}?>>All</option>
+                        <option value="Pending" <?php if($statusVal == "Pending"){echo 'selected';}?>>Pending</option>
+                        <option value="In Progress" <?php if($statusVal == "In Progress"){echo 'selected';}?>>In Progress</option>
+                        <option value="Out for Delivery" <?php if($statusVal == "Out for Delivery"){echo 'selected';}?>>Out for Delivery</option>
+                        <option value="Completed" <?php if($statusVal == "Completed"){echo 'selected';}?>>Completed</option>
+                      </select>
+                    </div>
+                    <div class="col-sm-3">
+                      <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                      <a class="btn btn-warning text-white" href="transactions.php" class=""><i class="fa fa-sync"></i></a>
+                    </div>
+                  </div>
+                </form>
               </div><!-- /.card-header -->
               <div class="card-body">
                 <div class="tab-content p-0">
@@ -69,7 +98,7 @@
 
                       <?php
 
-                        $selectOrders = ' SELECT `id`, `transaction_id`, `user_id`, `address_id`, `total`, `mode_of_payment`, `status`, date_format(`date_created`, "%M %d, %Y") AS date_created, `date_finished` FROM `tbl_transaction` ';
+                        $selectOrders = ' SELECT `id`, `transaction_id`, `user_id`, `address_id`, `total`, `mode_of_payment`, `status`, date_format(`date_created`, "%M %d, %Y") AS date_created, `date_finished` FROM `tbl_transaction` '.$statusQry;
                         $execOrders = $conn->query($selectOrders);
                         while ($orders = $execOrders->fetch_assoc()) {
 

@@ -10,6 +10,17 @@
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
 
+  <?php 
+    $yearQry = '';
+    $yearVal = '';
+    if (isset($_GET['searchYear'])) 
+    {
+      if ($_GET['searchYear'] != "All") {
+        $yearQry = 'AND YEAR(date_finished) = '.$_GET['searchYear'];
+        $yearVal = $_GET['searchYear'];
+      }
+    }
+  ?>
 
   <?php include '_sidebar.php'; ?>
 
@@ -20,12 +31,29 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Dashboard</h1>
+            <h1 class="m-0">Sales Dashboard <b class="text-danger"><?php echo $yearVal; ?></b></h1>
+            <form action="" method="GET">
+              <div class="row">
+                <div class="col-sm-3">
+                  <select class="form-control" name="searchYear" id="searchYear">
+                    <option value="All" selected="" disabled="">Select Year</option>
+                    <option value="All" <?php if($yearVal == "All"){echo 'selected';}?>>All</option>
+                    <option value="2023" <?php if($yearVal == "2023"){echo 'selected';}?>>2023</option>
+                    <option value="2024" <?php if($yearVal == "2024"){echo 'selected';}?>>2024</option>
+                    <option value="2025" <?php if($yearVal == "2025"){echo 'selected';}?>>2025</option>
+                  </select>
+                </div>
+                <div class="col-sm-3">
+                  <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                  <a class="btn btn-warning text-white" href="index.php" class=""><i class="fa fa-sync"></i></a>
+                </div>
+              </div>
+            </form>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard</li>
+              <li class="breadcrumb-item active">Sales Dashboard</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -35,11 +63,11 @@
 
     <?php 
 
-    $sqlSales = ' SELECT SUM(total) as totalSales FROM tbl_transaction WHERE status = "Completed" ';
+    $sqlSales = ' SELECT SUM(total) as totalSales FROM tbl_transaction WHERE status = "Completed" '.$yearQry;
     $execSales = $conn->query($sqlSales);
     $totalSales = $execSales->fetch_assoc();
 
-    $sqlCompletedOrders = ' SELECT COUNT(id) as completedOrders FROM tbl_transaction WHERE status = "Completed" ';
+    $sqlCompletedOrders = ' SELECT COUNT(id) as completedOrders FROM tbl_transaction WHERE status = "Completed" '.$yearQry;
     $execCompletedOrders = $conn->query($sqlCompletedOrders);
     $completedOrders = $execCompletedOrders->fetch_assoc();
 
@@ -55,51 +83,51 @@
     // CHART DATA
 
 
-    $sqlStudentCount1 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 1';
+    $sqlStudentCount1 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 1 '.$yearQry;
     $execStudent1 = $conn->query($sqlStudentCount1);
     $jan = $execStudent1->fetch_assoc();
 
-    $sqlStudentCount2 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 2';
+    $sqlStudentCount2 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 2 '.$yearQry;
     $execStudent2 = $conn->query($sqlStudentCount2);
     $feb = $execStudent2->fetch_assoc();
 
-    $sqlStudentCount3 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 3';
+    $sqlStudentCount3 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 3 '.$yearQry;
     $execStudent3 = $conn->query($sqlStudentCount3);
     $mar = $execStudent3->fetch_assoc();
 
-    $sqlStudentCount4 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 4';
+    $sqlStudentCount4 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 4 '.$yearQry;
     $execStudent4 = $conn->query($sqlStudentCount4);
     $apr = $execStudent4->fetch_assoc();
 
-    $sqlStudentCount5 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 5';
+    $sqlStudentCount5 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 5 '.$yearQry;
     $execStudent5 = $conn->query($sqlStudentCount5);
     $may = $execStudent5->fetch_assoc();
 
-    $sqlStudentCount6 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 6';
+    $sqlStudentCount6 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 6 '.$yearQry;
     $execStudent6 = $conn->query($sqlStudentCount6);
     $jun = $execStudent6->fetch_assoc();
 
-    $sqlStudentCount7 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 7';
+    $sqlStudentCount7 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 7 '.$yearQry;
     $execStudent7 = $conn->query($sqlStudentCount7);
     $jul = $execStudent7->fetch_assoc();
 
-    $sqlStudentCount8 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 8';
+    $sqlStudentCount8 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 8 '.$yearQry;
     $execStudent8 = $conn->query($sqlStudentCount8);
     $aug = $execStudent8->fetch_assoc();
 
-    $sqlStudentCount9 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 9';
+    $sqlStudentCount9 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 9 '.$yearQry;
     $execStudent9 = $conn->query($sqlStudentCount9);
     $sep = $execStudent9->fetch_assoc();
 
-    $sqlStudentCount10 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 10';
+    $sqlStudentCount10 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 10 '.$yearQry;
     $execStudent10 = $conn->query($sqlStudentCount10);
     $oct = $execStudent10->fetch_assoc();
 
-    $sqlStudentCount11 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 11';
+    $sqlStudentCount11 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 11 '.$yearQry;
     $execStudent11 = $conn->query($sqlStudentCount11);
     $nov = $execStudent11->fetch_assoc();
 
-    $sqlStudentCount12 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 12';
+    $sqlStudentCount12 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 12 '.$yearQry;
     $execStudent12 = $conn->query($sqlStudentCount12);
     $dec = $execStudent12->fetch_assoc();
 

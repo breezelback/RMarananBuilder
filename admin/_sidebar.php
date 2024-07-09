@@ -68,7 +68,7 @@
             <!-- <a href="index.php" class="nav-link active"> -->
             <a href="index.php" class="nav-link">
               <i class="far fa-circle nav-icon"></i>
-              <p>Dashboard</p>
+              <p>Sales Dashboard</p>
             </a>
           </li>
           <li class="nav-item">
@@ -95,14 +95,14 @@
               </p>
             </a>
           </li>
-          <li class="nav-item">
+       <!--    <li class="nav-item">
             <a href="sales.php" class="nav-link">
               <i class="nav-icon fa fa-search-dollar"></i>
               <p>
                 Sales
               </p>
             </a>
-          </li>
+          </li> -->
           <li class="nav-item">
             <a href="users.php" class="nav-link">
               <i class="nav-icon fa fa-users"></i>
