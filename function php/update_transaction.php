@@ -1,11 +1,32 @@
 <?php 
 session_start();
 require 'conn.php';
+require 'sendMail.php';
 
 $id = $_GET['id'];
 $order_status = $_POST['order_status'];
 
-$sql = ' UPDATE `tbl_transaction` SET `status`= "'.$order_status.'" WHERE id = '.$id ;
+
+$sqlOrder = 'SELECT `transaction_id`, `user_id`, `address_id`, `total` FROM tbl_transaction WHERE id = '.$id;
+$execOrder = $conn->query($sqlOrder);
+$order = $execOrder->fetch_assoc();
+
+
+$sqlUser = 'SELECT firstname, lastname, email FROM tbl_user WHERE id = '.$order['user_id'];
+$execUser = $conn->query($sqlUser);
+$user = $execUser->fetch_assoc();
+$name = $user['firstname'].' '.$user['lastname'];
+
+send_mail_admin($user['email'], $order_status." - ".$order['transaction_id'], "Hello ".$name.", <br><br>Please be advised that your order is now <b>".$order_status."</b>.<br><br>Thank you and best Regards,<br>R Maranan Builders");
+
+if ($order_status == "Completed") 
+{
+	$sql = ' UPDATE `tbl_transaction` SET `status`= "'.$order_status.'", date_finished = NOW(), updated_by = '.$_SESSION['id'].' WHERE id = '.$id ;
+}
+else
+{
+	$sql = ' UPDATE `tbl_transaction` SET `status`= "'.$order_status.'", updated_by = '.$_SESSION['id'].' WHERE id = '.$id ;
+}
 $conn->query($sql);
 
 

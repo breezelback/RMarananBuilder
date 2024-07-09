@@ -28,19 +28,30 @@ if ($password != $confirm_password)
 }
 else
 {
-	$sql = " INSERT INTO tbl_user(firstname, lastname, contact_number, email, gender, birthdate, status, date_created, user_type, password) VALUES ('".$firstname."', '".$lastname."', '".$contact_number."', '".$email."', '".$gender."', '".$birthdate."', 'active', NOW(), 'user', '".$password."') ";
+	$sqlEmail = ' SELECT id FROM tbl_user WHERE email = "'.$email.'" ';
+	$execEmail = $conn->query($sqlEmail);
 
-	$conn->query($sql);
-	$last_id = $conn->insert_id;
+	if($execEmail->num_rows > 0){
+		$_SESSION['toastr']['title'] = 'Error!';
+		$_SESSION['toastr']['message'] = 'Email already exist.';
+		$_SESSION['toastr']['color'] = 'red';
+		header('location: ../register.php');
+	}
+	else{
+		$sql = " INSERT INTO tbl_user(firstname, lastname, contact_number, email, gender, birthdate, status, date_created, user_type, password) VALUES ('".$firstname."', '".$lastname."', '".$contact_number."', '".$email."', '".$gender."', '".$birthdate."', 'active', NOW(), 'user', '".$password."') ";
 
-	$insertAddress = ' INSERT INTO `tbl_address`(`user_id`, `house_number`, `barangay`, `citymun`, `province`, `zip_code`, `status`, `date_created`) VALUES ('.$last_id.', "'.$house_number.'", "'.$barangay.'", "'.$city.'", "'.$province.'", "'.$zip_code.'", 1, NOW()) ';
-	$conn->query($insertAddress);
+		$conn->query($sql);
+		$last_id = $conn->insert_id;
 
-	$_SESSION['id'] = $row['last_id'];
+		$insertAddress = ' INSERT INTO `tbl_address`(`user_id`, `house_number`, `barangay`, `citymun`, `province`, `zip_code`, `status`, `date_created`) VALUES ('.$last_id.', "'.$house_number.'", "'.$barangay.'", "'.$city.'", "'.$province.'", "'.$zip_code.'", 1, NOW()) ';
+		$conn->query($insertAddress);
+
+		$_SESSION['id'] = $row['last_id'];
 
 
-	$_SESSION['toastr']['title'] = 'Looking Good!';
-	$_SESSION['toastr']['message'] = 'User Successfully Registered.';
-	$_SESSION['toastr']['color'] = 'green';
-	header('location: ../login.php');
+		$_SESSION['toastr']['title'] = 'Looking Good!';
+		$_SESSION['toastr']['message'] = 'User Successfully Registered.';
+		$_SESSION['toastr']['color'] = 'green';
+		header('location: ../login.php');
+	}
 }

@@ -29,7 +29,7 @@
                                 <div class="row">
                                     <div class="col-md-12 col-12">
                                         <label>Email Address*</label>
-                                        <input type="email" placeholder="Email Address" name="email">
+                                        <input type="email" placeholder="Email Address" name="email" id="email">
                                     </div>
                                     <div class="col-12 mb--20">
                                         <label>Password</label>
@@ -43,7 +43,8 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="forgotton-password_info">
-                                            <a href="#"> Forgotten pasward?</a>
+                                            <!-- <a href="#"> Forgot password?</a> -->
+                                            <button type="button" onclick="forgotPass();"> Forgot password?</button>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -59,11 +60,50 @@
         </div>
         <!-- Uren's Login Register Area  End Here -->
 
+        <form action="function php/password_reset.php" method="POST">
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Password Reset</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                Are you sure you want to reset password? Your new password will be sent to <b><span id="userEmail"></span></b>.
+
+                <input type="hidden" name="userEmailVal" id="userEmailVal">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        </form>
+
         <!-- Begin Uren's Footer Area -->
         <?php include 'includes/footer.php'; ?>
         <!-- Uren's Footer Area End Here -->
 
     </div>
+
+    <script>
+        function forgotPass(){
+            let userEmail = $('#email').val();
+
+            $('#userEmailVal').val(userEmail);
+            $("#userEmail").text(userEmail);
+            $('#exampleModal').modal('show');
+        }
+
+
+    </script>
+
+
 
   <?php include 'includes/include_footer.php'; ?>
 

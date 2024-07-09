@@ -109,6 +109,7 @@ $transaction = $execTransaction->fetch_assoc();
                           <select name="order_status" id="order_status" class="form-control">
                             <option value="Pending" <?php if($transaction['status'] == "Pending") {echo "selected";} ?>>Pending</option>
                             <option value="In Progress" <?php if($transaction['status'] == "In Progress") {echo "selected";} ?>>In Progress</option>
+                            <option value="Out for Delivery" <?php if($transaction['status'] == "Out for Delivery") {echo "selected";} ?>>Out for Delivery</option>
                             <option value="Completed" <?php if($transaction['status'] == "Completed") {echo "selected";} ?>>Completed</option>
                           </select>
 

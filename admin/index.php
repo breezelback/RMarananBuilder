@@ -55,51 +55,51 @@
     // CHART DATA
 
 
-    $sqlStudentCount1 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_created) = 1';
+    $sqlStudentCount1 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 1';
     $execStudent1 = $conn->query($sqlStudentCount1);
     $jan = $execStudent1->fetch_assoc();
 
-    $sqlStudentCount2 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_created) = 2';
+    $sqlStudentCount2 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 2';
     $execStudent2 = $conn->query($sqlStudentCount2);
     $feb = $execStudent2->fetch_assoc();
 
-    $sqlStudentCount3 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_created) = 3';
+    $sqlStudentCount3 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 3';
     $execStudent3 = $conn->query($sqlStudentCount3);
     $mar = $execStudent3->fetch_assoc();
 
-    $sqlStudentCount4 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_created) = 4';
+    $sqlStudentCount4 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 4';
     $execStudent4 = $conn->query($sqlStudentCount4);
     $apr = $execStudent4->fetch_assoc();
 
-    $sqlStudentCount5 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_created) = 5';
+    $sqlStudentCount5 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 5';
     $execStudent5 = $conn->query($sqlStudentCount5);
     $may = $execStudent5->fetch_assoc();
 
-    $sqlStudentCount6 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_created) = 6';
+    $sqlStudentCount6 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 6';
     $execStudent6 = $conn->query($sqlStudentCount6);
     $jun = $execStudent6->fetch_assoc();
 
-    $sqlStudentCount7 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_created) = 7';
+    $sqlStudentCount7 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 7';
     $execStudent7 = $conn->query($sqlStudentCount7);
     $jul = $execStudent7->fetch_assoc();
 
-    $sqlStudentCount8 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_created) = 8';
+    $sqlStudentCount8 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 8';
     $execStudent8 = $conn->query($sqlStudentCount8);
     $aug = $execStudent8->fetch_assoc();
 
-    $sqlStudentCount9 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_created) = 9';
+    $sqlStudentCount9 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 9';
     $execStudent9 = $conn->query($sqlStudentCount9);
     $sep = $execStudent9->fetch_assoc();
 
-    $sqlStudentCount10 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_created) = 10';
+    $sqlStudentCount10 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 10';
     $execStudent10 = $conn->query($sqlStudentCount10);
     $oct = $execStudent10->fetch_assoc();
 
-    $sqlStudentCount11 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_created) = 11';
+    $sqlStudentCount11 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 11';
     $execStudent11 = $conn->query($sqlStudentCount11);
     $nov = $execStudent11->fetch_assoc();
 
-    $sqlStudentCount12 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_created) = 12';
+    $sqlStudentCount12 = ' SELECT SUM(total) as totalSale FROM tbl_transaction WHERE status = "Completed" AND MONTH(date_finished) = 12';
     $execStudent12 = $conn->query($sqlStudentCount12);
     $dec = $execStudent12->fetch_assoc();
 
