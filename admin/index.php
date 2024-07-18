@@ -278,8 +278,8 @@
                       <th>#</th>
                       <th>DATE</th>
                       <th>ITEM</th>
-                      <th>QUANTITY</th>
-                      <th>PRICE</th>
+                      <!-- <th>QUANTITY</th> -->
+                      <!-- <th>PRICE</th> -->
                       <th>TOTAL</th>
                     </tr>
                     </thead>
@@ -289,8 +289,8 @@
                           <td><?php echo $counter; ?></td>
                           <td style="font-size:13px;"><?php echo $recentItem['date_created']; ?></td>
                           <td><?php echo $recentItem['name']; ?></td>
-                          <td>P<?php echo number_format($recentItem['price'], 2); ?></td>
-                          <td><?php echo $recentItem['quantity']; ?></td>
+                          <!-- <td>P<?php echo number_format($recentItem['price'], 2); ?></td> -->
+                          <!-- <td><?php echo $recentItem['quantity']; ?></td> -->
                           <td>P<?php echo number_format($recentItem['price'] * $recentItem['quantity'], 2); ?></td>
                         </tr>
                      <?php } ?>

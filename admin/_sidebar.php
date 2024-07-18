@@ -91,7 +91,8 @@
             <a href="transactions.php" class="nav-link">
               <i class="nav-icon fa fa-shopping-cart"></i>
               <p>
-                Transactions
+                <!-- Transactions -->
+                Orders
               </p>
             </a>
           </li>

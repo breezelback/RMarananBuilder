@@ -85,7 +85,9 @@
     <div class="header-top_area d-lg-block d-none">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-xl-7 col-lg-8">
+                <div class="col-xl-4 col-lg-4"></div>
+                <div class="col-xl-6 col-lg-6">
+                    <!-- <div class="main-menu_area position-relative"> -->
                     <div class="main-menu_area position-relative">
                         <nav class="main-nav">
                             <ul>
@@ -99,7 +101,7 @@
                         </nav>
                     </div>
                 </div>
-                <div class="col-xl-5 col-lg-4">
+                <div class="col-xl-2 col-lg-2">
                     <div class="ht-right_area">
                         <div class="ht-menu">
                             <ul>

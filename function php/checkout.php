@@ -35,11 +35,11 @@ if ($mop == "Cash on Delivery") {
 	$_SESSION['toastr']['color'] = 'green';
 
 	//-----------------------------
-	$getCart = ' SELECT `id`, `user_id`, `product_id`, `quantity`, `price`, `status`, `date_created`, `transaction_id` FROM `tbl_cart` WHERE user_id = '.$user_id;
+	$getCart = ' SELECT `id`, `user_id`, `product_id`, `quantity`, `price`, `status`, `date_created`, `transaction_id`, `item_id` FROM `tbl_cart` WHERE user_id = '.$user_id;
 	$execGetCart = $conn->query($getCart);
 	while ($rowCart = $execGetCart->fetch_assoc()) 
 	{
-		$sqlInsertTransaction = ' INSERT INTO `transaction_item`(`user_id`, `product_id`, `quantity`, `price`, `status`, `date_created`, `transaction_id`) VALUES ( '.$user_id.', '.$rowCart['product_id'].', '.$rowCart['quantity'].', '.$rowCart['price'].', "Pending", NOW(),"'.$transaction_id.'" ) ';
+		$sqlInsertTransaction = ' INSERT INTO `transaction_item`(`user_id`, `product_id`, `quantity`, `price`, `status`, `date_created`, `transaction_id`, `item_id`) VALUES ( '.$user_id.', '.$rowCart['product_id'].', '.$rowCart['quantity'].', '.$rowCart['price'].', "Pending", NOW(),"'.$transaction_id.'", '.$rowCart['item_id'].' ) ';
 		$execSqlInsertTransaction = $conn->query($sqlInsertTransaction);
 	}
 

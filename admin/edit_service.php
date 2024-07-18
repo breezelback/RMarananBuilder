@@ -116,7 +116,7 @@ $product = $execProduct->fetch_assoc();
 
                         <?php
                         $counter = 1;
-                        $sqlOption = ' SELECT `id`, `product_id`, `option_name`, `price` FROM `tbl_item_options` WHERE product_id ='.$product_id;
+                        $sqlOption = ' SELECT `id`, `product_id`, `option_name`, `price`, `quantity` FROM `tbl_item_options` WHERE product_id ='.$product_id;
 
                         $execOption = $conn->query($sqlOption);
                         ?>
@@ -129,15 +129,23 @@ $product = $execProduct->fetch_assoc();
                                   <td><center>#</center></td>
                                   <td><center>Item Option</center></td>
                                   <td><center>Price</center></td>
+                                  <td><center>Quantity</center></td>
                                   <td><center>Delete</center></td>
                               </tr>
                               <?php 
                                 while ($option = $execOption->fetch_assoc()) {?>
                                 <tr>
                                     <td><center><?php echo $counter; ?></center></td>
-                                    <td><center><?php echo $option['option_name']; ?></center></td>
+                                   <!--  <td><center><?php echo $option['option_name']; ?></center></td>
                                     <td><center><?php echo $option['price']; ?></center></td>
+                                    <td><center><?php echo $option['quantity']; ?></center></td>
+                                    <td><center> -->
+                                    <td><center><input type="text" class="form-control" value="<?php echo $option['option_name']; ?>" id="<?php echo $option['id']; ?>_option_name"></center></td>
+                                    <td><center><input type="text" class="form-control" value="<?php echo $option['price']; ?>" id="<?php echo $option['id']; ?>_price"></center></td>
+                                    <td><center><input type="text" class="form-control" value="<?php echo $option['quantity']; ?>" id="<?php echo $option['id']; ?>_quantity"></center></td>
                                     <td><center>
+                                      <!-- <a class="btn btn-warning btn-xs" href="../function php/edit_option.php?id=<?php echo $option['id']; ?>">Update</a> -->
+                                      <button type="button" class="btn btn-warning btn-xs" onclick="updateOption(<?php echo $_GET['id']; ?>, <?php echo $option['id']; ?>)">Update</button>
                                       <button class="btn btn-danger btn-xs" type="button" onclick="deleteOption(<?php echo $option['id']; ?>)"/> Delete </button>
                                     </center></td>
                                 </tr>
@@ -219,6 +227,8 @@ $product = $execProduct->fetch_assoc();
             <input type="text" class="form-control" name="option_name" required="">
             Price
             <input type="number" class="form-control" name="price" required="">
+            Quantity
+            <input type="number" class="form-control" name="quantity" required="">
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -315,6 +325,17 @@ $product = $execProduct->fetch_assoc();
         } 
       });
   }
+
+  function updateOption(parent_id, id){
+    // alert(id);
+
+    let option_name = $('#'+id+'_option_name').val();
+    let quantity = $('#'+id+'_quantity').val();
+    let price = $('#'+id+'_price').val();
+
+    window.location.href = "../function php/update_option.php?id="+id+'&option_name='+option_name+'&quantity='+quantity+'&price='+price+'&parent_id='+parent_id+'&type=service';
+  }
+
 
 
 </script>

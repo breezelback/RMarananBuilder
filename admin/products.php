@@ -66,7 +66,7 @@
                       <th>NAME</th>
                       <th>DETAILS</th>
                       <!-- <th>PRICE (PESO)</th> -->
-                      <th>QUANTITY</th>
+                      <!-- <th>QUANTITY</th> -->
                       <th>CATEGORY</th>
                       <th><center>ACTION</center></th>
                     </tr>
@@ -82,7 +82,7 @@
                           <td><?php echo $rowProduct['name']; ?></td>
                           <td><?php echo $rowProduct['details']; ?></td>
                           <!-- <td>P200.00</td> -->
-                          <td><?php echo $rowProduct['quantity']; ?></td>
+                          <!-- <td><?php echo $rowProduct['quantity']; ?></td> -->
                           <td><?php echo $rowProduct['category']; ?></td>
                           <td>
                             <center>

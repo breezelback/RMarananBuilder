@@ -206,7 +206,7 @@
                                         <select name="mop" id="mop" class="form-control">
                                             <option value="Cash on Delivery">Cash on Delivery</option>
                                             <option value="Bank Transfer">Bank Transfer</option>
-                                            <option value="Paypal">Paypal</option>
+                                            <!-- <option value="Paypal">Paypal</option> -->
                                         </select>
                                         <div class="order-button-payment">
                                             <input value="Place order" type="submit">

@@ -59,19 +59,19 @@
                 <div class="card-body">
                   <div class="tab-content p-0">
                     <div class="row">
-                      <div class="col-md-3">
+                      <div class="col-md-4">
                         <label for="">Product Name</label>
                         <input type="text" class="form-control" name="name" required="">
                       </div>
-                      <div class="col-md-2">
+                      <div class="col-md-2" style="display: none;">
                         <label for="">Quantity</label>
-                        <input type="number" class="form-control" name="quantity" required="">
+                        <input type="number" class="form-control" name="quantity" value="0">
                       </div>
                       <div class="col-md-4">
                         <label for="">Product Description</label>
                         <textarea name="details" required="" cols="30" rows="2" class="form-control"></textarea>
                       </div>
-                      <div class="col-md-3">
+                      <div class="col-md-4">
                         <label for="" style="font-size: 14px;">Product Images <i style="color: #095099; font-size: 12px;">(You can add multiple images)</i></label>
                         <input type="file" multiple="" name="product_image[]" id="product_image[]" required="">
                       </div>
@@ -126,12 +126,14 @@
                               <tr class="bg-dark">
                                   <td>#</td>
                                   <td>Item Option</td>
+                                  <td>Quantity</td>
                                   <td>Price</td>
                                   <td>Delete</td>
                               </tr>
                               <tr>
                                   <td>1</td>
                                   <td><input class="form-control" type="text" name="item_option[]"/></td>
+                                  <td><input class="form-control" type="text" name="item_quantity[]"/></td>
                                   <td>
                                     <div class="input-group mb-3">
                                       <div class="input-group-prepend">

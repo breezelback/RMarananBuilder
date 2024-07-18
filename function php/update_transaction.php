@@ -22,6 +22,14 @@ send_mail_admin($user['email'], $order_status." - ".$order['transaction_id'], "H
 if ($order_status == "Completed") 
 {
 	$sql = ' UPDATE `tbl_transaction` SET `status`= "'.$order_status.'", date_finished = NOW(), updated_by = '.$_SESSION['id'].' WHERE id = '.$id ;
+
+	$selectItems = 'SELECT quantity, item_id FROM transaction_item WHERE transaction_id = "'.$order['transaction_id'].'" ';
+	$execItems = $conn->query($selectItems);
+	while ($rowItems = $execItems->fetch_assoc()) 
+	{
+		$updateItems = ' UPDATE tbl_item_options SET quantity = quantity - '.$rowItems['quantity'].' WHERE id = '.$rowItems['item_id'];
+		$conn->query($updateItems);
+	}
 }
 else
 {

@@ -200,7 +200,7 @@
                     <div class="col-lg-12">
                         <div class="section-title_area">
                             <!-- <span>Top New On This Week</span> -->
-                            <h3>New Arrivals Products</h3>
+                            <h3>New Arrival Products</h3>
                         </div>
                         <div class="product-slider uren-slick-slider slider-navigation_style-1 img-hover-effect_area" data-slick-options='{
                         "slidesToShow": 6,

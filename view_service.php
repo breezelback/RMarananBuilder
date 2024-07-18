@@ -128,7 +128,7 @@
                                     }
                                     else
                                     {
-                                        echo '<h2 style="color: #af9123;">'.$rowTotalOption['price'].'</h2>';
+                                        echo '<h2 style="color: #af9123;">₱'.$rowTotalOption['price'].'</h2>';
                                     }
                                     ?>
                                     
@@ -146,7 +146,28 @@
                                     <ul>
                                         Details: <li><?php echo $product['details']; ?></li>
                                         Availability: <li>In Stock</li>
-                                        Stock: <li><span><?php echo $product['quantity']; ?></span></li>
+
+                                        <?php 
+                                            $selectStock = ' SELECT `id`, `product_id`, `option_name`, `price`, `quantity` FROM `tbl_item_options` WHERE product_id = '.$_GET['id'];
+                                            $execStock = $conn->query($selectStock);
+                                        ?>
+                                        Stock:
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <table class="table table-bordered table-sm">
+                                                    <?php while($rowStock = $execStock->fetch_assoc()){ ?>
+                                                        <tr>
+                                                            <td><?php echo $rowStock['option_name']; ?></td>
+                                                            <td><?php echo $rowStock['quantity']; ?></td>
+                                                        </tr>
+                                                    <?php }?>
+                                                </table>
+                                            <input type="hidden" id="quantityVal">
+                                            </div>
+                                        </div>
+                                        <!-- Stock: <li><span><?php echo $product['quantity']; ?></span></li> -->
+                                        <span>Specify Order Description</span>
+                                        <li><textarea name="order_description" id="order_description" class="form-control"></textarea></li>
                                     </ul>
                                 </div>
                                 <?php if ($execOption->num_rows > 1): ?>
@@ -167,22 +188,6 @@
                                             <?php } ?>
                                         </select>
                                 <?php endif ?>
-                                <div class="product-size_box">
-                                    <span>Quantity</span>
-                                    <div class="row">
-                                        <div class="col-sm-2">
-                                            <!-- <button class="btn btn-danger" id="btn_qty_minus"><i class="fa fa-minus"></i></button> -->
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <!-- <input type="number" class="form-control" name="order_qty" id="order_qty"  min="0" oninput="this.value = Math.abs(this.value)"> -->
-                                            <input readonly="" value="1" type="number" class="form-control" name="order_qty" id="order_qty" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" name="itemConsumption" />
-
-                                        </div>
-                                        <div class="col-sm-2">
-                                            <!-- <button class="btn btn-success" id="btn_qty_plus"><i class="fa fa-plus"></i></button> -->
-                                        </div>
-                                    </div>
-                                </div>
                                 <!-- <h2 style="color: #af9123;" id="optionPriceVal"></h2> -->
                                 <div class="qty-btn_area">
                                     <ul>
@@ -190,7 +195,8 @@
                                         <?php if (empty($_SESSION['id'])): ?>
                                             <li><a class="qty-cart_btn" href="login.php">Add To Cart</a></li>
                                         <?php else: ?>
-                                            <li><a onclick="add_item(<?php echo $_SESSION['id']; ?>, <?php echo $product['id']; ?>, <?php echo $product['quantity']; ?>);" class="qty-cart_btn" >Add To Cart</a></li>
+                                            <!-- <li><a onclick="add_item(<?php echo $_SESSION['id']; ?>, <?php echo $product['id']; ?>);" class="qty-cart_btn" >Submit Order</a></li> -->
+                                            <li><a onclick="orderService(<?php echo $_SESSION['id']; ?>, <?php echo $product['id']; ?>);" class="qty-cart_btn" >Submit Order</a></li>
                                         <?php endif ?>
                                       <!--   <li><a class="qty-wishlist_btn" href="wishlist.html" data-toggle="tooltip" title="Add To Wishlist"><i class="ion-android-favorite-outline"></i></a>
                                         </li>
@@ -434,8 +440,10 @@
 
   <script>
     
+    var quantityVal = 1;
+    var variant_id = 0;
     $('#selectProductOption').on('change', function(){
-        let variant_id = $(this).val();
+        variant_id = $(this).val();
         $.ajax({  
             url:"function php/get_variant_price.php?variant_id="+variant_id, 
             method:"POST",  
@@ -447,8 +455,12 @@
             }, 
 
             success:function(data){  
+                var obj = JSON.parse(data)
+                // alert(obj['price']);
                 // alert(data);
-                $('#optionPriceVal').text('₱'+data);
+                $('#optionPriceVal').text('₱'+obj['price']);
+                $('#quantityVal').val(obj['quantity']);
+                quantityVal = obj['quantity'];
             }
 
         });  
@@ -456,12 +468,20 @@
     // optionPriceVal
 
 
-    function add_item(user_id, product_id, product_qty)
+    function orderService(user_id, product_id)
     {
+
         let order_qty = $('#order_qty').val();
+        order_qty = Number(order_qty);
+        let order_description = $('#order_description').val();
+
         let selectProductOption = $('#selectProductOption').val();
-       
-        if (selectProductOption == null)
+
+        if (order_description == "") 
+        {
+            iziToast.show({ title: 'Warning!', message: 'Order description is required.',theme: 'light',position: 'bottomRight',color: 'red'});
+        }
+        else if (selectProductOption == null)
         {
             iziToast.show({ title: 'Warning!', message: 'Please select item variant.',theme: 'light',position: 'bottomRight',color: 'red'});
         }
@@ -469,7 +489,7 @@
         {
             iziToast.show({ title: 'Warning!', message: 'Please add item quantity.',theme: 'light',position: 'bottomRight',color: 'red'});
         }
-        else if (order_qty > product_qty) 
+        else if (order_qty > quantityVal) 
         {
             iziToast.show({ title: 'Warning!', message: 'Selected quantity is greater than the stock quantity.',theme: 'light',position: 'bottomRight',color: 'red'});
         }
@@ -477,7 +497,7 @@
         {
             Swal.fire({
               title: "Are you sure?",
-              text: "Add Item to your cart.",
+              text: "This will create a service order. You can check the status of your order in your profile. You will also receive an email once the order is updated. The default mode of payment is Cash on Delivery.",
               icon: "warning",
               showCancelButton: true,
               confirmButtonColor: "#3085d6",
@@ -487,7 +507,7 @@
               if (result.isConfirmed) {
 
                 $.ajax({  
-                    url:"function php/insert_cart_item.php?user_id="+user_id+"&product_id="+product_id+"&order_qty="+order_qty+"&selectProductOption="+selectProductOption, 
+                    url:"function php/insert_order_service.php?user_id="+user_id+"&product_id="+product_id+"&order_qty="+order_qty+"&selectProductOption="+selectProductOption+"&order_description="+order_description+"&variant_id="+0, 
                     method:"POST",  
                     contentType:false,
                     cache:false,

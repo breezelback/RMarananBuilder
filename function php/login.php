@@ -6,7 +6,7 @@ require('conn.php');
 $email = $_POST['email'];
 $password = $_POST['password'];
 
-$sql = ' SELECT `id`, `firstname`, `lastname`, `contact_number`, `email`, `gender`, `birthdate`, `status`, `date_created`, `user_type`, `password` FROM `tbl_user` WHERE email = "'.$email.'" AND password = "'.$password.'" ';
+$sql = ' SELECT `id`, `firstname`, `lastname`, `contact_number`, `email`, `gender`, `birthdate`, `status`, `date_created`, `user_type`, `password`, `status` FROM `tbl_user` WHERE email = "'.$email.'" AND password = "'.$password.'" ';
 $exec = $conn->query($sql);
 
 
@@ -21,6 +21,7 @@ if ($exec->num_rows > 0)
 	$gender = $row['gender'];
 	$birthdate = $row['birthdate'];
 	$user_type = $row['user_type'];
+	$status = $row['status'];
 
 	$_SESSION['id'] = $row['id'];
 	$_SESSION['firstname'] = $firstname;
@@ -31,20 +32,32 @@ if ($exec->num_rows > 0)
 	$_SESSION['birthdate'] = $birthdate;
 	$_SESSION['user_type'] = $user_type;
 
-	if ($user_type == 'user') {
-		$_SESSION['toastr']['title'] = 'Looks Good!';
-		$_SESSION['toastr']['message'] = 'Successfully Login';
-		$_SESSION['toastr']['color'] = 'green';
-		header('location: ../index.php');
-	}
-	else if($user_type == 'staff')
+	if ($status == "inactive") 
 	{
-		header('location: ../admin/transactions.php');	
+		$_SESSION['toastr']['title'] = 'Error!';
+		$_SESSION['toastr']['message'] = 'Please verify your account';
+		$_SESSION['toastr']['color'] = 'red';
+
+		header('location: ../verify-otp.php?email='.$email);
 	}
 	else
 	{
-		header('location: ../admin/');	
+		if ($user_type == 'user') {
+			$_SESSION['toastr']['title'] = 'Looks Good!';
+			$_SESSION['toastr']['message'] = 'Successfully Login';
+			$_SESSION['toastr']['color'] = 'green';
+			header('location: ../index.php');
+		}
+		else if($user_type == 'staff')
+		{
+			header('location: ../admin/transactions.php');	
+		}
+		else
+		{
+			header('location: ../admin/');	
+		}	
 	}
+
 
 	// $_SESSION['toastr']['title'] = 'Looks Good!';
 	// $_SESSION['toastr']['message'] = 'Successfully Login';

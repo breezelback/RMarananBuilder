@@ -66,23 +66,22 @@ $product = $execProduct->fetch_assoc();
                 <div class="card-body">
                   <div class="tab-content p-0">
                     <div class="row">
-                      <div class="col-md-3">
+                      <div class="col-md-4">
                         <label for="">Product Name</label>
                         <input type="text" class="form-control" name="name" required="" value="<?php echo $product['name']; ?>">
                       </div>
-                      <div class="col-md-2">
+                      <div class="col-md-2" style="display: none;">
                         <label for="">Quantity</label>
-                        <input type="number" class="form-control" name="quantity" required="" value="<?php echo $product['quantity']; ?>">
+                        <input type="number" class="form-control" name="quantity" value="<?php echo $product['quantity']; ?>">
                       </div>
                       <div class="col-md-4">
                         <label for="">Product Description</label>
                         <textarea name="details" required="" cols="30" rows="2" class="form-control"><?php echo $product['details']; ?></textarea>
                       </div>
-                      <div class="col-md-3">
+                      <div class="col-md-4">
                         <label for="">Product Category</label>
                         <!-- <label for="" style="font-size: 14px;">Product Images <i style="color: #095099; font-size: 12px;">(You can add multiple images)</i></label> -->
                         <!-- <input type="file" multiple="" name="product_image[]" id="product_image[]" required=""> -->
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                          <select name="category" id="category" class="form-control">
                           <?php
                             $sqlCategory = ' SELECT `id`, `category`, `date_created` FROM `tbl_category` ';
@@ -92,6 +91,7 @@ $product = $execProduct->fetch_assoc();
                               <option value="<?php echo $rowCategory['category']; ?>" <?php if($rowCategory['category'] == $product['category']) {echo "selected";} ?>><?php echo $rowCategory['category']; ?></option>
                           <?php } ?>
                         </select>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       </div>
                     </div>
 
@@ -116,7 +116,7 @@ $product = $execProduct->fetch_assoc();
 
                         <?php
                         $counter = 1;
-                        $sqlOption = ' SELECT `id`, `product_id`, `option_name`, `price` FROM `tbl_item_options` WHERE product_id ='.$product_id;
+                        $sqlOption = ' SELECT `id`, `product_id`, `option_name`, `price`, `quantity` FROM `tbl_item_options` WHERE product_id ='.$product_id;
 
                         $execOption = $conn->query($sqlOption);
                         ?>
@@ -129,15 +129,22 @@ $product = $execProduct->fetch_assoc();
                                   <td><center>#</center></td>
                                   <td><center>Item Option</center></td>
                                   <td><center>Price</center></td>
+                                  <td><center>Quantity</center></td>
                                   <td><center>Delete</center></td>
                               </tr>
                               <?php 
                                 while ($option = $execOption->fetch_assoc()) {?>
                                 <tr>
                                     <td><center><?php echo $counter; ?></center></td>
-                                    <td><center><?php echo $option['option_name']; ?></center></td>
-                                    <td><center><?php echo $option['price']; ?></center></td>
+                                   <!--  <td><center><?php echo $option['option_name']; ?></center></td>
+                                    <td><center><?php echo $option['price']; ?></center></td> -->
+                                    <!-- <td><center><?php echo $option['quantity']; ?></center></td> -->
+                                    <td><center><input type="text" class="form-control" value="<?php echo $option['option_name']; ?>" id="<?php echo $option['id']; ?>_option_name"></center></td>
+                                    <td><center><input type="text" class="form-control" value="<?php echo $option['price']; ?>" id="<?php echo $option['id']; ?>_price"></center></td>
+                                    <td><center><input type="text" class="form-control" value="<?php echo $option['quantity']; ?>" id="<?php echo $option['id']; ?>_quantity"></center></td>
                                     <td><center>
+                                      <!-- <a class="btn btn-warning btn-xs" href="../function php/edit_option.php?id=<?php echo $option['id']; ?>">Update</a> -->
+                                      <button type="button" class="btn btn-warning btn-xs" onclick="updateOption(<?php echo $_GET['id']; ?>, <?php echo $option['id']; ?>)">Update</button>
                                       <button class="btn btn-danger btn-xs" type="button" onclick="deleteOption(<?php echo $option['id']; ?>)"/> Delete </button>
                                     </center></td>
                                 </tr>
@@ -219,6 +226,8 @@ $product = $execProduct->fetch_assoc();
             <input type="text" class="form-control" name="option_name" required="">
             Price
             <input type="number" class="form-control" name="price" required="">
+            Quantity
+            <input type="number" class="form-control" name="quantity" required="">
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -314,6 +323,16 @@ $product = $execProduct->fetch_assoc();
           window.location = '../function php/delete_option.php?productId='+<?php echo $product_id; ?>+'&id='+id;
         } 
       });
+  }
+
+  function updateOption(parent_id, id){
+    // alert(id);
+
+    let option_name = $('#'+id+'_option_name').val();
+    let quantity = $('#'+id+'_quantity').val();
+    let price = $('#'+id+'_price').val();
+
+    window.location.href = "../function php/update_option.php?id="+id+'&option_name='+option_name+'&quantity='+quantity+'&price='+price+'&parent_id='+parent_id+'&type=product';
   }
 
 

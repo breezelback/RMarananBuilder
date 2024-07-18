@@ -1,6 +1,13 @@
 <?php 
 session_start();
 require 'conn.php';
+require 'sendMail.php';
+
+// send_mail_admin($user['email'], $order_status." - ".$order['transaction_id'], "Hello ".$name.", <br><br>Please be advised that your order is now <b>".$order_status."</b>.<br><br>Thank you and best Regards,<br>R Maranan Builders");
+
+$otp = mt_rand(100000,999999); 
+// $otp = substr(sha1(mt_rand()),17,6);
+
 
 $firstname = $_POST['firstname'];
 $lastname = $_POST['lastname'];
@@ -38,7 +45,7 @@ else
 		header('location: ../register.php');
 	}
 	else{
-		$sql = " INSERT INTO tbl_user(firstname, lastname, contact_number, email, gender, birthdate, status, date_created, user_type, password) VALUES ('".$firstname."', '".$lastname."', '".$contact_number."', '".$email."', '".$gender."', '".$birthdate."', 'active', NOW(), 'user', '".$password."') ";
+		$sql = " INSERT INTO tbl_user(firstname, lastname, contact_number, email, gender, birthdate, status, date_created, user_type, password, otp) VALUES ('".$firstname."', '".$lastname."', '".$contact_number."', '".$email."', '".$gender."', '".$birthdate."', 'inactive', NOW(), 'user', '".$password."', '".$otp."') ";
 
 		$conn->query($sql);
 		$last_id = $conn->insert_id;
@@ -46,12 +53,16 @@ else
 		$insertAddress = ' INSERT INTO `tbl_address`(`user_id`, `house_number`, `barangay`, `citymun`, `province`, `zip_code`, `status`, `date_created`) VALUES ('.$last_id.', "'.$house_number.'", "'.$barangay.'", "'.$city.'", "'.$province.'", "'.$zip_code.'", 1, NOW()) ';
 		$conn->query($insertAddress);
 
-		$_SESSION['id'] = $row['last_id'];
+		// $_SESSION['id'] = $row['last_id'];
+
+
+		send_mail_admin($email, "One Time Pin", "Hello ".$lastname.", <br><br>Your one time pin is: <b>".$otp."</b>.<br><br>Thank you and best Regards,<br>R Maranan Builders");
 
 
 		$_SESSION['toastr']['title'] = 'Looking Good!';
 		$_SESSION['toastr']['message'] = 'User Successfully Registered.';
 		$_SESSION['toastr']['color'] = 'green';
-		header('location: ../login.php');
+		// header('location: ../login.php');
+		header('location: ../verify-otp.php?email='.$email);
 	}
 }

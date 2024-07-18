@@ -146,7 +146,26 @@
                                     <ul>
                                         Details: <li><?php echo $product['details']; ?></li>
                                         Availability: <li>In Stock</li>
-                                        Stock: <li><span><?php echo $product['quantity']; ?></span></li>
+
+                                        <?php 
+                                            $selectStock = ' SELECT `id`, `product_id`, `option_name`, `price`, `quantity` FROM `tbl_item_options` WHERE product_id = '.$_GET['id'];
+                                            $execStock = $conn->query($selectStock);
+                                        ?>
+                                        Stock:
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <table class="table table-bordered table-sm">
+                                                    <?php while($rowStock = $execStock->fetch_assoc()){ ?>
+                                                        <tr>
+                                                            <td><?php echo $rowStock['option_name']; ?></td>
+                                                            <td><?php echo $rowStock['quantity']; ?></td>
+                                                        </tr>
+                                                    <?php }?>
+                                                </table>
+                                            <input type="hidden" id="quantityVal">
+                                            </div>
+                                        </div>
+                                        <!-- Stock: <li><span><?php echo $product['quantity']; ?></span></li> -->
                                     </ul>
                                 </div>
                                 <?php if ($execOption->num_rows > 1): ?>
@@ -190,7 +209,7 @@
                                         <?php if (empty($_SESSION['id'])): ?>
                                             <li><a class="qty-cart_btn" href="login.php">Add To Cart</a></li>
                                         <?php else: ?>
-                                            <li><a onclick="add_item(<?php echo $_SESSION['id']; ?>, <?php echo $product['id']; ?>, <?php echo $product['quantity']; ?>);" class="qty-cart_btn" >Add To Cart</a></li>
+                                            <li><a onclick="add_item(<?php echo $_SESSION['id']; ?>, <?php echo $product['id']; ?>);" class="qty-cart_btn" >Add To Cart</a></li>
                                         <?php endif ?>
                                       <!--   <li><a class="qty-wishlist_btn" href="wishlist.html" data-toggle="tooltip" title="Add To Wishlist"><i class="ion-android-favorite-outline"></i></a>
                                         </li>
@@ -434,9 +453,11 @@
   <?php include 'includes/include_footer.php'; ?>
 
   <script>
-    
+    var quantityVal = 0;
+    var variant_id = 0;
     $('#selectProductOption').on('change', function(){
-        let variant_id = $(this).val();
+        variant_id = $(this).val();
+       
         $.ajax({  
             url:"function php/get_variant_price.php?variant_id="+variant_id, 
             method:"POST",  
@@ -448,8 +469,12 @@
             }, 
 
             success:function(data){  
+                var obj = JSON.parse(data)
+                // alert(obj['price']);
                 // alert(data);
-                $('#optionPriceVal').text('₱'+data);
+                $('#optionPriceVal').text('₱'+obj['price']);
+                $('#quantityVal').val(obj['quantity']);
+                quantityVal = obj['quantity'];
             }
 
         });  
@@ -457,11 +482,13 @@
     // optionPriceVal
 
 
-    function add_item(user_id, product_id, product_qty)
+    function add_item(user_id, product_id)
     {
+
         let order_qty = $('#order_qty').val();
+        order_qty = Number(order_qty);
+        // let order_qty = $('#quantityVal').val();
         let selectProductOption = $('#selectProductOption').val();
-       
         if (selectProductOption == null)
         {
             iziToast.show({ title: 'Warning!', message: 'Please select item variant.',theme: 'light',position: 'bottomRight',color: 'red'});
@@ -470,7 +497,7 @@
         {
             iziToast.show({ title: 'Warning!', message: 'Please add item quantity.',theme: 'light',position: 'bottomRight',color: 'red'});
         }
-        else if (order_qty > product_qty) 
+        else if (order_qty > quantityVal) 
         {
             iziToast.show({ title: 'Warning!', message: 'Selected quantity is greater than the stock quantity.',theme: 'light',position: 'bottomRight',color: 'red'});
         }
@@ -488,7 +515,7 @@
               if (result.isConfirmed) {
 
                 $.ajax({  
-                    url:"function php/insert_cart_item.php?user_id="+user_id+"&product_id="+product_id+"&order_qty="+order_qty+"&selectProductOption="+selectProductOption, 
+                    url:"function php/insert_cart_item.php?user_id="+user_id+"&product_id="+product_id+"&order_qty="+order_qty+"&selectProductOption="+selectProductOption+"&variant_id="+variant_id, 
                     method:"POST",  
                     contentType:false,
                     cache:false,

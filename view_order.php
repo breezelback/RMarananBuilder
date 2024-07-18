@@ -9,7 +9,7 @@
 </head>
 <?php
 $transaction_id = $_GET['id'];
-$sqlTransaction = ' SELECT `id`, `transaction_id`, `user_id`, `address_id`, `total`, `mode_of_payment`, `status`, DATE_FORMAT(`date_created`, "%M %d, %Y") AS date_created, `date_finished`, `proof_of_payment` FROM `tbl_transaction` WHERE id ='.$transaction_id;
+$sqlTransaction = ' SELECT `id`, `transaction_id`, `user_id`, `address_id`, `total`, `mode_of_payment`, `status`, DATE_FORMAT(`date_created`, "%M %d, %Y") AS date_created, `date_finished`, `proof_of_payment`, `details` FROM `tbl_transaction` WHERE id ='.$transaction_id;
 
 $execTransaction = $conn->query($sqlTransaction);
 $transaction = $execTransaction->fetch_assoc();
@@ -92,6 +92,12 @@ $execAddress = $conn->query($sqlAddress);
 
                                 <h5><?php echo $address['house_number']; ?> <?php echo $barangay['brgyDesc']; ?> <?php echo $citymun['citymunDesc']; ?> <?php echo $province['provDesc']; ?>, <?php echo $address['zip_code']; ?></h5>
                                    
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6 style="color: darkgrey;">Order Details</h6>
+                                <h5><?php echo $transaction['details']; ?></h5>
                             </div>
                         </div>
                         <br><hr>
